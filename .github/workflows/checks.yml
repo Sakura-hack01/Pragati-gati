@@ -1,0 +1,77 @@
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    # The main branch rule looks for this exact name, so keep it when the job grows.
+    name: Python (Ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Look for mistakes
+        uses: astral-sh/ruff-action@v4.1.0
+        with:
+          version: "0.16.9"
+      - name: Check the format of our modules
+        uses: astral-sh/ruff-action@v4.1.0
+        with:
+          version: "0.16.9"
+          args: "format --check --diff"
+      - name: Install the test tool
+        run: python -m pip install pytest==9.1.1
+      - name: Test the Python helpers
+        run: python -m pytest -q
+
+  sql:
+    name: SQL (SQLFluff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install sqlfluff==4.3.0
+      - name: Look for mistakes
+        run: sqlfluff lint notebooks --format github-annotation-native
+
+  markdown:
+    name: Markdown layout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: DavidAnson/markdownlint-cli2-action@v24
+        with:
+          globs: "**/*.md"
+
+  links:
+    name: Links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --offline --no-progress './**/*.md'
+          fail: true
+
+  writing:
+    name: Writing tips
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: vale-cli/vale-action@v3

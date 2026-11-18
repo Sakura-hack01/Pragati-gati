@@ -1,0 +1,89 @@
+name: "Source card"
+description: "Evaluate a candidate data source before the team accepts or rejects it."
+type: "Task"
+labels: ["layer:docs"]
+projects: ["Buildabida/1"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A source card tells the team what a dataset is, where it lives and what can go wrong. Copy the final card into the team Doc too.
+        Start the title with `[SOURCE]`, like `[SOURCE] DPWH projects API`.
+  - type: input
+    id: name
+    attributes:
+      label: "Source name"
+      placeholder: "DPWH projects (BetterGov API)"
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: "Link"
+      placeholder: "https://"
+    validations:
+      required: true
+  - type: dropdown
+    id: format
+    attributes:
+      label: "Format"
+      options:
+        - API (JSON)
+        - CSV
+        - Excel
+        - Shapefile or GeoJSON
+        - Web page
+        - Other
+  - type: dropdown
+    id: reach
+    attributes:
+      label: "Can Databricks reach it?"
+      description: "Run notebooks/00_setup/01_check_sources to find out."
+      options:
+        - "Yes, we load it with code"
+        - "No, we download it by hand"
+        - "Not checked yet"
+  - type: input
+    id: size
+    attributes:
+      label: "Size"
+      placeholder: "About how many rows or how many MB"
+  - type: input
+    id: refresh
+    attributes:
+      label: "How often it changes"
+      placeholder: "Daily, every quarter, once"
+  - type: textarea
+    id: fields
+    attributes:
+      label: "Fields we need"
+      placeholder: "contractId, budget, amountPaid, progress, latitude, longitude"
+  - type: textarea
+    id: risks
+    attributes:
+      label: "What can go wrong"
+      placeholder: "Missing map points, place names that do not match PSGC, duplicates"
+  - type: textarea
+    id: evidence
+    attributes:
+      label: "Acceptance evidence"
+      value: |
+        - [ ] The card is filled in here and in the team Doc
+        - [ ] 01_check_sources shows if Databricks can reach it
+        - [ ] We looked at a few sample rows
+    validations:
+      required: true
+  - type: input
+    id: owner
+    attributes:
+      label: "Owner"
+      placeholder: "@username"
+    validations:
+      required: true
+  - type: input
+    id: reviewer
+    attributes:
+      label: "Reviewer"
+      placeholder: "@username"
+    validations:
+      required: true
