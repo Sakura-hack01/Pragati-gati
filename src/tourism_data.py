@@ -5,9 +5,9 @@ Aligned with the Government of India's 'Dekho Apna Desh' and 'Vikas Bhi, Virasat
 Vande Bharat, UDAN, Parvatmala Ropeways) to historic architecture and natural wonders.
 """
 
-from typing import Dict, Any, List
+from typing import Any
 
-STATE_TOURISM_DATA: Dict[str, Dict[str, Any]] = {
+STATE_TOURISM_DATA: dict[str, dict[str, Any]] = {
     "Rajasthan": {
         "tagline": "The Land of Kings (पधारो म्हारे देश)",
         "greeting": "Khamma Ghani! (खम्मा घणी)",
@@ -484,11 +484,11 @@ STATE_TOURISM_DATA: Dict[str, Dict[str, Any]] = {
 }
 
 
-def get_state_tourism(state_name: str) -> Dict[str, Any]:
+def get_state_tourism(state_name: str) -> dict[str, Any]:
     """Retrieve tourism, architectural, and natural spot data for a given Indian State."""
     if state_name in STATE_TOURISM_DATA:
         return STATE_TOURISM_DATA[state_name]
-    
+
     # Generic fallback for any other state
     return {
         "tagline": f"Explore {state_name} - Incredible India",

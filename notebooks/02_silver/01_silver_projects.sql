@@ -21,10 +21,10 @@ SELECT
     g.state_code,
     g.administrative_zone,
     COALESCE(c.population_projected_2024, 1500000) AS population,
-    COALESCE(g.is_aspirational_district, false) AS is_aspirational_district,
+    COALESCE(g.is_aspirational_district, FALSE) AS is_aspirational_district,
     CURRENT_TIMESTAMP() AS updated_ts
-FROM `01-bronze`.lgd_geography g
-LEFT JOIN `01-bronze`.census_population c
+FROM `01-bronze`.lgd_geography AS g
+LEFT JOIN `01-bronze`.census_population AS c
     ON g.lgd_district_code = c.lgd_district_code;
 
 -- COMMAND ----------
@@ -63,8 +63,8 @@ SELECT
     p.pariveshClearanceStatus AS parivesh_clearance_status,
     CASE 
         WHEN p.pariveshClearanceStatus IN ('Stage_I_Pending', 'Stage_II_Pending', 'Wildlife_Sanction_Pending', 'Land_Acquisition_Dispute', 'CRZ_Review')
-        THEN true 
-        ELSE false 
+        THEN TRUE 
+        ELSE FALSE 
     END AS is_clearance_blocked,
     
     p.contractorName AS contractor_name,
@@ -74,8 +74,8 @@ SELECT
     CAST(p.startDate AS DATE) AS start_date,
     CAST(p.targetCompletionDate AS DATE) AS target_completion_date,
     CURRENT_TIMESTAMP() AS silver_load_ts
-FROM `01-bronze`.nhai_morth_projects p
-LEFT JOIN `02-silver`.places g
+FROM `01-bronze`.nhai_morth_projects AS p
+LEFT JOIN `02-silver`.places AS g
     ON p.state = g.state_name AND p.district = g.district_name;
 
 -- COMMAND ----------

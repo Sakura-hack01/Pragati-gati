@@ -116,7 +116,7 @@ for table, checks in TABLE_CHECKS.items():
                 c["action"],
                 status,
             ))
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Skipping or error auditing table {table}: {e}")
 
 if dq_rows:

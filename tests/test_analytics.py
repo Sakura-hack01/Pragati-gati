@@ -1,6 +1,5 @@
 """Tests for src/analytics.py - Novelty algorithms for Indian infrastructure monitoring."""
 
-import pytest
 from src import analytics
 
 
@@ -65,7 +64,7 @@ def test_progress_disparity_front_loading_anomaly():
     res = analytics.compute_progress_disparity(
         financial_spent_crores=850.0,
         total_budget_crores=1000.0,  # 85% financial paid
-        physical_progress_pct=50.0,   # only 50% physical work done -> 35% disparity!
+        physical_progress_pct=50.0,  # only 50% physical work done -> 35% disparity!
     )
     assert res["anomaly_detected"] is True
     assert res["alert_level"] == "CRITICAL_FRONT_LOADING"
@@ -83,12 +82,18 @@ def test_progress_disparity_balanced():
 
 
 def test_gatishakti_engine_classification():
-    nh_res = analytics.classify_gatishakti_engine("Highway", "Construction of 6-lane Greenfield Expressway")
+    nh_res = analytics.classify_gatishakti_engine(
+        "Highway", "Construction of 6-lane Greenfield Expressway"
+    )
     assert nh_res["gatishakti_engine"] == "Roads"
-    
-    dfc_res = analytics.classify_gatishakti_engine("Freight", "Dedicated rail freight line with multimodal terminal")
+
+    dfc_res = analytics.classify_gatishakti_engine(
+        "Freight", "Dedicated rail freight line with multimodal terminal"
+    )
     assert dfc_res["gatishakti_engine"] == "Railways"
     assert dfc_res["multimodal_synergy"] is True
-    
-    port_res = analytics.classify_gatishakti_engine("Sagarmala", "Deep sea port container terminal berth")
+
+    port_res = analytics.classify_gatishakti_engine(
+        "Sagarmala", "Deep sea port container terminal berth"
+    )
     assert port_res["gatishakti_engine"] == "Ports"

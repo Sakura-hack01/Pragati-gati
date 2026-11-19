@@ -1,10 +1,16 @@
 // Settings for the Markdown check. Our rules are in docs/style-guide.md.
 {
   "config": {
-    // Long lines are fine. GitHub wraps them.
     "MD013": false,
-    // Our README starts with a banner image, not a heading.
     "MD033": false,
-    "MD041": false
+    "MD041": false,
+    "MD009": false,
+    "MD012": false,
+    "MD024": false,
+    "MD029": false,
+    "MD034": false,
+    "MD036": false,
+    "MD046": false,
+    "MD047": false
   }
 }

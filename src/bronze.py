@@ -22,7 +22,7 @@ LOG_COLUMNS = (
 
 def new_run_id() -> str:
     """A new ID for an ingestion run, e.g. 20261118T120000123456+0530.
-    
+
     Generates time in IST (Indian Standard Time) so runs are chronologically orderable.
     """
     return datetime.datetime.now(IST).strftime("%Y%m%dT%H%M%S%f+0530")
@@ -37,7 +37,7 @@ def landing_folder(*parts: str) -> str:
 
 def save_raw(path: str, content: bytes) -> tuple:
     """Save an API reply or source file exactly as received.
-    
+
     Returns (path, size_bytes, sha256_hash) for cryptographic integrity audit.
     """
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -59,8 +59,9 @@ def write_json_lines(path: str, records: list) -> None:
     """Save records as JSON Lines (NDJSON). Spark or pandas can read directly."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
-        for record in records:
-            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        f.writelines(
+            json.dumps(record, ensure_ascii=False) + "\n" for record in records
+        )
 
 
 def table_name(table: str, schema: str = config.BRONZE) -> str:
@@ -76,12 +77,21 @@ def save_table(spark, df, table: str, run_id: str, schema: str = config.BRONZE):
         "load_ts", F.current_timestamp()
     )
     full_table = table_name(table, schema)
-    df_stamped.write.mode("overwrite").option("overwriteSchema", "true").saveAsTable(full_table)
+    df_stamped.write.mode("overwrite").option("overwriteSchema", "true").saveAsTable(
+        full_table
+    )
     return spark.table(full_table).count()
 
 
 def log_load(
-    spark, run_id: str, source: str, table: str, rows_expected: int, rows_loaded: int, raw_files: list, source_url: str
+    spark,
+    run_id: str,
+    source: str,
+    table: str,
+    rows_expected: int,
+    rows_loaded: int,
+    raw_files: list,
+    source_url: str,
 ):
     """Logs ingestion telemetry into 01-bronze.load_log for provenance and data lineage."""
     from pyspark.sql import functions as F

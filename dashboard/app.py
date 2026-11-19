@@ -16,19 +16,18 @@ import json
 import os
 import random
 import webbrowser
-from typing import List
 
-from src import api, analytics, tourism_data
+from src import analytics, api, tourism_data
 
 DEFAULT_PORT = 8050
 DASHBOARD_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Check if fastapi and uvicorn are available
 try:
+    import uvicorn
     from fastapi import FastAPI, WebSocket, WebSocketDisconnect
     from fastapi.responses import HTMLResponse, StreamingResponse
     from fastapi.staticfiles import StaticFiles
-    import uvicorn
 
     HAS_FASTAPI = True
 except ImportError:
@@ -43,7 +42,7 @@ if HAS_FASTAPI:
     )
 
     # Active WebSocket clients
-    active_connections: List[WebSocket] = []
+    active_connections: list[WebSocket] = []
 
     # Pre-generate projects memory cache
     CACHED_PROJECTS = api.generate_nhai_projects(total_projects=265)
@@ -76,9 +75,11 @@ if HAS_FASTAPI:
     # Serve static files (HTML, JS, CSS)
     app.mount("/static", StaticFiles(directory=DASHBOARD_DIR), name="static")
 
+    INDEX_HTML_PATH = os.path.join(DASHBOARD_DIR, "index.html")
+
     @app.get("/", response_class=HTMLResponse)
-    async def get_index():
-        with open(os.path.join(DASHBOARD_DIR, "index.html"), "r", encoding="utf-8") as f:
+    def get_index():
+        with open(INDEX_HTML_PATH, "r", encoding="utf-8") as f:
             return f.read()
 
     @app.get("/api/projects")
@@ -96,7 +97,7 @@ if HAS_FASTAPI:
         try:
             while True:
                 # Keep alive and receive any client messages
-                data = await websocket.receive_text()
+                await websocket.receive_text()
         except WebSocketDisconnect:
             if websocket in active_connections:
                 active_connections.remove(websocket)
@@ -160,7 +161,7 @@ if HAS_FASTAPI:
             for conn in active_connections:
                 try:
                     await conn.send_text(json.dumps(payload))
-                except Exception:
+                except (WebSocketDisconnect, RuntimeError, OSError):
                     dead_conns.append(conn)
             for d in dead_conns:
                 if d in active_connections:
@@ -173,6 +174,7 @@ if HAS_FASTAPI:
     @app.get("/api/live-stream")
     async def live_stream_sse():
         """Server-Sent Events (SSE) alternative for environments without WebSockets."""
+
         async def event_generator():
             while True:
                 await asyncio.sleep(3)
@@ -191,7 +193,7 @@ if HAS_FASTAPI:
 def run(port: int = DEFAULT_PORT, auto_open: bool = False):
     url = f"http://localhost:{port}"
     print("=" * 65)
-    print(f" PragatiGati: Live Real-Time Infrastructure & Tourism Platform")
+    print(" PragatiGati: Live Real-Time Infrastructure & Tourism Platform")
     print(f" Dashboard URL: {url}")
     print(f" Real-time WebSocket: ws://localhost:{port}/ws")
     print(f" REST API: {url}/api/projects and {url}/api/state-tourism/{{state}}")
@@ -219,7 +221,9 @@ def run(port: int = DEFAULT_PORT, auto_open: bool = False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run PragatiGati Dashboard")
-    parser.add_argument("--port", type=int, default=DEFAULT_PORT, help="Port to serve on")
+    parser.add_argument(
+        "--port", type=int, default=DEFAULT_PORT, help="Port to serve on"
+    )
     parser.add_argument("--open", action="store_true", help="Open in default browser")
     args = parser.parse_args()
     run(port=args.port, auto_open=args.open)

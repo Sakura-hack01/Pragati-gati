@@ -19,8 +19,12 @@ def test_india_bounding_box():
     for p in projects:
         lat = p["latitude"]
         lon = p["longitude"]
-        assert config.INDIA_LAT[0] <= lat <= config.INDIA_LAT[1], f"Lat {lat} outside India"
-        assert config.INDIA_LON[0] <= lon <= config.INDIA_LON[1], f"Lon {lon} outside India"
+        assert config.INDIA_LAT[0] <= lat <= config.INDIA_LAT[1], (
+            f"Lat {lat} outside India"
+        )
+        assert config.INDIA_LON[0] <= lon <= config.INDIA_LON[1], (
+            f"Lon {lon} outside India"
+        )
 
 
 def test_flood_control_pages():

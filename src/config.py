@@ -84,15 +84,36 @@ CLEARANCE_STAGES = [
 # --- NOVELTY 3: IMD Rainfall Hazard Zones ---
 # High monsoon rainfall regions face annual construction moratoriums
 IMD_HIGH_RAINFALL_STATES = {
-    "Assam", "Meghalaya", "Arunachal Pradesh", "Nagaland", "Manipur", 
-    "Mizoram", "Tripura", "Kerala", "Goa", "Uttarakhand", "Himachal Pradesh"
+    "Assam",
+    "Meghalaya",
+    "Arunachal Pradesh",
+    "Nagaland",
+    "Manipur",
+    "Mizoram",
+    "Tripura",
+    "Kerala",
+    "Goa",
+    "Uttarakhand",
+    "Himachal Pradesh",
 }
 
 # --- NOVELTY 4: NITI Aayog Aspirational Districts (Selected Priority Set) ---
 ASPIRATIONAL_DISTRICTS_SAMPLE = {
-    "Mewat", "Bahraich", "Shravasti", "Balrampur", "Chandauli",
-    "Wayanad", "Bijapur", "Kupwara", "Baramulla", "Dahod",
-    "Kandhamal", "Nabarangpur", "Ranchi", "Dumka", "Kiphire"
+    "Mewat",
+    "Bahraich",
+    "Shravasti",
+    "Balrampur",
+    "Chandauli",
+    "Wayanad",
+    "Bijapur",
+    "Kupwara",
+    "Baramulla",
+    "Dahod",
+    "Kandhamal",
+    "Nabarangpur",
+    "Ranchi",
+    "Dumka",
+    "Kiphire",
 }
 
 # --- Source Connectivity Check Endpoints ---

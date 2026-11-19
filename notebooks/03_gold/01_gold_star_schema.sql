@@ -86,7 +86,7 @@ SELECT
         THEN 'HIGH_MONSOON_RISK'
         ELSE 'NORMAL'
     END AS monsoon_vulnerability
-FROM `02-silver`.projects p;
+FROM `02-silver`.projects AS p;
 
 -- COMMAND ----------
 
@@ -107,8 +107,8 @@ SELECT
     SUM(dp.population) AS estimated_population,
     -- Per capita spend in INR (1 Crore = 10,000,000 INR)
     ROUND((SUM(f.budget_crores) * 10000000.0) / NULLIF(SUM(dp.population), 0), 2) AS capex_per_capita_inr
-FROM `03-gold`.fact_project f
-LEFT JOIN `03-gold`.dim_place dp
+FROM `03-gold`.fact_project AS f
+LEFT JOIN `03-gold`.dim_place AS dp
     ON f.lgd_district_code = dp.lgd_district_code
 GROUP BY f.state_name;
 
@@ -122,8 +122,8 @@ SELECT
     ROUND(SUM(f.budget_crores), 2) AS total_budget_crores,
     ROUND(SUM(f.amount_paid_crores), 2) AS total_spent_crores,
     ROUND(AVG(f.physical_progress_pct), 1) AS avg_progress_pct
-FROM `03-gold`.dim_gatishakti_engine e
-LEFT JOIN `03-gold`.fact_project f
+FROM `03-gold`.dim_gatishakti_engine AS e
+LEFT JOIN `03-gold`.fact_project AS f
     ON e.engine_name = f.gatishakti_engine
 GROUP BY e.engine_name, e.nodal_ministry, e.strategic_priority
 ORDER BY total_budget_crores DESC;
