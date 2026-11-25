@@ -16,5 +16,10 @@
     "MD046": false,
     "MD047": false,
     "MD058": false
-  }
+  },
+  "ignores": [
+    ".git",
+    ".pytest_cache",
+    "node_modules"
+  ]
 }

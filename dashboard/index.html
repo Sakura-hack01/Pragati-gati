@@ -21,20 +21,22 @@
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0b0d13;
+      background-image: 
+        radial-gradient(at 10% 15%, rgba(245, 158, 11, 0.08) 0px, transparent 45%),
+        radial-gradient(at 90% 20%, rgba(99, 102, 241, 0.07) 0px, transparent 40%),
+        radial-gradient(at 50% 75%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
+        radial-gradient(at 80% 90%, rgba(249, 115, 22, 0.06) 0px, transparent 45%);
+      background-attachment: fixed;
     }
     .font-serif-luxury {
       font-family: 'Playfair Display', serif;
     }
-    .map-container { height: 500px; width: 100%; border-radius: 1.25rem; }
-    
-    /* Modern Luxury Slate Background */
-    .nordic-dark {
-      background-color: #060911;
-    }
+    .map-container { height: 500px; width: 100%; border-radius: 1.5rem; }
     
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #060911; }
+    ::-webkit-scrollbar-track { background: #0b0d13; }
     ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
 
@@ -54,26 +56,69 @@
       transform: scale(1.08);
     }
 
-    /* MMT / Agoda Luxury Glassmorphism */
-    .luxury-glass {
-      background: rgba(11, 17, 32, 0.88);
+    /* Pinterest-Style Modern Visual Cards & Glassmorphism */
+    .pin-card {
+      border-radius: 1.625rem;
+      background: rgba(17, 21, 33, 0.85);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.35s ease;
+    }
+    .pin-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(245, 158, 11, 0.4);
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.7), 0 0 25px -5px rgba(245, 158, 11, 0.12);
+    }
+
+    .pin-hover-btn {
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pin-card:hover .pin-hover-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .luxury-glass {
+      background: rgba(13, 18, 30, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .luxury-glass-card {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(12px);
+    /* Pinterest-Style Tactile Rounded Pills */
+    .pin-pill {
+      border-radius: 9999px;
+      padding: 0.5rem 1.15rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .pin-pill.active {
+      background: #ffffff;
+      color: #0f172a;
+      box-shadow: 0 6px 20px -2px rgba(255, 255, 255, 0.25);
+      transform: scale(1.04);
+    }
+    .pin-pill:not(.active) {
+      background: rgba(255, 255, 255, 0.06);
+      color: #94a3b8;
       border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .pin-pill:not(.active):hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     /* Leaflet Layers Control Styling */
     .leaflet-control-layers {
-      background: rgba(11, 17, 32, 0.95) !important;
+      background: rgba(11, 15, 26, 0.95) !important;
       color: #f1f5f9 !important;
       border: 1px solid rgba(245, 158, 11, 0.35) !important;
-      border-radius: 1rem !important;
+      border-radius: 1.25rem !important;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7) !important;
       font-size: 11px !important;
       font-weight: 600;
@@ -94,10 +139,10 @@
     }
   </style>
 </head>
-<body class="nordic-dark text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+<body class="text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
 
   <!-- Top Real-Time Live Activity & Telemetry Ticker -->
-  <div class="bg-slate-950/95 border-b border-slate-800/80 px-6 py-2 flex items-center justify-between text-xs overflow-hidden z-50">
+  <div class="bg-slate-950/95 border-b border-white/5 px-6 py-2 flex items-center justify-between text-xs overflow-hidden z-50">
     <div class="flex items-center space-x-3 shrink-0">
       <div class="flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-3 py-0.5 rounded-full font-bold">
         <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-beacon"></span>
@@ -136,7 +181,7 @@
           <h1 class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
             PragatiGati
             <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-gradient-to-r from-amber-500 to-orange-600 text-white tracking-wider uppercase shadow-sm">
-              Luxe &amp; Infra
+              National Portal
             </span>
           </h1>
           <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-medium">
@@ -146,18 +191,18 @@
         <p class="text-[11px] text-amber-200/70 italic flex items-center gap-2 mt-0.5">
           <span>Vikas Bhi, Virasat Bhi</span>
           <span class="text-slate-600">&bull;</span>
-          <span>National Infrastructure &amp; Luxury Scenic Tourism Portal</span>
+          <span>National Infrastructure Intelligence &amp; Cultural Tourism Portal</span>
         </p>
       </div>
     </div>
 
-    <!-- MMT / Agoda Style Mode Switcher -->
-    <div class="flex items-center space-x-1.5 bg-slate-900/90 border border-white/10 p-1.5 rounded-2xl shadow-inner">
-      <button id="btn-mode-infra" onclick="setDashboardView('infra')" class="px-5 py-2.5 rounded-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-600/30 transition flex items-center gap-2 text-xs">
+    <!-- Mode Selector: Dedicated Section Switcher -->
+    <div class="flex items-center space-x-1.5 bg-slate-900/90 border border-white/10 p-1.5 rounded-full shadow-inner">
+      <button id="btn-mode-infra" onclick="setDashboardView('infra')" class="px-5 py-2.5 rounded-full font-bold bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-600/30 transition flex items-center gap-2 text-xs">
         <span id="icon-tab-infra"></span>
         <span>Infrastructure Intelligence</span>
       </button>
-      <button id="btn-mode-tourism" onclick="setDashboardView('tourism')" class="px-5 py-2.5 rounded-xl font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2 text-xs">
+      <button id="btn-mode-tourism" onclick="setDashboardView('tourism')" class="px-5 py-2.5 rounded-full font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2 text-xs">
         <span id="icon-tab-tourism"></span>
         <span>Scenic Tourism &amp; Travel</span>
       </button>
@@ -174,34 +219,34 @@
       
       <!-- Top KPIs -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
+        <div class="pin-card p-4 shadow-sm">
           <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Total Monitored Capex</div>
           <div class="text-2xl font-black text-white mt-1" id="kpi-capex">₹ 1.84 L Cr</div>
           <div class="text-[11px] text-emerald-400 mt-1 flex items-center gap-1 font-medium">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 28 States &amp; 8 UTs
           </div>
         </div>
-        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
+        <div class="pin-card p-4 shadow-sm">
           <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Active Packages</div>
           <div class="text-2xl font-black text-white mt-1" id="kpi-projects">265</div>
           <div class="text-[11px] text-slate-400 mt-1">NHAI, Railways, Ports, Water</div>
         </div>
-        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
+        <div class="pin-card p-4 shadow-sm">
           <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Avg Physical Progress</div>
           <div class="text-2xl font-black text-amber-400 mt-1" id="kpi-progress">68.4%</div>
           <div class="text-[11px] text-slate-400 mt-1 font-mono">Disbursed: <span id="kpi-disbursed">₹ 1.12 L Cr</span></div>
         </div>
-        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
+        <div class="pin-card p-4 shadow-sm">
           <div class="text-[10px] text-rose-300 uppercase tracking-wider font-semibold">PARIVESH Trapped Capex</div>
           <div class="text-2xl font-black text-rose-400 mt-1" id="kpi-trapped">₹ 82,904 Cr</div>
           <div class="text-[11px] text-rose-300/80 mt-1">Forest &amp; Wildlife Review</div>
         </div>
-        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
+        <div class="pin-card p-4 shadow-sm">
           <div class="text-[10px] text-amber-300 uppercase tracking-wider font-semibold">Ghost Progress Alerts</div>
           <div class="text-2xl font-black text-amber-400 mt-1" id="kpi-disparity">18</div>
           <div class="text-[11px] text-amber-300/80 mt-1">Disbursement &gt; Phys +15%</div>
         </div>
-        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
+        <div class="pin-card p-4 shadow-sm">
           <div class="text-[10px] text-cyan-300 uppercase tracking-wider font-semibold">Monsoon Risk Flagged</div>
           <div class="text-2xl font-black text-cyan-400 mt-1" id="kpi-monsoon">34</div>
           <div class="text-[11px] text-cyan-300/80 mt-1">IMD High-Hazard Zones</div>
@@ -219,14 +264,14 @@
             </h2>
             <p class="text-xs text-slate-400 mt-1">Select any state to inspect district packages, construction photography &amp; active stretch coordinates</p>
           </div>
-          <div class="text-xs text-slate-400 bg-slate-900 border border-white/5 px-3 py-1.5 rounded-xl font-mono">
+          <div class="text-xs text-slate-400 bg-slate-900 border border-white/5 px-3 py-1.5 rounded-full font-mono">
             Active State: <span id="current-state-badge" class="font-bold text-amber-400">Gujarat</span>
           </div>
         </div>
 
-        <!-- State Selector Chips -->
-        <div class="luxury-glass p-4 rounded-2xl border border-white/5">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2.5">Filter Infrastructure Packages by State / Territory:</span>
+        <!-- Pinterest-Style Pill Tags -->
+        <div class="luxury-glass p-4 rounded-3xl border border-white/5">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-3">Explore Infrastructure Stretches by State:</span>
           <div class="flex flex-wrap gap-2" id="infra-state-pills">
             <!-- Dynamic State Pills -->
           </div>
@@ -263,7 +308,7 @@
         </div>
 
         <!-- State Infrastructure GIS Map -->
-        <div class="luxury-glass rounded-3xl p-5 border border-white/10 space-y-3 shadow-xl">
+        <div class="pin-card p-5 space-y-3 shadow-xl">
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
             <div>
               <span class="text-[10px] uppercase font-bold tracking-widest text-amber-400">State Infrastructure GIS Map</span>
@@ -278,14 +323,14 @@
           <div id="infra-map" class="map-container"></div>
         </div>
 
-        <!-- District Infrastructure Projects Cards Showcase -->
+        <!-- District Infrastructure Projects Cards Showcase (Pinterest Pin Aesthetic) -->
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <span>Ongoing Infrastructure Packages in <span id="gallery-state-name" class="text-amber-400 font-bold">Gujarat</span></span>
               <span class="text-xs font-normal text-slate-400 font-mono" id="state-cards-count">9 packages</span>
             </h3>
-            <span class="text-xs text-slate-400">Verified Photography &amp; District Package Breakdown</span>
+            <span class="text-xs text-slate-400">Visual Package Discovery &amp; Progress Details</span>
           </div>
 
           <!-- Cards Grid for the selected state -->
@@ -303,25 +348,25 @@
             <h2 class="text-2xl font-black text-white tracking-tight">National Infrastructure Performance &amp; Risk</h2>
             <p class="text-xs text-slate-400">Capex tracking, PM Gati Shakti 7 Engines alignment, and Disparity analytics</p>
           </div>
-          <button onclick="exportData()" class="bg-slate-800 hover:bg-slate-700 text-xs font-semibold px-4 py-2 rounded-xl text-slate-200 transition shadow">
+          <button onclick="exportData()" class="bg-slate-800 hover:bg-slate-700 text-xs font-semibold px-4 py-2 rounded-full text-slate-200 transition shadow">
             Export Filtered JSON
           </button>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
+          <div class="pin-card p-4 shadow-sm">
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">PM Gati Shakti 7 Engines Capex (₹ Cr)</h3>
             <div class="h-48 relative">
               <canvas id="engineChart"></canvas>
             </div>
           </div>
-          <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
+          <div class="pin-card p-4 shadow-sm">
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Per-Capita Infrastructure Spend (₹ / Citizen)</h3>
             <div class="h-48 relative">
               <canvas id="equityChart"></canvas>
             </div>
           </div>
-          <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
+          <div class="pin-card p-4 shadow-sm">
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Financial Disbursed vs Physical Progress</h3>
             <div class="h-48 relative">
               <canvas id="disparityChart"></canvas>
@@ -330,7 +375,7 @@
         </div>
 
         <!-- National Master Project Directory Table -->
-        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
+        <div class="pin-card p-5 shadow-sm">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">National Project Directory Table</h3>
             <span class="text-xs text-slate-400" id="table-record-count">265 active projects</span>
@@ -364,8 +409,8 @@
     <!-- ============================================================== -->
     <div id="view-tourism" class="space-y-10 hidden">
 
-      <!-- Grand Scenic Hero Banner (Norway Luxury Style) -->
-      <section class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+      <!-- Grand Scenic Hero Banner -->
+      <section class="relative rounded-[32px] overflow-hidden shadow-2xl border border-white/10">
         <div class="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1920&q=80" 
@@ -378,7 +423,7 @@
 
         <div class="relative z-10 px-8 py-16 sm:py-24 max-w-3xl space-y-5">
           <div class="inline-flex items-center space-x-2 bg-amber-500/20 border border-amber-400/30 text-amber-300 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase backdrop-blur-md">
-            <span>Scenic Architecture Edition</span>
+            <span>Curated Travel &amp; Heritage</span>
             <span>&bull;</span>
             <span>Dekho Apna Desh</span>
           </div>
@@ -388,25 +433,25 @@
           </h2>
 
           <p class="text-sm sm:text-base text-slate-200/90 leading-relaxed font-normal">
-            Inspired by Norway's celebrated <em>Nasjonale turistveger</em>, explore India's breathtaking architectural marvels—from subterranean stepwells and top-down carved cliff temples to soaring 359-meter Himalayan arch bridges and oceanic sea-crossings.
+            Discover India's breathtaking architectural marvels and engineering milestones—from subterranean stepwells and rock-cut cliff temples to soaring 359-meter Himalayan arch bridges and oceanic sea-crossings.
           </p>
         </div>
       </section>
 
-      <!-- Floating MakeMyTrip / Agoda Luxury Travel Booking Bar -->
-      <section class="luxury-glass rounded-3xl p-6 shadow-2xl border border-white/10 relative -mt-12 z-30 max-w-5xl mx-auto">
+      <!-- Floating Travel Booking & Discovery Bar -->
+      <section class="luxury-glass rounded-[28px] p-6 shadow-2xl border border-white/10 relative -mt-12 z-30 max-w-5xl mx-auto">
         <!-- Booking Tabs -->
-        <div class="flex items-center space-x-3 border-b border-white/10 pb-4 mb-5 text-xs font-bold overflow-x-auto">
-          <button id="search-tab-flights" onclick="setSearchTab('flights')" class="search-tab-btn px-4 py-2 rounded-xl bg-indigo-600 text-white flex items-center gap-2 transition shadow-md">
+        <div class="flex items-center space-x-2 border-b border-white/10 pb-4 mb-5 text-xs font-bold overflow-x-auto">
+          <button id="search-tab-flights" onclick="setSearchTab('flights')" class="search-tab-btn px-4 py-2 rounded-full bg-indigo-600 text-white flex items-center gap-2 transition shadow-md">
             <span id="icon-tab-plane"></span> Flights
           </button>
-          <button id="search-tab-trains" onclick="setSearchTab('trains')" class="search-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition">
+          <button id="search-tab-trains" onclick="setSearchTab('trains')" class="search-tab-btn px-4 py-2 rounded-full bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition">
             <span id="icon-tab-train"></span> Trains (Vande Bharat)
           </button>
-          <button id="search-tab-scenic" onclick="setSearchTab('scenic')" class="search-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition">
+          <button id="search-tab-scenic" onclick="setSearchTab('scenic')" class="search-tab-btn px-4 py-2 rounded-full bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition">
             <span id="icon-tab-compass"></span> Scenic Corridors
           </button>
-          <button id="search-tab-states" onclick="setSearchTab('states')" class="search-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition">
+          <button id="search-tab-states" onclick="setSearchTab('states')" class="search-tab-btn px-4 py-2 rounded-full bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition">
             <span id="icon-tab-landmark"></span> State Heritage
           </button>
         </div>
@@ -451,13 +496,27 @@
         </div>
       </section>
 
-      <!-- 5 National Scenic Corridors (Norway Inspired) -->
+      <!-- Pinterest-Style Curated Moodboards / Themes -->
+      <section class="space-y-3">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Curated Discovery Boards:</span>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <button onclick="filterByMoodboard('ALL')" class="pin-pill active" id="mood-ALL">All Collections</button>
+          <button onclick="filterByMoodboard('Himalayan')" class="pin-pill" id="mood-Himalayan">Himalayan Peaks &amp; Tunnels</button>
+          <button onclick="filterByMoodboard('Forts')" class="pin-pill" id="mood-Forts">Royal Forts &amp; Stepwells</button>
+          <button onclick="filterByMoodboard('Temples')" class="pin-pill" id="mood-Temples">Sacred Stone Temples</button>
+          <button onclick="filterByMoodboard('Ghats')" class="pin-pill" id="mood-Ghats">Western Ghats &amp; Waterfalls</button>
+          <button onclick="filterByMoodboard('Bridges')" class="pin-pill" id="mood-Bridges">Ocean Bridges &amp; Coasts</button>
+          <button onclick="filterByMoodboard('Wildlife')" class="pin-pill" id="mood-Wildlife">Tiger Sanctuaries</button>
+        </div>
+      </section>
+
+      <!-- 5 National Scenic Corridors -->
       <section id="tourism-corridors-section" class="space-y-4">
         <div class="flex flex-wrap items-end justify-between gap-3 border-b border-white/10 pb-3">
           <div>
             <span class="text-[11px] uppercase font-bold tracking-widest text-amber-400">Curated Journeys</span>
             <h2 class="text-2xl font-black text-white tracking-tight">National Scenic Routes of India</h2>
-            <p class="text-xs text-slate-400">Modeled after Norway's 18 Scenic Routes — combining dramatic nature, historic architecture &amp; modern transit</p>
+            <p class="text-xs text-slate-400">Combining dramatic landscapes, ancient civilizational architecture &amp; high-speed transit</p>
           </div>
           <div class="text-xs text-slate-400">
             Select any corridor to trace route waypoints on map
@@ -470,7 +529,7 @@
       </section>
 
       <!-- Interactive Tourism & Route Map ("Show the Way") -->
-      <section id="tourism-map-section" class="luxury-glass rounded-3xl p-5 border border-white/10 space-y-4 shadow-xl">
+      <section id="tourism-map-section" class="pin-card p-5 space-y-4 shadow-xl">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
           <div>
             <span class="text-[11px] uppercase font-bold tracking-widest text-amber-400">Spatial Route Navigator ("Show the Way")</span>
@@ -502,19 +561,19 @@
 
       <!-- State Architecture & Premium Places Showcase (21 States Covered) -->
       <section id="state-tourism-magazine" class="space-y-5">
-        <div class="luxury-glass p-4 rounded-2xl border border-white/10 flex flex-wrap items-center justify-between gap-4">
+        <div class="luxury-glass p-4 rounded-3xl border border-white/10 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-2">
               Explore Destinations by State (21 States Covered):
             </span>
-            <div class="flex flex-wrap gap-1.5" id="tourism-state-pills">
+            <div class="flex flex-wrap gap-2" id="tourism-state-pills">
               <!-- Dynamic State Pills -->
             </div>
           </div>
 
           <div class="flex items-center gap-2 text-xs">
-            <label class="text-slate-400 text-xs">Category:</label>
-            <select id="tour-category-filter" onchange="filterTourCards()" class="bg-slate-950 border border-white/10 text-xs rounded-xl px-3 py-1.5 text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer">
+            <label class="text-slate-400 text-xs font-semibold">Category:</label>
+            <select id="tour-category-filter" onchange="filterTourCards()" class="bg-slate-950 border border-white/10 text-xs rounded-full px-4 py-2 text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer">
               <option value="ALL">All Wonders (Architecture &amp; Nature)</option>
               <option value="ARCH">Architectural Marvels Only</option>
               <option value="NATURE">Natural Sanctuaries Only</option>
@@ -524,7 +583,7 @@
         </div>
 
         <!-- Main State Magazine Banner -->
-        <div id="state-hero-magazine" class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 min-h-[380px] flex flex-col justify-end p-8">
+        <div id="state-hero-magazine" class="relative rounded-[32px] overflow-hidden shadow-2xl border border-white/10 min-h-[380px] flex flex-col justify-end p-8">
           <img 
             id="state-mag-hero-img" 
             src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=80" 
@@ -557,7 +616,7 @@
           </div>
         </div>
 
-        <!-- Destination Cards Grid with MakeMyTrip / Agoda Styling -->
+        <!-- Destination Cards Grid with Pinterest-Style Pin Hover Architecture -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="tour-cards-grid">
           <!-- Injected via JavaScript -->
         </div>
@@ -635,10 +694,10 @@
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="text-left">
         <p class="text-slate-300 font-bold text-sm">PragatiGati (प्रगति गति)</p>
-        <p class="mt-0.5 text-[11px] text-slate-500">National Infrastructure Intelligence &amp; Scenic Architectural Tourism Portal</p>
+        <p class="mt-0.5 text-[11px] text-slate-500">National Infrastructure Intelligence &amp; Cultural Tourism Portal</p>
       </div>
       <div class="text-right text-[11px] text-slate-500">
-        <p>Celebrating "Vikas Bhi, Virasat Bhi" &bull; Inspired by Visit Norway &amp; MakeMyTrip Luxe</p>
+        <p>Celebrating "Vikas Bhi, Virasat Bhi" &bull; Government of India PM Gati Shakti &amp; Dekho Apna Desh</p>
       </div>
     </div>
   </footer>
@@ -662,8 +721,7 @@
         "shield-check": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`,
         "activity": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
         "landmark": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`,
-        "navigation": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>`,
-        "check": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+        "heart": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`
       };
       return icons[name] || '';
     }
@@ -699,6 +757,7 @@
     let selectedTourismState = "Rajasthan";
     let activeModalLocation = null;
     let activeBookingTab = "flights";
+    let activeMoodboard = "ALL";
 
     // Maps & Layers
     let infraMap = null;
@@ -712,7 +771,6 @@
     let equityChartInstance = null;
     let disparityChartInstance = null;
 
-    // Helper: Create Basemap Tile Layers (100% Free, No API Key, Zero Watermark)
     function createBasemaps() {
       const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
@@ -775,8 +833,8 @@
       if (mode === "infra") {
         infraView.classList.remove("hidden");
         tourView.classList.add("hidden");
-        btnInfra.className = "px-5 py-2.5 rounded-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-600/30 transition flex items-center gap-2 text-xs";
-        btnTour.className = "px-5 py-2.5 rounded-xl font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2 text-xs";
+        btnInfra.className = "px-5 py-2.5 rounded-full font-bold bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-600/30 transition flex items-center gap-2 text-xs";
+        btnTour.className = "px-5 py-2.5 rounded-full font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2 text-xs";
 
         setTimeout(() => {
           if (!infraMap) initInfraMap();
@@ -785,8 +843,8 @@
       } else {
         tourView.classList.remove("hidden");
         infraView.classList.add("hidden");
-        btnTour.className = "px-5 py-2.5 rounded-xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-orange-500/30 transition flex items-center gap-2 text-xs";
-        btnInfra.className = "px-5 py-2.5 rounded-xl font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2 text-xs";
+        btnTour.className = "px-5 py-2.5 rounded-full font-bold bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-orange-500/30 transition flex items-center gap-2 text-xs";
+        btnInfra.className = "px-5 py-2.5 rounded-full font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2 text-xs";
 
         setTimeout(() => {
           if (!tourismMap) initTourismMap();
@@ -796,7 +854,7 @@
     }
 
     // ==============================================================
-    // MAKE MY TRIP / AGODA FLOATING SEARCH LOGIC
+    // TRAVEL BOOKING & MOODBOARD LOGIC
     // ==============================================================
     function setSearchTab(tab) {
       activeBookingTab = tab;
@@ -805,9 +863,9 @@
         const el = document.getElementById(`search-tab-${t}`);
         if (el) {
           if (t === tab) {
-            el.className = "search-tab-btn px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold flex items-center gap-2 transition shadow-md";
+            el.className = "search-tab-btn px-4 py-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold flex items-center gap-2 transition shadow-md";
           } else {
-            el.className = "search-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition";
+            el.className = "search-tab-btn px-4 py-2 rounded-full bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition";
           }
         }
       });
@@ -826,7 +884,6 @@
         destSelect.appendChild(opt);
       });
 
-      // Default date to tomorrow
       const d = new Date();
       d.setDate(d.getDate() + 1);
       document.getElementById("booking-date").value = d.toISOString().split("T")[0];
@@ -860,8 +917,23 @@
       }
     }
 
+    function filterByMoodboard(moodKey) {
+      activeMoodboard = moodKey;
+      const moods = ["ALL", "Himalayan", "Forts", "Temples", "Ghats", "Bridges", "Wildlife"];
+      moods.forEach(m => {
+        const el = document.getElementById(`mood-${m}`);
+        if (el) {
+          if (m === moodKey) el.className = "pin-pill active";
+          else el.className = "pin-pill";
+        }
+      });
+
+      // Filter cards by moodboard match
+      filterTourCards();
+    }
+
     // ==============================================================
-    // INFRASTRUCTURE DEVELOPMENT SECTION LOGIC
+    // INFRASTRUCTURE SECTION LOGIC
     // ==============================================================
     function renderInfraStatePills() {
       const container = document.getElementById("infra-state-pills");
@@ -877,12 +949,8 @@
       statesList.forEach(st => {
         const btn = document.createElement("button");
         const isSelected = st === selectedInfraState;
-        btn.className = `px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
-          isSelected 
-            ? "bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-600/30 border border-orange-400/40" 
-            : "bg-slate-900/90 text-slate-300 border border-white/5 hover:border-orange-500/40 hover:text-white"
-        }`;
-        btn.innerHTML = `<span>${st}</span><span class="text-[10px] bg-black/40 px-1.5 py-0.2 rounded-full font-mono">${stateCounts[st]}</span>`;
+        btn.className = `pin-pill flex items-center gap-2 ${isSelected ? 'active' : ''}`;
+        btn.innerHTML = `<span>${st}</span><span class="text-[10px] ${isSelected ? 'bg-slate-900 text-white' : 'bg-white/10 text-slate-300'} px-2 py-0.5 rounded-full font-mono">${stateCounts[st]}</span>`;
         btn.onclick = () => selectInfraState(st);
         container.appendChild(btn);
       });
@@ -939,7 +1007,7 @@
 
       stateProjects.forEach(p => {
         const card = document.createElement("div");
-        card.className = "group luxury-glass-card rounded-3xl overflow-hidden border border-white/5 hover:border-orange-500/50 transition-all duration-300 shadow-xl flex flex-col justify-between";
+        card.className = "group pin-card overflow-hidden flex flex-col justify-between";
 
         const progColor = p.physicalProgressPct >= 80 ? "bg-emerald-500" : (p.physicalProgressPct >= 50 ? "bg-amber-500" : "bg-orange-500");
         const statusBadge = p.status === "Completed" 
@@ -948,16 +1016,25 @@
 
         card.innerHTML = `
           <div>
-            <div class="relative h-48 w-full overflow-hidden">
+            <div class="relative h-52 w-full overflow-hidden rounded-t-[26px]">
               <img src="${p.infra_image_url || 'https://images.unsplash.com/photo-1545459720-aac8509eb02c?auto=format&fit=crop&w=1000&q=80'}" alt="${p.projectName}" class="w-full h-full object-cover card-zoom-img" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
-              <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur text-amber-300 text-[10px] font-bold px-3 py-1 rounded-full border border-amber-400/30">
+              
+              <span class="absolute top-4 left-4 bg-slate-950/80 backdrop-blur text-amber-300 text-[10px] font-bold px-3 py-1 rounded-full border border-amber-400/30">
                 ${p.sector}
               </span>
-              <span class="absolute top-3 right-3 text-[10px] font-bold px-2.5 py-0.5 rounded-full ${statusBadge}">
+              <span class="absolute top-4 right-4 text-[10px] font-bold px-2.5 py-0.5 rounded-full ${statusBadge}">
                 ${p.status}
               </span>
-              <div class="absolute bottom-2.5 left-4 right-4 text-[11px] font-mono text-amber-300 flex items-center gap-1.5">
+
+              <!-- Pinterest Hover Action Pill -->
+              <div class="absolute inset-0 flex items-center justify-center pin-hover-btn pointer-events-none">
+                <span class="bg-amber-500 text-slate-950 font-black text-xs px-4 py-2 rounded-full shadow-2xl flex items-center gap-1.5 pointer-events-auto cursor-pointer" onclick="focusOnInfraProject(${p.latitude}, ${p.longitude}, '${p.projectName.replace(/'/g, "\\'")}', '${p.district}', ${p.physicalProgressPct}, '${p.infra_image_url}')">
+                  ${getSvgIcon('map-pin', 'w-3.5 h-3.5')} View on GIS Map
+                </span>
+              </div>
+
+              <div class="absolute bottom-3 left-4 right-4 text-[11px] font-mono text-amber-300 flex items-center gap-1.5">
                 <span class="text-slate-400 flex items-center gap-1">${getSvgIcon('map-pin', 'w-3 h-3 text-amber-400')} District:</span>
                 <span class="font-bold text-white">${p.district}</span>
               </div>
@@ -998,7 +1075,7 @@
             </div>
           </div>
 
-          <div class="px-5 pb-4 pt-1 flex items-center justify-between border-t border-white/5 text-[11px]">
+          <div class="px-5 pb-5 pt-1 flex items-center justify-between border-t border-white/5 text-[11px]">
             <span class="text-xs text-slate-400 flex items-center gap-1">
               <span>Gate:</span>
               <span class="font-bold ${p.pariveshClearanceStatus === 'Cleared' ? 'text-emerald-400' : 'text-rose-400'}">${p.pariveshClearanceStatus}</span>
@@ -1074,14 +1151,14 @@
 
       SCENIC_CORRIDORS.forEach(route => {
         const card = document.createElement("div");
-        card.className = "group relative rounded-3xl overflow-hidden shadow-xl border border-white/5 bg-slate-900 cursor-pointer flex flex-col h-80 transition-all duration-300 hover:border-amber-500/60 hover:-translate-y-1.5";
+        card.className = "group relative pin-card overflow-hidden cursor-pointer flex flex-col h-80";
         card.onclick = () => highlightScenicRoute(route);
 
         card.innerHTML = `
           <div class="relative h-44 w-full overflow-hidden">
             <img src="${route.image_url}" alt="${route.title}" class="w-full h-full object-cover card-zoom-img" />
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
-            <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-amber-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-amber-400/30">
+            <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-amber-300 text-[10px] font-bold px-3 py-1 rounded-full border border-amber-400/30">
               ${route.distance} &bull; ${route.duration}
             </span>
           </div>
@@ -1131,11 +1208,7 @@
       states.forEach(st => {
         const btn = document.createElement("button");
         const isSelected = st === selectedTourismState;
-        btn.className = `px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 ${
-          isSelected 
-            ? "bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-orange-500/30 border border-amber-400/50" 
-            : "bg-slate-900/90 text-slate-300 border border-white/5 hover:border-amber-500/40 hover:text-white"
-        }`;
+        btn.className = `pin-pill ${isSelected ? 'active' : ''}`;
         btn.textContent = st;
         btn.onclick = () => selectTourismState(st);
         container.appendChild(btn);
@@ -1186,9 +1259,28 @@
           .forEach(x => items.push(x));
       }
 
+      // Filter by active moodboard if set
+      if (activeMoodboard !== "ALL") {
+        items = items.filter(place => {
+          const text = ((place.name || '') + (place.type || '') + (place.category || '') + (place.history || '')).toLowerCase();
+          if (activeMoodboard === "Himalayan") return text.includes("himalayan") || text.includes("tunnel") || text.includes("peak") || text.includes("spiti");
+          if (activeMoodboard === "Forts") return text.includes("fort") || text.includes("stepwell") || text.includes("citadel") || text.includes("palace");
+          if (activeMoodboard === "Temples") return text.includes("temple") || text.includes("stupa") || text.includes("shrine") || text.includes("monastery");
+          if (activeMoodboard === "Ghats") return text.includes("ghats") || text.includes("waterfall") || text.includes("falls") || text.includes("tea");
+          if (activeMoodboard === "Bridges") return text.includes("bridge") || text.includes("ocean") || text.includes("sea") || text.includes("viaduct");
+          if (activeMoodboard === "Wildlife") return text.includes("tiger") || text.includes("rhino") || text.includes("sanctuary") || text.includes("park") || text.includes("wetland");
+          return true;
+        });
+      }
+
+      if (items.length === 0) {
+        container.innerHTML = `<div class="col-span-3 text-center py-12 text-slate-400">No destination matches the selected filter in ${selectedTourismState}. Select "All Collections" to view all.</div>`;
+        return;
+      }
+
       items.forEach(place => {
         const card = document.createElement("div");
-        card.className = "group luxury-glass-card rounded-3xl overflow-hidden border border-white/5 hover:border-amber-500/50 transition-all duration-300 shadow-xl flex flex-col justify-between";
+        card.className = "group pin-card overflow-hidden flex flex-col justify-between";
 
         const airportCode = place.nearest_airport ? place.nearest_airport.code : "DEL";
         const railwayCode = place.nearest_railway ? place.nearest_railway.code : "NDLS";
@@ -1198,18 +1290,25 @@
 
         card.innerHTML = `
           <div>
-            <div class="relative h-56 w-full overflow-hidden">
+            <div class="relative h-60 w-full overflow-hidden rounded-t-[26px]">
               <img src="${place.image_url}" alt="${place.name}" class="w-full h-full object-cover card-zoom-img" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
               
-              <!-- MMT / Agoda Rating Badge -->
-              <div class="absolute top-4 left-4 flex items-center gap-1.5 bg-emerald-600/90 text-white font-bold text-[11px] px-2.5 py-0.5 rounded-lg shadow-md backdrop-blur">
+              <!-- Pinterest / Agoda Rating Badge -->
+              <div class="absolute top-4 left-4 flex items-center gap-1.5 bg-emerald-600/90 text-white font-bold text-[11px] px-3 py-1 rounded-full shadow-md backdrop-blur">
                 ${getSvgIcon('star', 'w-3 h-3 text-amber-300')}
                 <span>4.9</span>
                 <span class="text-[9px] text-emerald-100 font-normal">&bull; Exceptional</span>
               </div>
 
-              <span class="absolute top-4 right-4 bg-slate-950/80 backdrop-blur text-amber-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-amber-400/30">
+              <!-- Pinterest Floating Hover Action Pill -->
+              <div class="absolute inset-0 flex items-center justify-center pin-hover-btn pointer-events-none">
+                <span class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs px-5 py-2.5 rounded-full shadow-2xl flex items-center gap-2 pointer-events-auto cursor-pointer" onclick="showStoryModal('${place.name.replace(/'/g, "\\'")}', '${(place.type || place.category).replace(/'/g, "\\'")}', '${place.image_url}', '${(place.history || place.highlight).replace(/'/g, "\\'")}', '${(place.infra_link || '').replace(/'/g, "\\'")}', '${place.badge || ''}', ${place.latitude}, ${place.longitude}, '${airportCode}', '${railwayCode}')">
+                  ${getSvgIcon('compass', 'w-4 h-4')} Explore Pin
+                </span>
+              </div>
+
+              <span class="absolute top-4 right-4 bg-slate-950/80 backdrop-blur text-amber-300 text-[10px] font-bold px-3 py-1 rounded-full border border-amber-400/30">
                 ${place.built_century || place.category || 'Historic'}
               </span>
 
@@ -1239,11 +1338,11 @@
                   <span class="text-amber-300 font-bold">${airportCode} &bull; ${railwayCode}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-[11px] font-bold">
-                  <a href="${flightUrl}" target="_blank" class="bg-indigo-600/90 hover:bg-indigo-600 text-white py-2 px-2 rounded-xl text-center transition flex items-center justify-center gap-1.5 shadow">
+                  <a href="${flightUrl}" target="_blank" class="bg-indigo-600/90 hover:bg-indigo-600 text-white py-2 px-3 rounded-xl text-center transition flex items-center justify-center gap-1.5 shadow">
                     ${getSvgIcon('plane', 'w-3.5 h-3.5')}
                     <span>Flights</span>
                   </a>
-                  <a href="${trainUrl}" target="_blank" class="bg-emerald-600/90 hover:bg-emerald-600 text-white py-2 px-2 rounded-xl text-center transition flex items-center justify-center gap-1.5 shadow">
+                  <a href="${trainUrl}" target="_blank" class="bg-emerald-600/90 hover:bg-emerald-600 text-white py-2 px-3 rounded-xl text-center transition flex items-center justify-center gap-1.5 shadow">
                     ${getSvgIcon('train', 'w-3.5 h-3.5')}
                     <span>Trains</span>
                   </a>
