@@ -51,6 +51,31 @@
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
+
+    /* Leaflet Dark Glass Layers Control */
+    .leaflet-control-layers {
+      background: rgba(13, 20, 36, 0.92) !important;
+      color: #f1f5f9 !important;
+      border: 1px solid rgba(245, 158, 11, 0.4) !important;
+      border-radius: 0.75rem !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
+      font-size: 11px !important;
+      font-weight: 500;
+      backdrop-filter: blur(12px);
+      padding: 8px 12px !important;
+    }
+    .leaflet-control-layers-toggle {
+      background-color: rgba(15, 23, 42, 0.9) !important;
+      border-radius: 0.5rem !important;
+      border: 1px solid rgba(245, 158, 11, 0.3) !important;
+    }
+    .leaflet-control-layers-base label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 4px 0;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body class="nordic-dark text-slate-100 min-h-screen flex flex-col font-sans selection:bg-orange-500 selection:text-white">
@@ -495,10 +520,40 @@
     // 1. Leaflet GIS Map Initialization
     function initMap() {
       map = L.map('map', { scrollWheelZoom: false }).setView([22.5, 79.5], 5);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap, CartoDB',
-        maxZoom: 18,
-      }).addTo(map);
+
+      // Free, high-speed, no-API-key basemap tile layers
+      const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" class="text-amber-400">OpenStreetMap</a> contributors',
+        maxZoom: 19
+      });
+
+      const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri, Maxar, Earthstar Geographics',
+        maxZoom: 18
+      });
+
+      const topo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri, DeLorme, NAVTEQ, TomTom, Intermap, USGS',
+        maxZoom: 18
+      });
+
+      const darkCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+        maxZoom: 16
+      });
+
+      // Default basemap: OpenStreetMap (vibrant, accurate Indian highways & towns, zero watermark)
+      osm.addTo(map);
+
+      // Layer selector control
+      const baseMaps = {
+        "🗺️ Detailed (OpenStreetMap)": osm,
+        "🛰️ Satellite (Esri Imagery)": satellite,
+        "🏔️ Topo Terrain (Esri Topo)": topo,
+        "🌑 Dark Theme (Esri Canvas)": darkCanvas
+      };
+
+      L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
 
       infraMarkersLayer = L.layerGroup().addTo(map);
       tourismMarkersLayer = L.layerGroup().addTo(map);
