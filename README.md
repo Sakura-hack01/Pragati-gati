@@ -90,11 +90,13 @@ Each medallion layer is implemented as a schema within the `pragatigati-capstone
 ## Quickstart
 
 ### 1. Run the Pipeline on Databricks
+
 1. Clone this repository into your Databricks workspace.
 2. Open `notebooks/00_setup/00_setup_workspace.sql` and run it to create the `pragatigati-capstone` catalog and schemas.
 3. Run `notebooks/run_all.py` to execute Bronze ingestion, Silver standardization, Gold star schema creation, and automated validation checks.
 
 ### 2. Launch the Interactive Dashboard Locally
+
 Run the built-in dashboard server:
 
 ```bash
@@ -104,6 +106,7 @@ python dashboard/app.py --port 8050 --open
 Navigate to `http://localhost:8050/index.html` to explore the interactive GIS map, Gati Shakti analytics, clearance bottleneck matrix, and contractor scorecard!
 
 ### 3. Run Tests
+
 ```bash
 python -m pytest tests
 ```

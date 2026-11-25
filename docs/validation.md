@@ -10,6 +10,7 @@ Automated data quality checks run across all Bronze and Silver tables, persistin
 ## Core Table Audits
 
 ### 1. `nhai_morth_projects`
+
 | Column | Rule | Action | Rationale |
 | --- | --- | --- | --- |
 | `contractId` | Not Null & Unique | `stop` | Unique contract identifier across MoRTH/NHAI. |
@@ -19,6 +20,7 @@ Automated data quality checks run across all Bronze and Silver tables, persistin
 | `pariveshClearanceStatus` | Valid Clearance Gate | `flag` | Ensures known PARIVESH milestone values. |
 
 ### 2. `flood_control_projects`
+
 | Column | Rule | Action | Rationale |
 | --- | --- | --- | --- |
 | `attributes.ObjectId` | Not Null & Unique | `stop` | Feature identifier for GIS layer. |
@@ -26,6 +28,7 @@ Automated data quality checks run across all Bronze and Silver tables, persistin
 | `attributes.ContractCostCrores` | Positive Value | `flag` | Flood defense assets must have positive costs. |
 
 ### 3. `lgd_geography` & `census_population`
+
 | Column | Rule | Action | Rationale |
 | --- | --- | --- | --- |
 | `lgd_district_code` | Not Null & Unique | `stop` | Official LGD administrative primary key. |
