@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PragatiGati | Real-Time India Infrastructure & Scenic Architectural Tourism Portal</title>
+  <title>PragatiGati | National Infrastructure Intelligence & Luxury Scenic Tourism Portal</title>
   
+  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Leaflet GIS Map -->
@@ -14,19 +19,24 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    .map-container { height: 500px; width: 100%; border-radius: 1rem; }
-    .badge { padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-serif-luxury {
+      font-family: 'Playfair Display', serif;
+    }
+    .map-container { height: 500px; width: 100%; border-radius: 1.25rem; }
     
-    /* Subtle Nordic Dark Background */
+    /* Modern Luxury Slate Background */
     .nordic-dark {
-      background-color: #070b14;
+      background-color: #060911;
     }
     
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #070b14; }
-    ::-webkit-scrollbar-thumb { background: #26334d; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #f97316; }
+    ::-webkit-scrollbar-track { background: #060911; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
 
     /* Live pulse animation */
     @keyframes pulse-ring {
@@ -38,117 +48,124 @@
 
     /* Card image zoom effect */
     .card-zoom-img {
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .group:hover .card-zoom-img {
-      transform: scale(1.06);
+      transform: scale(1.08);
     }
 
-    /* Norway Style Gradient Glass */
-    .norway-glass {
-      background: rgba(13, 20, 36, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+    /* MMT / Agoda Luxury Glassmorphism */
+    .luxury-glass {
+      background: rgba(11, 17, 32, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* Leaflet Dark Glass Layers Control */
-    .leaflet-control-layers {
-      background: rgba(13, 20, 36, 0.92) !important;
-      color: #f1f5f9 !important;
-      border: 1px solid rgba(245, 158, 11, 0.4) !important;
-      border-radius: 0.75rem !important;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
-      font-size: 11px !important;
-      font-weight: 500;
+    .luxury-glass-card {
+      background: rgba(15, 23, 42, 0.75);
       backdrop-filter: blur(12px);
-      padding: 8px 12px !important;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* Leaflet Layers Control Styling */
+    .leaflet-control-layers {
+      background: rgba(11, 17, 32, 0.95) !important;
+      color: #f1f5f9 !important;
+      border: 1px solid rgba(245, 158, 11, 0.35) !important;
+      border-radius: 1rem !important;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7) !important;
+      font-size: 11px !important;
+      font-weight: 600;
+      backdrop-filter: blur(16px);
+      padding: 10px 14px !important;
     }
     .leaflet-control-layers-toggle {
-      background-color: rgba(15, 23, 42, 0.9) !important;
-      border-radius: 0.5rem !important;
+      background-color: rgba(15, 23, 42, 0.95) !important;
+      border-radius: 0.75rem !important;
       border: 1px solid rgba(245, 158, 11, 0.3) !important;
     }
     .leaflet-control-layers-base label {
       display: flex;
       align-items: center;
-      gap: 6px;
-      margin: 4px 0;
+      gap: 8px;
+      margin: 5px 0;
       cursor: pointer;
     }
   </style>
 </head>
-<body class="nordic-dark text-slate-100 min-h-screen flex flex-col font-sans selection:bg-orange-500 selection:text-white">
+<body class="nordic-dark text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
 
   <!-- Top Real-Time Live Activity & Telemetry Ticker -->
-  <div class="bg-slate-950/90 border-b border-slate-800/80 px-4 py-2 flex items-center justify-between text-xs overflow-hidden z-50">
+  <div class="bg-slate-950/95 border-b border-slate-800/80 px-6 py-2 flex items-center justify-between text-xs overflow-hidden z-50">
     <div class="flex items-center space-x-3 shrink-0">
-      <div class="flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">
+      <div class="flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-3 py-0.5 rounded-full font-bold">
         <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-beacon"></span>
-        <span class="tracking-wide text-[10px]">REAL-TIME TELEMETRY</span>
+        <span class="tracking-wider text-[10px] uppercase">Live Telemetry</span>
       </div>
-      <div class="hidden sm:flex items-center space-x-2 text-slate-400">
+      <div class="hidden sm:flex items-center space-x-2 text-slate-400 font-mono text-[11px]">
         <span>Construction Velocity:</span>
-        <span class="font-bold text-amber-400 font-mono" id="live-velocity">39.4 km/day</span>
+        <span class="font-bold text-amber-400" id="live-velocity">39.4 km/day</span>
       </div>
     </div>
     
     <!-- Ticker marquee message -->
-    <div class="flex-1 mx-4 overflow-hidden text-center truncate">
+    <div class="flex-1 mx-6 overflow-hidden text-center truncate">
       <span class="text-slate-300 font-mono text-[11px]" id="live-ticker-msg">
-        🛰️ Drone Survey #842: Sensor verified concrete compaction on Zojila Mountain Tunnel Western Portal...
+        Drone Survey #842: Sensor verified concrete compaction on Zojila Mountain Tunnel Western Portal...
       </span>
     </div>
 
-    <div class="flex items-center space-x-3 shrink-0 text-slate-400">
-      <span class="text-[11px] font-mono text-slate-300" id="live-time">12:45:00 IST</span>
-      <button onclick="toggleAudioAlerts()" id="audio-toggle-btn" class="hover:text-amber-400 transition" title="Toggle audio chime">
-        🔔 Sound
-      </button>
+    <div class="flex items-center space-x-4 shrink-0 text-slate-400 text-[11px] font-mono">
+      <span class="text-slate-300" id="live-time">12:45:00 IST</span>
+      <div class="hidden md:flex items-center gap-1.5 text-slate-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+        <span>INR (₹)</span>
+      </div>
     </div>
   </div>
 
   <!-- Header & Navigation with Two Distinct Section Switchers -->
-  <header class="border-b border-slate-800/80 bg-slate-950/95 backdrop-blur sticky top-0 z-40 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+  <header class="border-b border-white/5 bg-slate-950/90 backdrop-blur-xl sticky top-0 z-40 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
     <div class="flex items-center space-x-4">
-      <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-amber-600 via-orange-500 to-indigo-700 flex items-center justify-center shadow-lg shadow-orange-500/20 font-black text-2xl text-white border border-amber-300/40">
+      <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-600 via-orange-500 to-indigo-700 flex items-center justify-center shadow-lg shadow-orange-500/20 font-black text-2xl text-white border border-amber-300/30">
         प्र
       </div>
       <div>
         <div class="flex items-center space-x-2">
           <h1 class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
             PragatiGati
-            <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-sm">
-              प्रगति गति
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-gradient-to-r from-amber-500 to-orange-600 text-white tracking-wider uppercase shadow-sm">
+              Luxe &amp; Infra
             </span>
           </h1>
-          <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 font-medium">
-            PM Gati Shakti & Dekho Apna Desh
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-medium">
+            PM Gati Shakti &bull; Dekho Apna Desh
           </span>
         </div>
-        <p class="text-[11px] text-amber-200/70 italic flex items-center gap-1.5">
-          <span>विरासत भी, विकास भी</span>
-          <span class="text-slate-500">•</span>
-          <span>India Infrastructure & Scenic Tourism Portal (Inspired by Visit Norway)</span>
+        <p class="text-[11px] text-amber-200/70 italic flex items-center gap-2 mt-0.5">
+          <span>Vikas Bhi, Virasat Bhi</span>
+          <span class="text-slate-600">&bull;</span>
+          <span>National Infrastructure &amp; Luxury Scenic Tourism Portal</span>
         </p>
       </div>
     </div>
 
-    <!-- Mode Selector: Dedicated Section Switcher -->
-    <div class="flex items-center space-x-2 bg-slate-900 border border-slate-800 p-1.5 rounded-xl text-xs shadow-inner">
-      <button id="btn-mode-infra" onclick="setDashboardView('infra')" class="px-4 py-2 rounded-lg font-bold bg-orange-600 text-white shadow-md transition flex items-center gap-2">
-        <span>🏗️ Infrastructure Development</span>
-        <span class="text-[10px] bg-black/30 px-1.5 py-0.5 rounded font-mono">State Progress</span>
+    <!-- MMT / Agoda Style Mode Switcher -->
+    <div class="flex items-center space-x-1.5 bg-slate-900/90 border border-white/10 p-1.5 rounded-2xl shadow-inner">
+      <button id="btn-mode-infra" onclick="setDashboardView('infra')" class="px-5 py-2.5 rounded-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-600/30 transition flex items-center gap-2 text-xs">
+        <span id="icon-tab-infra"></span>
+        <span>Infrastructure Intelligence</span>
       </button>
-      <button id="btn-mode-tourism" onclick="setDashboardView('tourism')" class="px-4 py-2 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2">
-        <span>🕌 Scenic Tourism & Heritage</span>
-        <span class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded font-mono">Dekho Apna Desh</span>
+      <button id="btn-mode-tourism" onclick="setDashboardView('tourism')" class="px-5 py-2.5 rounded-xl font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2 text-xs">
+        <span id="icon-tab-tourism"></span>
+        <span>Scenic Tourism &amp; Travel</span>
       </button>
     </div>
   </header>
 
   <!-- Main Content Container -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8 flex-1 w-full">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-10 flex-1 w-full">
 
     <!-- ============================================================== -->
     <!-- SECTION 1: INFRASTRUCTURE DEVELOPMENT (STATE-BY-STATE VIEW)   -->
@@ -157,117 +174,118 @@
       
       <!-- Top KPIs -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-        <div class="norway-glass rounded-xl p-4 shadow-sm">
+        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
           <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Total Monitored Capex</div>
           <div class="text-2xl font-black text-white mt-1" id="kpi-capex">₹ 1.84 L Cr</div>
-          <div class="text-[11px] text-emerald-400 mt-1">Across 28 States & 8 UTs</div>
+          <div class="text-[11px] text-emerald-400 mt-1 flex items-center gap-1 font-medium">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 28 States &amp; 8 UTs
+          </div>
         </div>
-        <div class="norway-glass rounded-xl p-4 shadow-sm">
+        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
           <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Active Packages</div>
           <div class="text-2xl font-black text-white mt-1" id="kpi-projects">265</div>
           <div class="text-[11px] text-slate-400 mt-1">NHAI, Railways, Ports, Water</div>
         </div>
-        <div class="norway-glass rounded-xl p-4 shadow-sm">
+        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
           <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Avg Physical Progress</div>
           <div class="text-2xl font-black text-amber-400 mt-1" id="kpi-progress">68.4%</div>
-          <div class="text-[11px] text-slate-400 mt-1">Disbursed: <span id="kpi-disbursed">₹ 1.12 L Cr</span></div>
+          <div class="text-[11px] text-slate-400 mt-1 font-mono">Disbursed: <span id="kpi-disbursed">₹ 1.12 L Cr</span></div>
         </div>
-        <div class="norway-glass rounded-xl p-4 shadow-sm">
+        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
           <div class="text-[10px] text-rose-300 uppercase tracking-wider font-semibold">PARIVESH Trapped Capex</div>
           <div class="text-2xl font-black text-rose-400 mt-1" id="kpi-trapped">₹ 82,904 Cr</div>
-          <div class="text-[11px] text-rose-300/80 mt-1">Forest / Wildlife / Land Gates</div>
+          <div class="text-[11px] text-rose-300/80 mt-1">Forest &amp; Wildlife Review</div>
         </div>
-        <div class="norway-glass rounded-xl p-4 shadow-sm">
+        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
           <div class="text-[10px] text-amber-300 uppercase tracking-wider font-semibold">Ghost Progress Alerts</div>
           <div class="text-2xl font-black text-amber-400 mt-1" id="kpi-disparity">18</div>
           <div class="text-[11px] text-amber-300/80 mt-1">Disbursement &gt; Phys +15%</div>
         </div>
-        <div class="norway-glass rounded-xl p-4 shadow-sm">
+        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
           <div class="text-[10px] text-cyan-300 uppercase tracking-wider font-semibold">Monsoon Risk Flagged</div>
           <div class="text-2xl font-black text-cyan-400 mt-1" id="kpi-monsoon">34</div>
           <div class="text-[11px] text-cyan-300/80 mt-1">IMD High-Hazard Zones</div>
         </div>
       </div>
 
-      <!-- State-by-State Infrastructure Explorer Banner -->
+      <!-- State-by-State Infrastructure Explorer -->
       <section class="space-y-5">
-        <div class="border-b border-slate-800 pb-3 flex flex-wrap items-end justify-between gap-3">
+        <div class="border-b border-white/10 pb-4 flex flex-wrap items-end justify-between gap-4">
           <div>
             <span class="text-[11px] uppercase font-bold tracking-widest text-orange-400">State-by-State Monitoring</span>
-            <h2 class="text-2xl font-black text-white tracking-tight flex items-center gap-2">
+            <h2 class="text-2xl font-black text-white tracking-tight flex items-center gap-2.5">
               <span>National Infrastructure Progress by State</span>
-              <span class="text-[10px] bg-orange-500/20 text-orange-300 border border-orange-500/30 px-2 py-0.5 rounded font-mono">LIVE PACKAGES</span>
+              <span class="text-[10px] bg-orange-500/20 text-orange-300 border border-orange-500/30 px-2.5 py-0.5 rounded-full font-mono font-bold">LIVE STRETCHES</span>
             </h2>
-            <p class="text-xs text-slate-400">Click any state to inspect district packages, construction photography & active stretch coordinates</p>
+            <p class="text-xs text-slate-400 mt-1">Select any state to inspect district packages, construction photography &amp; active stretch coordinates</p>
           </div>
-          <div class="text-xs text-slate-400">
-            Selected: <span id="current-state-badge" class="font-bold text-amber-400 font-mono">Gujarat</span>
+          <div class="text-xs text-slate-400 bg-slate-900 border border-white/5 px-3 py-1.5 rounded-xl font-mono">
+            Active State: <span id="current-state-badge" class="font-bold text-amber-400">Gujarat</span>
           </div>
         </div>
 
-        <!-- State Selector Pills Bar -->
-        <div class="norway-glass p-3.5 rounded-2xl">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Select State to Inspect Projects & District Locations:</span>
+        <!-- State Selector Chips -->
+        <div class="luxury-glass p-4 rounded-2xl border border-white/5">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2.5">Filter Infrastructure Packages by State / Territory:</span>
           <div class="flex flex-wrap gap-2" id="infra-state-pills">
             <!-- Dynamic State Pills -->
           </div>
         </div>
 
-        <!-- Selected State Overview Card -->
-        <div class="bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800 p-6 rounded-3xl shadow-xl flex flex-wrap items-center justify-between gap-6" id="state-summary-banner">
+        <!-- Selected State Overview Spotlight -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-950 border border-white/10 p-6 rounded-3xl shadow-xl flex flex-wrap items-center justify-between gap-6" id="state-summary-banner">
           <div>
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-orange-400 uppercase tracking-widest">State Infrastructure Spotlight</span>
+              <span class="text-xs font-bold text-orange-400 uppercase tracking-widest">State Engineering Spotlight</span>
               <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
-              <span class="text-xs text-slate-400" id="state-districts-count">Covering 9 Districts</span>
+              <span class="text-xs text-slate-400 font-mono" id="state-districts-count">Covering 9 Districts</span>
             </div>
             <h3 class="text-3xl font-black text-white mt-1" id="state-infra-name">Gujarat</h3>
-            <p class="text-xs text-slate-300 mt-1 max-w-xl" id="state-infra-lead-projects">
+            <p class="text-xs text-slate-300 mt-2 max-w-xl leading-relaxed" id="state-infra-lead-projects">
               Host to landmark corridors including the Mumbai-Ahmedabad High-Speed Rail (Bullet Train), Delhi-Mumbai Expressway Package 14, and Dholera Smart City Expressway.
             </p>
           </div>
 
-          <div class="flex flex-wrap items-center gap-4 text-xs font-mono">
-            <div class="bg-slate-950/80 border border-slate-800 px-4 py-2.5 rounded-xl text-center">
-              <div class="text-[10px] text-slate-400">Active Packages</div>
-              <div class="text-lg font-bold text-white" id="state-packages-val">9</div>
+          <div class="flex flex-wrap items-center gap-3 text-xs font-mono">
+            <div class="bg-slate-950/80 border border-white/5 px-4 py-2.5 rounded-2xl text-center shadow-inner">
+              <div class="text-[10px] text-slate-400 uppercase font-semibold">Active Packages</div>
+              <div class="text-lg font-bold text-white mt-0.5" id="state-packages-val">9</div>
             </div>
-            <div class="bg-slate-950/80 border border-slate-800 px-4 py-2.5 rounded-xl text-center">
-              <div class="text-[10px] text-slate-400">Total Capex</div>
-              <div class="text-lg font-bold text-amber-400" id="state-capex-val">₹ 34,200 Cr</div>
+            <div class="bg-slate-950/80 border border-white/5 px-4 py-2.5 rounded-2xl text-center shadow-inner">
+              <div class="text-[10px] text-slate-400 uppercase font-semibold">Total Capex</div>
+              <div class="text-lg font-bold text-amber-400 mt-0.5" id="state-capex-val">₹ 34,200 Cr</div>
             </div>
-            <div class="bg-slate-950/80 border border-slate-800 px-4 py-2.5 rounded-xl text-center">
-              <div class="text-[10px] text-slate-400">Average Progress</div>
-              <div class="text-lg font-bold text-emerald-400" id="state-progress-val">76.2%</div>
+            <div class="bg-slate-950/80 border border-white/5 px-4 py-2.5 rounded-2xl text-center shadow-inner">
+              <div class="text-[10px] text-slate-400 uppercase font-semibold">Average Progress</div>
+              <div class="text-lg font-bold text-emerald-400 mt-0.5" id="state-progress-val">76.2%</div>
             </div>
           </div>
         </div>
 
         <!-- State Infrastructure GIS Map -->
-        <div class="norway-glass rounded-2xl p-5 border border-slate-800 space-y-3">
-          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div class="luxury-glass rounded-3xl p-5 border border-white/10 space-y-3 shadow-xl">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
             <div>
               <span class="text-[10px] uppercase font-bold tracking-widest text-amber-400">State Infrastructure GIS Map</span>
               <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                <span id="map-state-title">Gujarat Active Projects & District Sites</span>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">GPS VERIFIED</span>
+                <span id="map-state-title">Gujarat Active Projects &amp; District Sites</span>
+                <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">GPS VERIFIED</span>
               </h3>
             </div>
-            <span class="text-xs text-slate-400">Click any marker to view contractor, capex, and package status</span>
+            <span class="text-xs text-slate-400">Select any marker to inspect contractor, capex, and package status</span>
           </div>
 
-          <!-- Leaflet Infrastructure Map Container -->
           <div id="infra-map" class="map-container"></div>
         </div>
 
         <!-- District Infrastructure Projects Cards Showcase -->
-        <div class="space-y-3">
+        <div class="space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <span>Ongoing Infrastructure Packages in <span id="gallery-state-name" class="text-amber-400">Gujarat</span></span>
+              <span>Ongoing Infrastructure Packages in <span id="gallery-state-name" class="text-amber-400 font-bold">Gujarat</span></span>
               <span class="text-xs font-normal text-slate-400 font-mono" id="state-cards-count">9 packages</span>
             </h3>
-            <span class="text-xs text-slate-400">Photos & District Package Breakdown</span>
+            <span class="text-xs text-slate-400">Verified Photography &amp; District Package Breakdown</span>
           </div>
 
           <!-- Cards Grid for the selected state -->
@@ -278,33 +296,32 @@
       </section>
 
       <!-- Lakehouse Analytics & Charts -->
-      <section class="space-y-6 pt-4 border-t border-slate-800">
-        <div class="border-b border-slate-800 pb-3 flex flex-wrap items-end justify-between gap-3">
+      <section class="space-y-6 pt-4 border-t border-white/10">
+        <div class="border-b border-white/10 pb-3 flex flex-wrap items-end justify-between gap-3">
           <div>
             <span class="text-[11px] uppercase font-bold tracking-widest text-orange-400">Medallion Architecture 03-Gold Layer</span>
-            <h2 class="text-2xl font-black text-white tracking-tight">National Infrastructure Performance & Risk</h2>
+            <h2 class="text-2xl font-black text-white tracking-tight">National Infrastructure Performance &amp; Risk</h2>
             <p class="text-xs text-slate-400">Capex tracking, PM Gati Shakti 7 Engines alignment, and Disparity analytics</p>
           </div>
-          <button onclick="exportData()" class="bg-slate-800 hover:bg-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg text-slate-200 transition">
+          <button onclick="exportData()" class="bg-slate-800 hover:bg-slate-700 text-xs font-semibold px-4 py-2 rounded-xl text-slate-200 transition shadow">
             Export Filtered JSON
           </button>
         </div>
 
-        <!-- Charts Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">PM Gati Shakti 7 Engines Capex (₹ Cr)</h3>
             <div class="h-48 relative">
               <canvas id="engineChart"></canvas>
             </div>
           </div>
-          <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Per-Capita Infrastructure Spend (₹ / Citizen)</h3>
             <div class="h-48 relative">
               <canvas id="equityChart"></canvas>
             </div>
           </div>
-          <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Financial Disbursed vs Physical Progress</h3>
             <div class="h-48 relative">
               <canvas id="disparityChart"></canvas>
@@ -312,27 +329,27 @@
           </div>
         </div>
 
-        <!-- Full Project Master Directory Table -->
-        <div class="norway-glass rounded-xl p-4 shadow-sm">
+        <!-- National Master Project Directory Table -->
+        <div class="luxury-glass rounded-2xl p-4 shadow-sm border border-white/5">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-sm font-bold text-white uppercase tracking-wider">National Project Directory Table</h3>
             <span class="text-xs text-slate-400" id="table-record-count">265 active projects</span>
           </div>
           <div class="overflow-x-auto max-h-80">
             <table class="w-full text-left text-xs border-collapse">
-              <thead class="bg-slate-950/90 sticky top-0 border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[10px]">
+              <thead class="bg-slate-950/95 sticky top-0 border-b border-white/10 text-slate-400 uppercase tracking-wider text-[10px]">
                 <tr>
-                  <th class="py-2 px-3">Contract ID</th>
-                  <th class="py-2 px-3">Project Title</th>
-                  <th class="py-2 px-3">District & Part</th>
-                  <th class="py-2 px-3">State</th>
-                  <th class="py-2 px-3 text-right">Budget (₹ Cr)</th>
-                  <th class="py-2 px-3 text-center">Progress %</th>
-                  <th class="py-2 px-3">Clearance (PARIVESH)</th>
-                  <th class="py-2 px-3">Contractor</th>
+                  <th class="py-2.5 px-3">Contract ID</th>
+                  <th class="py-2.5 px-3">Project Title</th>
+                  <th class="py-2.5 px-3">District &amp; Part</th>
+                  <th class="py-2.5 px-3">State</th>
+                  <th class="py-2.5 px-3 text-right">Budget (₹ Cr)</th>
+                  <th class="py-2.5 px-3 text-center">Progress %</th>
+                  <th class="py-2.5 px-3">Clearance (PARIVESH)</th>
+                  <th class="py-2.5 px-3">Contractor</th>
                 </tr>
               </thead>
-              <tbody id="projects-table-body" class="divide-y divide-slate-800/80">
+              <tbody id="projects-table-body" class="divide-y divide-white/5">
                 <!-- Dynamically populated -->
               </tbody>
             </table>
@@ -345,10 +362,10 @@
     <!-- ============================================================== -->
     <!-- SECTION 2: SCENIC TOURISM & HERITAGE (DEKHO APNA DESH)         -->
     <!-- ============================================================== -->
-    <div id="view-tourism" class="space-y-8 hidden">
+    <div id="view-tourism" class="space-y-10 hidden">
 
-      <!-- Grand Scenic Hero Banner (Norway Inspired) -->
-      <section class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-800">
+      <!-- Grand Scenic Hero Banner (Norway Luxury Style) -->
+      <section class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10">
         <div class="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1920&q=80" 
@@ -359,43 +376,91 @@
           <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/40 to-transparent"></div>
         </div>
 
-        <div class="relative z-10 px-8 py-14 sm:py-20 max-w-3xl space-y-5">
-          <div class="inline-flex items-center space-x-2 bg-amber-500/20 border border-amber-400/40 text-amber-300 px-3.5 py-1 rounded-full text-xs font-bold tracking-wider uppercase backdrop-blur-md">
-            <span>🇳🇴 Scenic Architecture Magazine Edition</span>
-            <span>•</span>
-            <span>🇮🇳 Dekho Apna Desh</span>
+        <div class="relative z-10 px-8 py-16 sm:py-24 max-w-3xl space-y-5">
+          <div class="inline-flex items-center space-x-2 bg-amber-500/20 border border-amber-400/30 text-amber-300 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase backdrop-blur-md">
+            <span>Scenic Architecture Edition</span>
+            <span>&bull;</span>
+            <span>Dekho Apna Desh</span>
           </div>
 
-          <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-            Where Ancient Stone Genius Meets <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">World-Record Engineering</span>.
+          <h2 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
+            Where Ancient Stone Genius Meets <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-amber-200">World-Record Engineering</span>.
           </h2>
 
           <p class="text-sm sm:text-base text-slate-200/90 leading-relaxed font-normal">
             Inspired by Norway's celebrated <em>Nasjonale turistveger</em>, explore India's breathtaking architectural marvels—from subterranean stepwells and top-down carved cliff temples to soaring 359-meter Himalayan arch bridges and oceanic sea-crossings.
           </p>
+        </div>
+      </section>
 
-          <div class="flex flex-wrap items-center gap-3 pt-2">
-            <a href="#tourism-corridors-section" class="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-bold text-xs px-5 py-3 rounded-xl shadow-lg shadow-orange-600/30 transition flex items-center gap-2">
-              <span>🗺️ Explore 5 National Scenic Corridors</span>
-              <span>↓</span>
-            </a>
-            <a href="#tourism-map-section" class="bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-xs px-5 py-3 rounded-xl backdrop-blur-md transition flex items-center gap-2">
-              <span>📍 Route Map & Travel Booking</span>
-            </a>
+      <!-- Floating MakeMyTrip / Agoda Luxury Travel Booking Bar -->
+      <section class="luxury-glass rounded-3xl p-6 shadow-2xl border border-white/10 relative -mt-12 z-30 max-w-5xl mx-auto">
+        <!-- Booking Tabs -->
+        <div class="flex items-center space-x-3 border-b border-white/10 pb-4 mb-5 text-xs font-bold overflow-x-auto">
+          <button id="search-tab-flights" onclick="setSearchTab('flights')" class="search-tab-btn px-4 py-2 rounded-xl bg-indigo-600 text-white flex items-center gap-2 transition shadow-md">
+            <span id="icon-tab-plane"></span> Flights
+          </button>
+          <button id="search-tab-trains" onclick="setSearchTab('trains')" class="search-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition">
+            <span id="icon-tab-train"></span> Trains (Vande Bharat)
+          </button>
+          <button id="search-tab-scenic" onclick="setSearchTab('scenic')" class="search-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition">
+            <span id="icon-tab-compass"></span> Scenic Corridors
+          </button>
+          <button id="search-tab-states" onclick="setSearchTab('states')" class="search-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition">
+            <span id="icon-tab-landmark"></span> State Heritage
+          </button>
+        </div>
+
+        <!-- Search Bar Input Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          <!-- From -->
+          <div class="bg-slate-950/80 border border-white/10 rounded-2xl p-3 hover:border-amber-500/50 transition">
+            <span class="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">From Gateway City</span>
+            <select id="booking-from-hub" class="w-full bg-transparent text-white font-bold text-sm focus:outline-none mt-1 cursor-pointer">
+              <option value="DEL" class="bg-slate-900 text-white">New Delhi (DEL / NDLS)</option>
+              <option value="BOM" class="bg-slate-900 text-white">Mumbai (BOM / CSMT)</option>
+              <option value="BLR" class="bg-slate-900 text-white">Bengaluru (BLR / SBC)</option>
+              <option value="MAA" class="bg-slate-900 text-white">Chennai (MAA / MAS)</option>
+              <option value="CCU" class="bg-slate-900 text-white">Kolkata (CCU / HWH)</option>
+              <option value="HYD" class="bg-slate-900 text-white">Hyderabad (HYD / SC)</option>
+              <option value="AMD" class="bg-slate-900 text-white">Ahmedabad (AMD / ADI)</option>
+            </select>
+          </div>
+
+          <!-- To -->
+          <div class="bg-slate-950/80 border border-white/10 rounded-2xl p-3 hover:border-amber-500/50 transition">
+            <span class="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">Destination State</span>
+            <select id="booking-to-dest" onchange="onBookingDestChange(this.value)" class="w-full bg-transparent text-white font-bold text-sm focus:outline-none mt-1 cursor-pointer">
+              <!-- Injected dynamically -->
+            </select>
+          </div>
+
+          <!-- Departure Date -->
+          <div class="bg-slate-950/80 border border-white/10 rounded-2xl p-3 hover:border-amber-500/50 transition">
+            <span class="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">Departure Date</span>
+            <input type="date" id="booking-date" class="w-full bg-transparent text-white font-bold text-sm focus:outline-none mt-1 cursor-pointer" />
+          </div>
+
+          <!-- CTA Button -->
+          <div class="flex items-center">
+            <button onclick="executeBookingSearch()" class="w-full h-full min-h-[50px] bg-gradient-to-r from-amber-500 via-orange-600 to-amber-600 hover:from-amber-400 hover:to-orange-500 text-white font-black rounded-2xl shadow-xl shadow-orange-600/30 transition flex items-center justify-center gap-2 uppercase tracking-wider text-xs">
+              <span id="icon-search-btn"></span>
+              <span>Search Routes &amp; Fares</span>
+            </button>
           </div>
         </div>
       </section>
 
-      <!-- 5 National Scenic Corridors (Norway Routes Style) -->
+      <!-- 5 National Scenic Corridors (Norway Inspired) -->
       <section id="tourism-corridors-section" class="space-y-4">
-        <div class="flex flex-wrap items-end justify-between gap-3 border-b border-slate-800 pb-3">
+        <div class="flex flex-wrap items-end justify-between gap-3 border-b border-white/10 pb-3">
           <div>
             <span class="text-[11px] uppercase font-bold tracking-widest text-amber-400">Curated Journeys</span>
             <h2 class="text-2xl font-black text-white tracking-tight">National Scenic Routes of India</h2>
-            <p class="text-xs text-slate-400">Modeled after Norway's 18 Scenic Routes — combining dramatic nature, historic architecture & modern highway/rail transit</p>
+            <p class="text-xs text-slate-400">Modeled after Norway's 18 Scenic Routes — combining dramatic nature, historic architecture &amp; modern transit</p>
           </div>
           <div class="text-xs text-slate-400">
-            Click any corridor to trace route waypoints on map
+            Select any corridor to trace route waypoints on map
           </div>
         </div>
 
@@ -405,18 +470,19 @@
       </section>
 
       <!-- Interactive Tourism & Route Map ("Show the Way") -->
-      <section id="tourism-map-section" class="norway-glass rounded-2xl p-5 border border-slate-800 space-y-4">
-        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+      <section id="tourism-map-section" class="luxury-glass rounded-3xl p-5 border border-white/10 space-y-4 shadow-xl">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
           <div>
             <span class="text-[11px] uppercase font-bold tracking-widest text-amber-400">Spatial Route Navigator ("Show the Way")</span>
             <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
-              <span>National Scenic Tourism & Route Waypoint Map</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">ITINERARY NAVIGATION</span>
+              <span>National Scenic Tourism &amp; Route Waypoint Map</span>
+              <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">ITINERARY NAVIGATION</span>
             </h2>
-            <p class="text-xs text-slate-400">Click "Show Way" on any destination to draw the route corridor and inspect airport & rail booking points</p>
+            <p class="text-xs text-slate-400 mt-0.5">Click "Show Way" on any destination to draw the route corridor and inspect airport &amp; rail booking points</p>
           </div>
-          <div class="text-xs text-amber-300/90 font-mono">
-            ✈️ Flight & 🚆 Train Booking Integrated
+          <div class="text-xs text-amber-300/90 font-mono flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span>Flight &amp; Train Booking Integrated</span>
           </div>
         </div>
 
@@ -424,23 +490,22 @@
         <div id="tourism-map" class="map-container"></div>
 
         <!-- Legend -->
-        <div class="flex flex-wrap items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-800/80">
-          <div class="flex flex-wrap items-center gap-4">
-            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block mr-1.5 shadow-sm"></span> 🏛️ Ancient/Medieval Architecture</span>
-            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-emerald-400 inline-block mr-1.5 shadow-sm"></span> 🌿 Natural Sanctuaries</span>
-            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-indigo-400 inline-block mr-1.5 shadow-sm"></span> 🌉 Modern Engineering Wonders</span>
-            <span class="flex items-center"><span class="w-4 h-1 bg-amber-400 inline-block mr-1.5 rounded"></span> ── Scenic Corridor Path</span>
+        <div class="flex flex-wrap items-center justify-between text-xs text-slate-400 pt-2 border-t border-white/10">
+          <div class="flex flex-wrap items-center gap-5">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block shadow-sm"></span> Architectural Marvels</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-400 inline-block shadow-sm"></span> Natural Sanctuaries</span>
+            <span class="flex items-center gap-1.5"><span class="w-4 h-1 bg-amber-400 inline-block rounded"></span> Scenic Corridor Path</span>
           </div>
-          <span class="text-[11px] text-slate-500">Camera fly-to & path rendering enabled</span>
+          <span class="text-[11px] text-slate-500 font-mono">Camera fly-to &amp; path rendering enabled</span>
         </div>
       </section>
 
-      <!-- State Architecture & Premium Places Showcase (Every State Covered) -->
+      <!-- State Architecture & Premium Places Showcase (21 States Covered) -->
       <section id="state-tourism-magazine" class="space-y-5">
-        <div class="norway-glass p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4">
+        <div class="luxury-glass p-4 rounded-2xl border border-white/10 flex flex-wrap items-center justify-between gap-4">
           <div>
             <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">
-              Explore Premium Destinations by State (20+ States Covered)
+              Explore Destinations by State (21 States Covered):
             </span>
             <div class="flex flex-wrap gap-1.5" id="tourism-state-pills">
               <!-- Dynamic State Pills -->
@@ -448,18 +513,18 @@
           </div>
 
           <div class="flex items-center gap-2 text-xs">
-            <label class="text-slate-400 text-xs">Filter Category:</label>
-            <select id="tour-category-filter" onchange="filterTourCards()" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500">
-              <option value="ALL">All Wonders (Architecture & Nature)</option>
-              <option value="ARCH">🏛️ Architectural Marvels Only</option>
-              <option value="NATURE">🌿 Natural Sanctuaries Only</option>
-              <option value="UNESCO">🎖️ UNESCO World Heritage Sites</option>
+            <label class="text-slate-400 text-xs">Category:</label>
+            <select id="tour-category-filter" onchange="filterTourCards()" class="bg-slate-950 border border-white/10 text-xs rounded-xl px-3 py-1.5 text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer">
+              <option value="ALL">All Wonders (Architecture &amp; Nature)</option>
+              <option value="ARCH">Architectural Marvels Only</option>
+              <option value="NATURE">Natural Sanctuaries Only</option>
+              <option value="UNESCO">UNESCO World Heritage Sites</option>
             </select>
           </div>
         </div>
 
         <!-- Main State Magazine Banner -->
-        <div id="state-hero-magazine" class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-800 min-h-[380px] flex flex-col justify-end p-8">
+        <div id="state-hero-magazine" class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 min-h-[380px] flex flex-col justify-end p-8">
           <img 
             id="state-mag-hero-img" 
             src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=80" 
@@ -470,7 +535,7 @@
 
           <div class="relative z-10 space-y-3 max-w-3xl">
             <div class="flex items-center gap-3">
-              <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-amber-500 text-slate-950" id="state-mag-greeting">
+              <span class="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-amber-500 text-slate-950 shadow-md" id="state-mag-greeting">
                 KHAMMA GHANI!
               </span>
               <span class="text-xs text-amber-200/90 font-mono" id="state-mag-season">
@@ -478,21 +543,21 @@
               </span>
             </div>
 
-            <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight" id="state-mag-title">
+            <h2 class="text-4xl sm:text-5xl font-black text-white tracking-tight" id="state-mag-title">
               Rajasthan
             </h2>
 
-            <p class="text-sm sm:text-base text-slate-200 font-serif italic" id="state-mag-tagline">
+            <p class="text-sm sm:text-base text-slate-200 font-serif-luxury italic" id="state-mag-tagline">
               "The Land of Kings — Where desert winds echo through invincible hill forts and geometric stepwells."
             </p>
 
             <p class="text-xs text-slate-300/80 font-mono" id="state-mag-scenic-route">
-              Scenic Route: The Royal Sandstone & Stepwell Corridor
+              Scenic Corridor: The Royal Sandstone &amp; Stepwell Corridor
             </p>
           </div>
         </div>
 
-        <!-- Destination Cards Grid with History & Train/Flight Booking Buttons -->
+        <!-- Destination Cards Grid with MakeMyTrip / Agoda Styling -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="tour-cards-grid">
           <!-- Injected via JavaScript -->
         </div>
@@ -506,53 +571,58 @@
   <!-- MODAL: DESTINATION HISTORY & TRAVEL BOOKING MODAL              -->
   <!-- ============================================================== -->
   <div id="story-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-    <div class="bg-slate-900 border border-slate-700/80 rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl space-y-4 my-8">
+    <div class="bg-slate-900 border border-white/10 rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl space-y-4 my-8">
       <div class="relative h-64 sm:h-80 w-full overflow-hidden">
         <img id="modal-img" src="" alt="Landmark" class="w-full h-full object-cover object-center" />
         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
-        <button onclick="closeStoryModal()" class="absolute top-4 right-4 bg-slate-950/70 hover:bg-slate-950 text-white rounded-full w-9 h-9 flex items-center justify-center border border-white/20 transition">✕</button>
+        <button onclick="closeStoryModal()" class="absolute top-4 right-4 bg-slate-950/80 hover:bg-slate-950 text-white rounded-full w-9 h-9 flex items-center justify-center border border-white/20 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
         <div class="absolute bottom-4 left-6 right-6">
-          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-slate-950" id="modal-badge">UNESCO</span>
+          <span class="px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500 text-slate-950" id="modal-badge">UNESCO</span>
           <h3 class="text-2xl sm:text-3xl font-black text-white mt-1" id="modal-title">Landmark Name</h3>
-          <p class="text-xs text-amber-200/90 font-serif" id="modal-subtitle">Architectural Style</p>
+          <p class="text-xs text-amber-200/90 font-serif-luxury italic" id="modal-subtitle">Architectural Style</p>
         </div>
       </div>
 
       <div class="px-6 pb-6 space-y-4 text-xs">
         <div>
-          <h4 class="text-[11px] font-bold uppercase tracking-wider text-amber-400 mb-1">Centuries of History & Architectural Significance</h4>
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-amber-400 mb-1">Centuries of History &amp; Architectural Significance</h4>
           <p class="text-slate-200 text-sm leading-relaxed" id="modal-history"></p>
         </div>
 
-        <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-xl space-y-1.5">
+        <div class="bg-slate-950/80 border border-white/5 p-3.5 rounded-2xl space-y-1.5">
           <h4 class="text-[11px] font-bold uppercase tracking-wider text-indigo-400">Modern Infrastructure Connectivity</h4>
           <p class="text-slate-300" id="modal-infra"></p>
         </div>
 
         <!-- Integrated Travel Booking Links -->
-        <div class="bg-slate-950/90 border border-amber-500/30 p-4 rounded-xl space-y-2">
+        <div class="bg-slate-950/90 border border-amber-500/30 p-4 rounded-2xl space-y-2.5">
           <div class="flex items-center justify-between">
             <span class="font-bold text-white text-xs flex items-center gap-1.5">
-              <span>✈️ 🚆 Plan Travel & Book Seats to Destination</span>
+              <span>Instant Seat Booking &amp; Flight Search</span>
             </span>
             <span class="text-[10px] text-amber-400 font-mono" id="modal-station-codes">Airport / Rail Codes</span>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <a id="modal-btn-flight" href="#" target="_blank" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3.5 py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-md">
-              <span>✈️ Book Flights (Google / MMT)</span>
+            <a id="modal-btn-flight" href="#" target="_blank" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-md">
+              <span id="modal-icon-plane"></span>
+              <span>Book Flights (Google / MMT)</span>
             </a>
-            <a id="modal-btn-train" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-md">
-              <span>🚆 Book Trains (IRCTC / ConfirmTkt)</span>
+            <a id="modal-btn-train" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-md">
+              <span id="modal-icon-train"></span>
+              <span>Book Trains (IRCTC / ConfirmTkt)</span>
             </a>
           </div>
         </div>
 
-        <div class="flex items-center justify-between pt-2 border-t border-slate-800">
-          <button onclick="flyToTourismModalLocation()" class="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5">
-            <span>📍 Fly to Location on Tourism Map</span>
+        <div class="flex items-center justify-between pt-2 border-t border-white/10">
+          <button onclick="flyToTourismModalLocation()" class="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-2">
+            <span id="modal-icon-pin"></span>
+            <span>Fly to Location on Map</span>
           </button>
-          <button onclick="closeStoryModal()" class="text-slate-400 hover:text-white px-3 py-2">
+          <button onclick="closeStoryModal()" class="text-slate-400 hover:text-white px-4 py-2">
             Close
           </button>
         </div>
@@ -560,30 +630,44 @@
     </div>
   </div>
 
-  <!-- Real-Time Activity Log Drawer -->
-  <div id="live-feed-drawer" class="fixed inset-y-0 right-0 w-96 bg-slate-950 border-l border-slate-800 shadow-2xl p-4 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-    <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
-      <div class="flex items-center space-x-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-beacon"></span>
-        <h3 class="text-sm font-bold text-white uppercase tracking-wider">Live Telemetry Feed</h3>
-      </div>
-      <button onclick="closeLiveFeedDrawer()" class="text-slate-400 hover:text-white">✕</button>
-    </div>
-    <div class="text-[11px] text-slate-400 mb-2">Live stream of drone surveys, milestone certifications, and IMD advisories.</div>
-    <div id="live-feed-list" class="space-y-2.5 overflow-y-auto flex-1 text-xs pr-1"></div>
-  </div>
-
   <!-- Footer -->
-  <footer class="border-t border-slate-800/80 bg-slate-950/80 py-6 px-6 text-center text-xs text-slate-500">
-    <p class="text-slate-400 font-medium">PragatiGati (प्रगति गति) • India National Infrastructure & Scenic Architectural Portal</p>
-    <p class="mt-1 text-[11px] text-slate-600">Celebrating "Vikas Bhi, Virasat Bhi" • Inspired by Visit Norway's National Scenic Routes & Architecture</p>
+  <footer class="border-t border-white/5 bg-slate-950 py-8 px-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-left">
+        <p class="text-slate-300 font-bold text-sm">PragatiGati (प्रगति गति)</p>
+        <p class="mt-0.5 text-[11px] text-slate-500">National Infrastructure Intelligence &amp; Scenic Architectural Tourism Portal</p>
+      </div>
+      <div class="text-right text-[11px] text-slate-500">
+        <p>Celebrating "Vikas Bhi, Virasat Bhi" &bull; Inspired by Visit Norway &amp; MakeMyTrip Luxe</p>
+      </div>
+    </div>
   </footer>
 
   <!-- Embedded Golden Datasets -->
   <script src="data.js"></script>
 
-  <!-- Application Logic -->
+  <!-- Application Logic & Vector Icon Engine -->
   <script>
+    // 1. Vector SVG Icon Engine (Clean, Sharp SVGs - Zero Emojis)
+    function getSvgIcon(name, className = "w-4 h-4") {
+      const icons = {
+        "plane": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>`,
+        "train": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><path d="m8 19-2 3"/><path d="m18 22-2-3"/><circle cx="8" cy="15" r="1"/><circle cx="16" cy="15" r="1"/></svg>`,
+        "map-pin": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>`,
+        "calendar": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>`,
+        "star": `<svg class="${className}" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+        "compass": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>`,
+        "search": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`,
+        "arrow-right": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`,
+        "shield-check": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`,
+        "activity": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+        "landmark": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`,
+        "navigation": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>`,
+        "check": `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+      };
+      return icons[name] || '';
+    }
+
     // State Coordinates for Centering Map Camera
     const STATE_COORDINATES = {
       "Gujarat": [22.2587, 71.1924, 7],
@@ -610,16 +694,15 @@
     };
 
     // Global App State
-    let activeView = "infra"; // 'infra' or 'tourism'
+    let activeView = "infra";
     let selectedInfraState = "Gujarat";
     let selectedTourismState = "Rajasthan";
     let activeModalLocation = null;
-    let audioAlertsEnabled = false;
+    let activeBookingTab = "flights";
 
-    // Leaflet Maps & Layers
+    // Maps & Layers
     let infraMap = null;
     let infraMarkersLayer = null;
-
     let tourismMap = null;
     let tourismMarkersLayer = null;
     let tourismRouteLayer = null;
@@ -632,34 +715,33 @@
     // Helper: Create Basemap Tile Layers (100% Free, No API Key, Zero Watermark)
     function createBasemaps() {
       const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" class="text-amber-400">OpenStreetMap</a> contributors',
+        attribution: '&copy; OpenStreetMap contributors',
         maxZoom: 19
       });
       const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri, Maxar, Earthstar Geographics',
+        attribution: 'Tiles &copy; Esri, Maxar',
         maxZoom: 18
       });
       const topo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri, DeLorme, TomTom, Intermap, USGS',
+        attribution: 'Tiles &copy; Esri, USGS',
         maxZoom: 18
       });
       const darkCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+        attribution: 'Tiles &copy; Esri',
         maxZoom: 16
       });
 
       return {
         defaultLayer: osm,
         baseMaps: {
-          "🗺️ Detailed (OpenStreetMap)": osm,
-          "🛰️ Satellite (Esri Imagery)": satellite,
-          "🏔️ Topo Terrain (Esri Topo)": topo,
-          "🌑 Dark Theme (Esri Canvas)": darkCanvas
+          "Detailed Street Map": osm,
+          "Satellite Imagery": satellite,
+          "Topographic Relief": topo,
+          "Dark Slate Canvas": darkCanvas
         }
       };
     }
 
-    // 1. Initialise Infrastructure Map
     function initInfraMap() {
       if (infraMap) return;
       infraMap = L.map('infra-map', { scrollWheelZoom: false }).setView([22.2587, 71.1924], 7);
@@ -671,7 +753,6 @@
       renderInfraMarkersForState(selectedInfraState);
     }
 
-    // 2. Initialise Tourism Map
     function initTourismMap() {
       if (tourismMap) return;
       tourismMap = L.map('tourism-map', { scrollWheelZoom: false }).setView([22.5, 79.5], 5);
@@ -684,7 +765,6 @@
       renderTourismPins();
     }
 
-    // Toggle between Infrastructure and Tourism Dedicated Views
     function setDashboardView(mode) {
       activeView = mode;
       const infraView = document.getElementById("view-infrastructure");
@@ -695,8 +775,8 @@
       if (mode === "infra") {
         infraView.classList.remove("hidden");
         tourView.classList.add("hidden");
-        btnInfra.className = "px-4 py-2 rounded-lg font-bold bg-orange-600 text-white shadow-md transition flex items-center gap-2";
-        btnTour.className = "px-4 py-2 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2";
+        btnInfra.className = "px-5 py-2.5 rounded-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-600/30 transition flex items-center gap-2 text-xs";
+        btnTour.className = "px-5 py-2.5 rounded-xl font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2 text-xs";
 
         setTimeout(() => {
           if (!infraMap) initInfraMap();
@@ -705,8 +785,8 @@
       } else {
         tourView.classList.remove("hidden");
         infraView.classList.add("hidden");
-        btnTour.className = "px-4 py-2 rounded-lg font-bold bg-amber-600 text-white shadow-md transition flex items-center gap-2";
-        btnInfra.className = "px-4 py-2 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2";
+        btnTour.className = "px-5 py-2.5 rounded-xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-orange-500/30 transition flex items-center gap-2 text-xs";
+        btnInfra.className = "px-5 py-2.5 rounded-xl font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2 text-xs";
 
         setTimeout(() => {
           if (!tourismMap) initTourismMap();
@@ -716,14 +796,77 @@
     }
 
     // ==============================================================
+    // MAKE MY TRIP / AGODA FLOATING SEARCH LOGIC
+    // ==============================================================
+    function setSearchTab(tab) {
+      activeBookingTab = tab;
+      const tabs = ["flights", "trains", "scenic", "states"];
+      tabs.forEach(t => {
+        const el = document.getElementById(`search-tab-${t}`);
+        if (el) {
+          if (t === tab) {
+            el.className = "search-tab-btn px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold flex items-center gap-2 transition shadow-md";
+          } else {
+            el.className = "search-tab-btn px-4 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white flex items-center gap-2 transition";
+          }
+        }
+      });
+    }
+
+    function initBookingDropdowns() {
+      const destSelect = document.getElementById("booking-to-dest");
+      destSelect.innerHTML = "";
+      if (typeof STATE_TOURISM === 'undefined') return;
+
+      Object.keys(STATE_TOURISM).sort().forEach(st => {
+        const opt = document.createElement("option");
+        opt.value = st;
+        opt.className = "bg-slate-900 text-white";
+        opt.textContent = `${st} — ${STATE_TOURISM[st].tagline.split('(')[0]}`;
+        destSelect.appendChild(opt);
+      });
+
+      // Default date to tomorrow
+      const d = new Date();
+      d.setDate(d.getDate() + 1);
+      document.getElementById("booking-date").value = d.toISOString().split("T")[0];
+    }
+
+    function onBookingDestChange(stateName) {
+      selectTourismState(stateName);
+    }
+
+    function executeBookingSearch() {
+      const fromHub = document.getElementById("booking-from-hub").value;
+      const toState = document.getElementById("booking-to-dest").value;
+      const stateData = STATE_TOURISM[toState];
+
+      let targetAirport = "DEL";
+      let targetRail = "NDLS";
+
+      if (stateData && stateData.architectural_marvels && stateData.architectural_marvels[0]) {
+        const first = stateData.architectural_marvels[0];
+        if (first.nearest_airport) targetAirport = first.nearest_airport.code;
+        if (first.nearest_railway) targetRail = first.nearest_railway.code;
+      }
+
+      if (activeBookingTab === "flights") {
+        window.open(`https://www.google.com/travel/flights?q=flights+from+${fromHub}+to+${targetAirport}`, '_blank');
+      } else if (activeBookingTab === "trains") {
+        window.open(`https://www.confirmtkt.com/rbooking-d/trains/from/${fromHub}/to/${targetRail}`, '_blank');
+      } else {
+        const target = document.getElementById("state-tourism-magazine");
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // ==============================================================
     // INFRASTRUCTURE DEVELOPMENT SECTION LOGIC
     // ==============================================================
-
     function renderInfraStatePills() {
       const container = document.getElementById("infra-state-pills");
       container.innerHTML = "";
 
-      // Aggregate project counts and stats by state
       const stateCounts = {};
       RAW_PROJECTS.forEach(p => {
         stateCounts[p.state] = (stateCounts[p.state] || 0) + 1;
@@ -734,12 +877,12 @@
       statesList.forEach(st => {
         const btn = document.createElement("button");
         const isSelected = st === selectedInfraState;
-        btn.className = `px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+        btn.className = `px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
           isSelected 
-            ? "bg-orange-600 text-white shadow-lg shadow-orange-600/30 border border-orange-400/50" 
-            : "bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-orange-500/40 hover:text-white"
+            ? "bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-600/30 border border-orange-400/40" 
+            : "bg-slate-900/90 text-slate-300 border border-white/5 hover:border-orange-500/40 hover:text-white"
         }`;
-        btn.innerHTML = `<span>${st}</span><span class="text-[10px] bg-black/40 px-1.5 py-0.2 rounded font-mono">${stateCounts[st]}</span>`;
+        btn.innerHTML = `<span>${st}</span><span class="text-[10px] bg-black/40 px-1.5 py-0.2 rounded-full font-mono">${stateCounts[st]}</span>`;
         btn.onclick = () => selectInfraState(st);
         container.appendChild(btn);
       });
@@ -752,7 +895,6 @@
       renderInfraProjectCards(stateName);
       renderInfraMarkersForState(stateName);
 
-      // Pan camera to state coordinates
       if (infraMap && STATE_COORDINATES[stateName]) {
         const [lat, lon, zoom] = STATE_COORDINATES[stateName];
         infraMap.flyTo([lat, lon], zoom, { duration: 1.2 });
@@ -777,7 +919,6 @@
       document.getElementById("gallery-state-name").textContent = stateName;
       document.getElementById("state-cards-count").textContent = `${stateProjects.length} packages`;
 
-      // Notable headline
       const topP = stateProjects.sort((a,b) => b.budgetInCrores - a.budgetInCrores)[0];
       if (topP) {
         document.getElementById("state-infra-lead-projects").textContent = 
@@ -798,7 +939,7 @@
 
       stateProjects.forEach(p => {
         const card = document.createElement("div");
-        card.className = "group bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 hover:border-orange-500/60 transition-all duration-300 shadow-lg flex flex-col justify-between";
+        card.className = "group luxury-glass-card rounded-3xl overflow-hidden border border-white/5 hover:border-orange-500/50 transition-all duration-300 shadow-xl flex flex-col justify-between";
 
         const progColor = p.physicalProgressPct >= 80 ? "bg-emerald-500" : (p.physicalProgressPct >= 50 ? "bg-amber-500" : "bg-orange-500");
         const statusBadge = p.status === "Completed" 
@@ -807,22 +948,22 @@
 
         card.innerHTML = `
           <div>
-            <div class="relative h-44 w-full overflow-hidden">
+            <div class="relative h-48 w-full overflow-hidden">
               <img src="${p.infra_image_url || 'https://images.unsplash.com/photo-1545459720-aac8509eb02c?auto=format&fit=crop&w=1000&q=80'}" alt="${p.projectName}" class="w-full h-full object-cover card-zoom-img" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
-              <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur text-amber-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-amber-400/30">
+              <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur text-amber-300 text-[10px] font-bold px-3 py-1 rounded-full border border-amber-400/30">
                 ${p.sector}
               </span>
               <span class="absolute top-3 right-3 text-[10px] font-bold px-2.5 py-0.5 rounded-full ${statusBadge}">
                 ${p.status}
               </span>
-              <div class="absolute bottom-2 left-3 right-3 text-[11px] font-mono text-amber-300 flex items-center gap-1.5">
-                <span>📍 District:</span>
+              <div class="absolute bottom-2.5 left-4 right-4 text-[11px] font-mono text-amber-300 flex items-center gap-1.5">
+                <span class="text-slate-400 flex items-center gap-1">${getSvgIcon('map-pin', 'w-3 h-3 text-amber-400')} District:</span>
                 <span class="font-bold text-white">${p.district}</span>
               </div>
             </div>
 
-            <div class="p-4 space-y-3">
+            <div class="p-5 space-y-3.5">
               <div>
                 <h4 class="text-sm font-bold text-white group-hover:text-amber-400 transition leading-snug">${p.projectName}</h4>
                 <p class="text-[11px] text-slate-400 mt-1 font-mono">${p.district_part || p.district + ' Corridor Alignment'}</p>
@@ -840,7 +981,7 @@
               </div>
 
               <!-- Financial & Contractor Meta -->
-              <div class="grid grid-cols-2 gap-2 text-[10px] font-mono bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+              <div class="grid grid-cols-2 gap-2 text-[10px] font-mono bg-slate-950/80 p-3 rounded-2xl border border-white/5">
                 <div>
                   <span class="text-slate-500 block">Outlay Budget:</span>
                   <span class="text-white font-bold">₹ ${p.budgetInCrores.toLocaleString('en-IN')} Cr</span>
@@ -849,22 +990,22 @@
                   <span class="text-slate-500 block">Disbursed:</span>
                   <span class="text-emerald-400 font-bold">₹ ${p.amountPaidInCrores.toLocaleString('en-IN')} Cr</span>
                 </div>
-                <div class="col-span-2 pt-1 border-t border-slate-800/60">
+                <div class="col-span-2 pt-1.5 border-t border-white/5">
                   <span class="text-slate-500 block">Contractor:</span>
-                  <span class="text-slate-300 truncate block">${p.contractorName} (${p.concessionModel})</span>
+                  <span class="text-slate-300 truncate block font-sans">${p.contractorName} (${p.concessionModel})</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="px-4 pb-4 pt-1 flex items-center justify-between border-t border-slate-800/80 text-[11px]">
+          <div class="px-5 pb-4 pt-1 flex items-center justify-between border-t border-white/5 text-[11px]">
             <span class="text-xs text-slate-400 flex items-center gap-1">
               <span>Gate:</span>
               <span class="font-bold ${p.pariveshClearanceStatus === 'Cleared' ? 'text-emerald-400' : 'text-rose-400'}">${p.pariveshClearanceStatus}</span>
             </span>
             <button onclick="focusOnInfraProject(${p.latitude}, ${p.longitude}, '${p.projectName.replace(/'/g, "\\'")}', '${p.district}', ${p.physicalProgressPct}, '${p.infra_image_url}')" class="text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1">
-              <span>View on Map</span>
-              <span>➔</span>
+              <span>Inspect on Map</span>
+              ${getSvgIcon('arrow-right', 'w-3 h-3')}
             </button>
           </div>
         `;
@@ -890,10 +1031,10 @@
         });
 
         marker.bindPopup(`
-          <div style="font-family: inherit; min-width: 200px;">
+          <div style="font-family: 'Plus Jakarta Sans', sans-serif; min-width: 200px;">
             <img src="${p.infra_image_url}" style="width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;" />
             <b style="font-size: 12px; color: #0f172a;">${p.projectName}</b>
-            <div style="font-size: 10px; color: #64748b; margin-top: 2px;">📍 District: <b>${p.district}</b></div>
+            <div style="font-size: 10px; color: #64748b; margin-top: 2px;">District: <b>${p.district}</b></div>
             <div style="font-size: 10px; color: #64748b;">Section: ${p.district_part}</div>
             <div style="margin-top: 4px; font-size: 11px; font-weight: bold; color: #f97316;">Progress: ${p.physicalProgressPct}% • Budget: ₹${p.budgetInCrores} Cr</div>
             <div style="font-size: 9px; color: #475569; margin-top: 2px;">Lead: ${p.contractorName}</div>
@@ -912,10 +1053,10 @@
         L.popup()
           .setLatLng([lat, lon])
           .setContent(`
-            <div style="min-width: 180px;">
+            <div style="font-family: 'Plus Jakarta Sans', sans-serif; min-width: 180px;">
               <img src="${img}" style="width:100%;height:80px;object-fit:cover;border-radius:4px;margin-bottom:4px;" />
               <b style="font-size:11px;color:#0f172a;">${title}</b>
-              <div style="font-size:10px;color:#64748b;">📍 ${district} | ${progress}% Completed</div>
+              <div style="font-size:10px;color:#64748b;">${district} &bull; ${progress}% Completed</div>
             </div>
           `)
           .openOn(infraMap);
@@ -925,7 +1066,6 @@
     // ==============================================================
     // TOURISM SECTION LOGIC ("DEKHO APNA DESH")
     // ==============================================================
-
     function renderScenicCorridors() {
       const container = document.getElementById("scenic-routes-container");
       container.innerHTML = "";
@@ -934,7 +1074,7 @@
 
       SCENIC_CORRIDORS.forEach(route => {
         const card = document.createElement("div");
-        card.className = "group relative rounded-2xl overflow-hidden shadow-lg border border-slate-800 bg-slate-900 cursor-pointer flex flex-col h-80 transition-all duration-300 hover:border-amber-500/60 hover:-translate-y-1";
+        card.className = "group relative rounded-3xl overflow-hidden shadow-xl border border-white/5 bg-slate-900 cursor-pointer flex flex-col h-80 transition-all duration-300 hover:border-amber-500/60 hover:-translate-y-1.5";
         card.onclick = () => highlightScenicRoute(route);
 
         card.innerHTML = `
@@ -942,17 +1082,17 @@
             <img src="${route.image_url}" alt="${route.title}" class="w-full h-full object-cover card-zoom-img" />
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
             <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-amber-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-amber-400/30">
-              ${route.distance} • ${route.duration}
+              ${route.distance} &bull; ${route.duration}
             </span>
           </div>
-          <div class="p-3.5 flex-1 flex flex-col justify-between">
+          <div class="p-4 flex-1 flex flex-col justify-between">
             <div>
               <h4 class="text-xs font-bold text-white group-hover:text-amber-400 transition line-clamp-1">${route.title}</h4>
-              <p class="text-[10px] text-slate-400 line-clamp-2 mt-1">${route.tagline}</p>
+              <p class="text-[10px] text-slate-400 line-clamp-2 mt-1.5 leading-relaxed">${route.tagline}</p>
             </div>
-            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-amber-300/80 font-bold">
+            <div class="pt-2 border-t border-white/5 flex items-center justify-between text-[10px] text-amber-300/90 font-bold">
               <span>Trace Route Waypoints</span>
-              <span>➔</span>
+              ${getSvgIcon('arrow-right', 'w-3 h-3')}
             </div>
           </div>
         `;
@@ -991,10 +1131,10 @@
       states.forEach(st => {
         const btn = document.createElement("button");
         const isSelected = st === selectedTourismState;
-        btn.className = `px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 ${
+        btn.className = `px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 ${
           isSelected 
-            ? "bg-amber-600 text-white shadow-lg shadow-amber-600/30 border border-amber-400/50" 
-            : "bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-amber-500/40 hover:text-white"
+            ? "bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-orange-500/30 border border-amber-400/50" 
+            : "bg-slate-900/90 text-slate-300 border border-white/5 hover:border-amber-500/40 hover:text-white"
         }`;
         btn.textContent = st;
         btn.onclick = () => selectTourismState(st);
@@ -1018,7 +1158,6 @@
 
       filterTourCards();
 
-      // Pan Tourism Map
       if (tourismMap && STATE_COORDINATES[stateName]) {
         const [lat, lon, zoom] = STATE_COORDINATES[stateName];
         tourismMap.flyTo([lat, lon], zoom, { duration: 1.2 });
@@ -1049,7 +1188,7 @@
 
       items.forEach(place => {
         const card = document.createElement("div");
-        card.className = "group bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 hover:border-amber-500/60 transition-all duration-300 shadow-xl flex flex-col justify-between";
+        card.className = "group luxury-glass-card rounded-3xl overflow-hidden border border-white/5 hover:border-amber-500/50 transition-all duration-300 shadow-xl flex flex-col justify-between";
 
         const airportCode = place.nearest_airport ? place.nearest_airport.code : "DEL";
         const railwayCode = place.nearest_railway ? place.nearest_railway.code : "NDLS";
@@ -1062,56 +1201,64 @@
             <div class="relative h-56 w-full overflow-hidden">
               <img src="${place.image_url}" alt="${place.name}" class="w-full h-full object-cover card-zoom-img" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-              <span class="absolute top-4 left-4 bg-amber-500 text-slate-950 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md">
-                ${place.badge || 'HERITAGE'}
-              </span>
-              <span class="absolute top-4 right-4 bg-slate-950/80 backdrop-blur text-amber-300 text-[10px] font-bold px-2 py-0.5 rounded border border-amber-400/30">
+              
+              <!-- MMT / Agoda Rating Badge -->
+              <div class="absolute top-4 left-4 flex items-center gap-1.5 bg-emerald-600/90 text-white font-bold text-[11px] px-2.5 py-0.5 rounded-lg shadow-md backdrop-blur">
+                ${getSvgIcon('star', 'w-3 h-3 text-amber-300')}
+                <span>4.9</span>
+                <span class="text-[9px] text-emerald-100 font-normal">&bull; Exceptional</span>
+              </div>
+
+              <span class="absolute top-4 right-4 bg-slate-950/80 backdrop-blur text-amber-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-amber-400/30">
                 ${place.built_century || place.category || 'Historic'}
               </span>
-              <div class="absolute bottom-3 left-4 right-4">
-                <h4 class="text-lg font-black text-white group-hover:text-amber-400 transition leading-snug drop-shadow">${place.name}</h4>
-                <p class="text-xs text-amber-200/90 font-serif italic">${place.type || place.category}</p>
+
+              <div class="absolute bottom-3.5 left-4 right-4">
+                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition leading-snug drop-shadow">${place.name}</h4>
+                <p class="text-xs text-amber-200/90 font-serif-luxury italic">${place.type || place.category}</p>
               </div>
             </div>
 
             <div class="p-5 space-y-3.5">
               <!-- History Snippet -->
               <div>
-                <span class="text-[10px] uppercase font-bold tracking-wider text-amber-400 block mb-1">Centuries of Heritage & Architecture</span>
+                <span class="text-[10px] uppercase font-bold tracking-wider text-amber-400 block mb-1">Centuries of Heritage &amp; Architecture</span>
                 <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">${place.history || place.highlight}</p>
               </div>
 
               <!-- Modern Connectivity -->
-              <div class="bg-slate-950/80 border border-slate-800/80 p-3 rounded-xl text-[11px] text-slate-400">
-                <span class="font-bold text-indigo-400 block mb-0.5">Modern Highway & Rail Link:</span>
+              <div class="bg-slate-950/80 border border-white/5 p-3 rounded-2xl text-[11px] text-slate-400">
+                <span class="font-bold text-indigo-400 block mb-0.5">Modern Highway &amp; Rail Link:</span>
                 <span>${place.infra_link || 'Connected via National Corridors'}</span>
               </div>
 
               <!-- Quick Travel Booking Buttons -->
-              <div class="bg-slate-950/90 border border-amber-500/20 p-3 rounded-xl space-y-2">
+              <div class="bg-slate-950/90 border border-amber-500/20 p-3 rounded-2xl space-y-2">
                 <div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
-                  <span>Transit Hubs:</span>
-                  <span class="text-amber-300 font-bold">✈️ ${airportCode} • 🚆 ${railwayCode}</span>
+                  <span class="flex items-center gap-1">${getSvgIcon('map-pin', 'w-3 h-3 text-amber-400')} Transit Hubs:</span>
+                  <span class="text-amber-300 font-bold">${airportCode} &bull; ${railwayCode}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-[11px] font-bold">
-                  <a href="${flightUrl}" target="_blank" class="bg-indigo-600/90 hover:bg-indigo-600 text-white py-1.5 px-2 rounded-lg text-center transition flex items-center justify-center gap-1">
-                    <span>✈️ Flight</span>
+                  <a href="${flightUrl}" target="_blank" class="bg-indigo-600/90 hover:bg-indigo-600 text-white py-2 px-2 rounded-xl text-center transition flex items-center justify-center gap-1.5 shadow">
+                    ${getSvgIcon('plane', 'w-3.5 h-3.5')}
+                    <span>Flights</span>
                   </a>
-                  <a href="${trainUrl}" target="_blank" class="bg-emerald-600/90 hover:bg-emerald-600 text-white py-1.5 px-2 rounded-lg text-center transition flex items-center justify-center gap-1">
-                    <span>🚆 Train</span>
+                  <a href="${trainUrl}" target="_blank" class="bg-emerald-600/90 hover:bg-emerald-600 text-white py-2 px-2 rounded-xl text-center transition flex items-center justify-center gap-1.5 shadow">
+                    ${getSvgIcon('train', 'w-3.5 h-3.5')}
+                    <span>Trains</span>
                   </a>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="px-5 pb-5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
+          <div class="px-5 pb-5 pt-2 border-t border-white/5 flex items-center justify-between text-xs">
             <button onclick="showStoryModal('${place.name.replace(/'/g, "\\'")}', '${(place.type || place.category).replace(/'/g, "\\'")}', '${place.image_url}', '${(place.history || place.highlight).replace(/'/g, "\\'")}', '${(place.infra_link || '').replace(/'/g, "\\'")}', '${place.badge || ''}', ${place.latitude}, ${place.longitude}, '${airportCode}', '${railwayCode}')" class="text-slate-300 hover:text-white font-semibold">
-              Read Full Story & Plan
+              Read Story &amp; Plan
             </button>
             <button onclick="showWayToDestination(${place.latitude}, ${place.longitude}, '${place.name.replace(/'/g, "\\'")}')" class="text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1">
               <span>Show Way</span>
-              <span>➔</span>
+              ${getSvgIcon('arrow-right', 'w-3 h-3')}
             </button>
           </div>
         `;
@@ -1129,7 +1276,7 @@
         L.popup()
           .setLatLng([lat, lon])
           .setContent(`
-            <div style="font-family: inherit;">
+            <div style="font-family: 'Plus Jakarta Sans', sans-serif;">
               <b style="font-size: 12px; color: #0f172a;">${title}</b>
               <div style="font-size: 10px; color: #64748b; margin-top: 2px;">Scenic Heritage Destination</div>
               <div style="margin-top: 4px; font-size: 10px; color: #f59e0b; font-weight: bold;">GPS: ${lat.toFixed(4)}, ${lon.toFixed(4)}</div>
@@ -1157,10 +1304,10 @@
           });
 
           marker.bindPopup(`
-            <div style="font-family: inherit; min-width: 180px;">
+            <div style="font-family: 'Plus Jakarta Sans', sans-serif; min-width: 180px;">
               <img src="${m.image_url}" style="width: 100%; height: 85px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;" />
               <b style="font-size: 12px; color: #0f172a;">${m.name}</b>
-              <div style="font-size: 10px; color: #f59e0b; font-weight: bold;">${m.type} • ${stName}</div>
+              <div style="font-size: 10px; color: #f59e0b; font-weight: bold;">${m.type} &bull; ${stName}</div>
               <div style="font-size: 10px; color: #475569; margin-top: 4px;">${m.highlight}</div>
             </div>
           `);
@@ -1179,10 +1326,10 @@
           });
 
           marker.bindPopup(`
-            <div style="font-family: inherit; min-width: 180px;">
+            <div style="font-family: 'Plus Jakarta Sans', sans-serif; min-width: 180px;">
               <img src="${n.image_url}" style="width: 100%; height: 85px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;" />
               <b style="font-size: 12px; color: #0f172a;">${n.name}</b>
-              <div style="font-size: 10px; color: #10b981; font-weight: bold;">${n.category} • ${stName}</div>
+              <div style="font-size: 10px; color: #10b981; font-weight: bold;">${n.category} &bull; ${stName}</div>
               <div style="font-size: 10px; color: #475569; margin-top: 4px;">${n.highlight}</div>
             </div>
           `);
@@ -1223,9 +1370,7 @@
     // ==============================================================
     // LAKEHOUSE CHARTS & DATA DIRECTORY
     // ==============================================================
-
     function renderCharts() {
-      // 1. Gati Shakti Engines
       const engines = {};
       RAW_PROJECTS.forEach(p => {
         engines[p.gatishaktiEngine] = (engines[p.gatishaktiEngine] || 0) + p.budgetInCrores;
@@ -1250,7 +1395,6 @@
         }
       });
 
-      // 2. State Capex
       const stateSpend = {};
       RAW_PROJECTS.forEach(p => {
         stateSpend[p.state] = (stateSpend[p.state] || 0) + p.budgetInCrores;
@@ -1281,7 +1425,6 @@
         }
       });
 
-      // 3. Disparity Chart
       const disparityData = RAW_PROJECTS.slice(0, 50).map(p => ({
         x: p.physicalProgressPct,
         y: (p.amountPaidInCrores / p.budgetInCrores) * 100
@@ -1316,7 +1459,7 @@
 
       RAW_PROJECTS.slice(0, 60).forEach(p => {
         const row = document.createElement("tr");
-        row.className = "hover:bg-slate-800/50 transition border-b border-slate-800/40";
+        row.className = "hover:bg-slate-800/50 transition border-b border-white/5";
         row.innerHTML = `
           <td class="py-2.5 px-3 font-mono text-[10px] text-amber-400">${p.contractId}</td>
           <td class="py-2.5 px-3 font-semibold text-white">${p.projectName}</td>
@@ -1324,7 +1467,7 @@
           <td class="py-2.5 px-3 text-slate-400">${p.state}</td>
           <td class="py-2.5 px-3 text-right font-mono text-white">₹ ${p.budgetInCrores.toLocaleString('en-IN')}</td>
           <td class="py-2.5 px-3 text-center">
-            <span class="inline-block px-2 py-0.5 rounded font-mono text-[10px] font-bold ${p.physicalProgressPct >= 80 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-300'}">
+            <span class="inline-block px-2.5 py-0.5 rounded font-mono text-[10px] font-bold ${p.physicalProgressPct >= 80 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-300'}">
               ${p.physicalProgressPct}%
             </span>
           </td>
@@ -1349,17 +1492,20 @@
       a.remove();
     }
 
-    function toggleAudioAlerts() {
-      audioAlertsEnabled = !audioAlertsEnabled;
-      document.getElementById("audio-toggle-btn").textContent = audioAlertsEnabled ? "🔔 Sound On" : "🔕 Sound Off";
-    }
-
-    function closeLiveFeedDrawer() {
-      document.getElementById("live-feed-drawer").classList.add("translate-x-full");
-    }
-
     // App Initialization on DOM Ready
     document.addEventListener("DOMContentLoaded", () => {
+      // Inject Header & Tab SVG Icons
+      document.getElementById("icon-tab-infra").innerHTML = getSvgIcon('activity', 'w-4 h-4');
+      document.getElementById("icon-tab-tourism").innerHTML = getSvgIcon('compass', 'w-4 h-4');
+      document.getElementById("icon-tab-plane").innerHTML = getSvgIcon('plane', 'w-3.5 h-3.5');
+      document.getElementById("icon-tab-train").innerHTML = getSvgIcon('train', 'w-3.5 h-3.5');
+      document.getElementById("icon-tab-compass").innerHTML = getSvgIcon('compass', 'w-3.5 h-3.5');
+      document.getElementById("icon-tab-landmark").innerHTML = getSvgIcon('landmark', 'w-3.5 h-3.5');
+      document.getElementById("icon-search-btn").innerHTML = getSvgIcon('search', 'w-4 h-4');
+      document.getElementById("modal-icon-plane").innerHTML = getSvgIcon('plane', 'w-3.5 h-3.5');
+      document.getElementById("modal-icon-train").innerHTML = getSvgIcon('train', 'w-3.5 h-3.5');
+      document.getElementById("modal-icon-pin").innerHTML = getSvgIcon('map-pin', 'w-3.5 h-3.5');
+
       // 1. Initialise Infrastructure Map
       initInfraMap();
 
@@ -1368,7 +1514,8 @@
       updateStateSummaryBanner(selectedInfraState);
       renderInfraProjectCards(selectedInfraState);
 
-      // 3. Render Tourism Components
+      // 3. Render Tourism Components & Booking Dropdowns
+      initBookingDropdowns();
       renderScenicCorridors();
       renderTourismStatePills();
       selectTourismState(selectedTourismState);
