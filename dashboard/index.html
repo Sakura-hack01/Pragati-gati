@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PragatiGati | Real-Time India Infrastructure & Cultural Tourism Platform</title>
+  <title>PragatiGati | Real-Time India Infrastructure & Scenic Architectural Tourism Portal</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -14,21 +14,18 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    #map { height: 520px; width: 100%; border-radius: 0.75rem; }
+    #map { height: 560px; width: 100%; border-radius: 1rem; }
     .badge { padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
     
-    /* Indian Architectural Motif Pattern Background */
-    .jaali-pattern {
-      background-color: #0b1120;
-      background-image: radial-gradient(#d97706 0.75px, transparent 0.75px), radial-gradient(#f97316 0.75px, #0b1120 0.75px);
-      background-size: 30px 30px;
-      background-position: 0 0, 15px 15px;
+    /* Subtle Nordic Dark Background */
+    .nordic-dark {
+      background-color: #070b14;
     }
     
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-track { background: #070b14; }
+    ::-webkit-scrollbar-thumb { background: #26334d; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #f97316; }
 
     /* Live pulse animation */
@@ -38,32 +35,48 @@
       100% { transform: scale(0.95); opacity: 0.9; }
     }
     .pulse-beacon { animation: pulse-ring 2s infinite ease-in-out; }
+
+    /* Card image zoom effect */
+    .card-zoom-img {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .group:hover .card-zoom-img {
+      transform: scale(1.06);
+    }
+
+    /* Norway Style Gradient Glass */
+    .norway-glass {
+      background: rgba(13, 20, 36, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
   </style>
 </head>
-<body class="jaali-pattern text-slate-100 min-h-screen flex flex-col font-sans selection:bg-orange-500 selection:text-white">
+<body class="nordic-dark text-slate-100 min-h-screen flex flex-col font-sans selection:bg-orange-500 selection:text-white">
 
-  <!-- Real-Time Live Activity & Telemetry Ticker -->
-  <div class="bg-gradient-to-r from-amber-950 via-slate-900 to-amber-950 border-b border-amber-500/30 px-4 py-2 flex items-center justify-between text-xs overflow-hidden">
+  <!-- Top Real-Time Live Activity & Telemetry Ticker -->
+  <div class="bg-slate-950/90 border-b border-slate-800/80 px-4 py-2 flex items-center justify-between text-xs overflow-hidden z-50">
     <div class="flex items-center space-x-3 shrink-0">
-      <div class="flex items-center space-x-1.5 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">
+      <div class="flex items-center space-x-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">
         <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-beacon"></span>
-        <span class="tracking-wide">LIVE TELEMETRY STREAM</span>
+        <span class="tracking-wide text-[10px]">REAL-TIME TELEMETRY</span>
       </div>
-      <div class="hidden sm:flex items-center space-x-2 text-slate-300">
-        <span class="text-slate-400">Construction Velocity:</span>
-        <span class="font-bold text-amber-400" id="live-velocity">39.4 km/day</span>
+      <div class="hidden sm:flex items-center space-x-2 text-slate-400">
+        <span>Construction Velocity:</span>
+        <span class="font-bold text-amber-400 font-mono" id="live-velocity">39.4 km/day</span>
       </div>
     </div>
     
     <!-- Ticker marquee message -->
     <div class="flex-1 mx-4 overflow-hidden text-center truncate">
       <span class="text-slate-300 font-mono text-[11px]" id="live-ticker-msg">
-        🛰️ Drone Survey #842: Verified foundation concrete curing on Zojila Tunnel Western Portal Package...
+        🛰️ Drone Survey #842: Sensor verified concrete compaction on Zojila Mountain Tunnel Western Portal...
       </span>
     </div>
 
     <div class="flex items-center space-x-3 shrink-0 text-slate-400">
-      <span class="text-[11px]" id="live-time">12:45:00 IST</span>
+      <span class="text-[11px] font-mono text-slate-300" id="live-time">12:45:00 IST</span>
       <button onclick="toggleAudioAlerts()" id="audio-toggle-btn" class="hover:text-amber-400 transition" title="Toggle audio chime">
         🔔 Sound
       </button>
@@ -71,9 +84,8 @@
   </div>
 
   <!-- Header & Navigation -->
-  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-40 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+  <header class="border-b border-slate-800/80 bg-slate-950/95 backdrop-blur sticky top-0 z-40 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
     <div class="flex items-center space-x-4">
-      <!-- Indian Saffron-Gold Ashoka Emblem Shield -->
       <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-amber-600 via-orange-500 to-indigo-700 flex items-center justify-center shadow-lg shadow-orange-500/20 font-black text-2xl text-white border border-amber-300/40">
         प्र
       </div>
@@ -92,373 +104,397 @@
         <p class="text-[11px] text-amber-200/70 italic flex items-center gap-1.5">
           <span>विरासत भी, विकास भी</span>
           <span class="text-slate-500">•</span>
-          <span>India National Infrastructure & Cultural Tourism Portal</span>
+          <span>India Scenic Architecture & Infrastructure Portal (Inspired by Visit Norway)</span>
         </p>
       </div>
     </div>
 
-    <!-- Mode Selector: Infrastructure Lakehouse vs Tourism & Architecture Explorer -->
+    <!-- Mode Selector: Tourism & Scenic Architecture Magazine vs Lakehouse Data View -->
     <div class="flex items-center space-x-2 bg-slate-900 border border-slate-800 p-1 rounded-xl text-xs">
-      <button id="btn-mode-infra" onclick="setDashboardView('infra')" class="px-3.5 py-1.5 rounded-lg font-bold bg-orange-600 text-white shadow-sm transition">
-        🏗️ Infrastructure Lakehouse
+      <button id="btn-mode-tourism" onclick="setDashboardView('tourism')" class="px-4 py-2 rounded-lg font-bold bg-amber-600 text-white shadow-sm transition flex items-center gap-2">
+        <span>🕌 Scenic Routes & Architecture</span>
+        <span class="w-2 h-2 rounded-full bg-amber-300 animate-ping"></span>
       </button>
-      <button id="btn-mode-tourism" onclick="setDashboardView('tourism')" class="px-3.5 py-1.5 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5">
-        <span>🕌 Virasat & Tourism Spotlight</span>
-        <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+      <button id="btn-mode-infra" onclick="setDashboardView('infra')" class="px-4 py-2 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition">
+        🏗️ Infrastructure Lakehouse
       </button>
     </div>
   </header>
 
-  <!-- Main Content Body -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6 flex-1 w-full">
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8 flex-1 w-full">
 
-    <!-- Executive KPI Row -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-      <div class="bg-slate-900/80 border border-slate-800 hover:border-amber-500/40 rounded-xl p-4 shadow-sm transition">
-        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Total Monitored Capex</div>
-        <div class="text-2xl font-black text-white mt-1" id="kpi-capex">₹ 1.84 L Cr</div>
-        <div class="text-[11px] text-emerald-400 mt-1 flex items-center">
-          <span>Across 28 States & 8 UTs</span>
-        </div>
-      </div>
-      <div class="bg-slate-900/80 border border-slate-800 hover:border-amber-500/40 rounded-xl p-4 shadow-sm transition">
-        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Active Packages</div>
-        <div class="text-2xl font-black text-white mt-1" id="kpi-projects">265</div>
-        <div class="text-[11px] text-slate-400 mt-1">NHAI, Railways, Ports, Water</div>
-      </div>
-      <div class="bg-slate-900/80 border border-slate-800 hover:border-amber-500/40 rounded-xl p-4 shadow-sm transition">
-        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Avg Physical Progress</div>
-        <div class="text-2xl font-black text-amber-400 mt-1" id="kpi-progress">68.4%</div>
-        <div class="text-[11px] text-slate-400 mt-1">Paid: <span id="kpi-disbursed">₹ 1.12 L Cr</span></div>
-      </div>
-      <div class="bg-slate-900/80 border border-slate-800 hover:border-amber-500/40 rounded-xl p-4 shadow-sm transition">
-        <div class="text-[11px] text-rose-300 uppercase tracking-wider font-semibold">PARIVESH Trapped Capex</div>
-        <div class="text-2xl font-black text-rose-400 mt-1" id="kpi-trapped">₹ 82,904 Cr</div>
-        <div class="text-[11px] text-rose-300/80 mt-1">Forest / Wildlife / Land Gates</div>
-      </div>
-      <div class="bg-slate-900/80 border border-slate-800 hover:border-amber-500/40 rounded-xl p-4 shadow-sm transition">
-        <div class="text-[11px] text-amber-300 uppercase tracking-wider font-semibold">Ghost Progress Alerts</div>
-        <div class="text-2xl font-black text-amber-400 mt-1" id="kpi-disparity">18</div>
-        <div class="text-[11px] text-amber-300/80 mt-1">Disbursement &gt; Physical +15%</div>
-      </div>
-      <div class="bg-slate-900/80 border border-slate-800 hover:border-amber-500/40 rounded-xl p-4 shadow-sm transition">
-        <div class="text-[11px] text-cyan-300 uppercase tracking-wider font-semibold">Monsoon Risk Flagged</div>
-        <div class="text-2xl font-black text-cyan-400 mt-1" id="kpi-monsoon">34</div>
-        <div class="text-[11px] text-cyan-300/80 mt-1">IMD High-Precipitation Zones</div>
-      </div>
-    </div>
-
-    <!-- Filter & Control Deck -->
-    <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow-md flex flex-wrap items-center justify-between gap-4">
-      <div class="flex flex-wrap items-center gap-3">
-        <!-- State Selection Dropdown (Triggers Tourism Spotlight!) -->
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">
-            📍 Select State (Auto-Promotes Tourism)
-          </label>
-          <select id="filter-state" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500 font-medium">
-            <option value="ALL">All India (National Overview)</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Gati Shakti Engine</label>
-          <select id="filter-engine" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500">
-            <option value="ALL">All 7 Engines</option>
-            <option value="Roads">Roads (Bharatmala & Expressways)</option>
-            <option value="Railways">Railways (DFC & Bullet Train)</option>
-            <option value="Mass Transport">Mass Transport (Metro Rail)</option>
-            <option value="Ports">Ports (Sagarmala & Mega Ports)</option>
-            <option value="Waterways">Waterways (Inland Waterways)</option>
-            <option value="Airports">Airports (UDAN Hubs)</option>
-            <option value="Logistics Infrastructure">Logistics (MMLP)</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Novelty & Risk Filters</label>
-          <select id="filter-risk" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500">
-            <option value="ALL">All Tracked Projects</option>
-            <option value="CLEARANCE_BLOCKED">PARIVESH Bottlenecks (Trapped Capex)</option>
-            <option value="HIGH_MONSOON_RISK">IMD High Monsoon Delay Risk</option>
-            <option value="GHOST_PROGRESS">Financial Front-Loading Disparity</option>
-            <option value="ASPIRATIONAL">NITI Aayog Aspirational Districts</option>
-          </select>
-        </div>
+    <!-- ============================================================== -->
+    <!-- SECTION 1: NORWAY-INSPIRED GRAND SCENIC ARCHITECTURE HERO      -->
+    <!-- ============================================================== -->
+    <section class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-800">
+      <!-- High-Resolution Atmospheric Hero Background (Taj / Himalayan / Ocean Bridge blend) -->
+      <div class="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1920&q=80" 
+          alt="Himalayan Engineering Route" 
+          class="w-full h-full object-cover object-center filter brightness-50"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/40 to-transparent"></div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Search Project / Contractor</label>
-          <input type="text" id="search-input" placeholder="e.g. Expressway, L&T, Metro..." class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-100 w-56 focus:outline-none focus:ring-2 focus:ring-amber-500">
-        </div>
-        <div class="pt-4">
-          <button onclick="openLiveFeedDrawer()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold px-3 py-2 rounded-lg text-slate-200 flex items-center gap-1.5 transition">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-beacon"></span>
-            <span>Live Feed Log</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- VIRASAT BHI, VIKAS BHI: STATE TOURISM & ARCHITECTURAL SPOTLIGHT BANNER -->
-    <section id="state-tourism-banner" class="hidden bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-2 border-amber-500/50 rounded-2xl p-6 shadow-2xl relative overflow-hidden transition-all duration-300">
-      <!-- Decorative Indian Mandapa Arch Corner Accents -->
-      <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
-      
-      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-amber-500/30 pb-4 mb-5">
-        <div class="flex items-center space-x-3">
-          <div class="w-12 h-12 rounded-xl bg-amber-600/30 border border-amber-500/50 flex items-center justify-center text-2xl" id="tour-state-icon">
-            🏰
-          </div>
-          <div>
-            <div class="flex items-center space-x-2">
-              <span class="text-xs uppercase font-extrabold tracking-widest text-amber-400" id="tour-state-greeting">KHAMMA GHANI!</span>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">DEKHO APNA DESH</span>
-            </div>
-            <h2 class="text-2xl font-black text-white" id="tour-state-name">Rajasthan</h2>
-            <p class="text-xs text-amber-200/80 italic font-serif" id="tour-state-tagline">The Land of Kings (पधारो म्हारे देश)</p>
-          </div>
+      <!-- Hero Content Overlay -->
+      <div class="relative z-10 px-8 py-14 sm:py-20 max-w-3xl space-y-5">
+        <div class="inline-flex items-center space-x-2 bg-amber-500/20 border border-amber-400/40 text-amber-300 px-3.5 py-1 rounded-full text-xs font-bold tracking-wider uppercase backdrop-blur-md">
+          <span>🇳🇴 Scenic Architecture Magazine Edition</span>
+          <span>•</span>
+          <span>🇮🇳 Dekho Apna Desh</span>
         </div>
 
-        <div class="flex items-center gap-3 text-xs">
-          <div class="bg-slate-900/80 border border-amber-500/30 rounded-xl px-4 py-2">
-            <span class="text-slate-400 block text-[10px]">Best Season to Visit:</span>
-            <strong class="text-amber-300" id="tour-best-season">October to March</strong>
-          </div>
-          <button onclick="dismissTourismBanner()" class="text-slate-400 hover:text-white p-2">✕</button>
-        </div>
-      </div>
+        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+          Where Ancient Stone Genius Meets <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">World-Record Engineering</span>.
+        </h2>
 
-      <!-- Spotlight Cards Grid: Architectural Marvels, Natural Spots, and Modern Infra Link -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <!-- 1. Architectural Marvels -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col">
-          <div class="flex items-center space-x-2 mb-3 text-amber-400">
-            <span class="text-lg">🏛️</span>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-100">Architectural Marvels & Virasat</h3>
-          </div>
-          <div class="space-y-3 flex-1 text-xs" id="tour-arch-list">
-            <!-- Dynamically populated -->
-          </div>
-        </div>
+        <p class="text-sm sm:text-base text-slate-200/90 leading-relaxed font-normal">
+          Inspired by Norway's celebrated <em>Nasjonale turistveger</em>, explore India's breathtaking architectural marvels—from subterranean stepwells and top-down carved cliff temples to soaring 359-meter Himalayan arch bridges and oceanic sea-crossings.
+        </p>
 
-        <!-- 2. Natural Wonders & Eco-Sanctuaries -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col">
-          <div class="flex items-center space-x-2 mb-3 text-emerald-400">
-            <span class="text-lg">🌿</span>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-100">Natural Spots & Wildlife Reserves</h3>
-          </div>
-          <div class="space-y-3 flex-1 text-xs" id="tour-nature-list">
-            <!-- Dynamically populated -->
-          </div>
-        </div>
-
-        <!-- 3. Infrastructure & Modern Connectivity Corridors (Vikas Link) -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col">
-          <div class="flex items-center space-x-2 mb-3 text-indigo-400">
-            <span class="text-lg">🛣️</span>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-100">Modern Connectivity & Expressways</h3>
-          </div>
-          <div class="space-y-2 text-xs flex-1" id="tour-infra-list">
-            <!-- Dynamically populated -->
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-800 text-[11px] text-amber-200/70" id="tour-culture-cuisine">
-            <!-- Culture and Cuisine info -->
-          </div>
+        <!-- Quick Action Buttons -->
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <a href="#scenic-routes-section" class="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-bold text-xs px-5 py-3 rounded-xl shadow-lg shadow-orange-600/30 transition flex items-center gap-2">
+            <span>🗺️ Explore 5 National Scenic Routes</span>
+            <span>↓</span>
+          </a>
+          <a href="#map-section" class="bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-xs px-5 py-3 rounded-xl backdrop-blur-md transition flex items-center gap-2">
+            <span>📍 Interactive Geographic Map</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- Map & GIS Analytics Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      <!-- GIS Map of India -->
-      <div class="lg:col-span-8 bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col">
-        <div class="flex flex-wrap items-center justify-between mb-3 gap-2">
-          <div class="flex items-center space-x-2">
-            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
-              <span>National GIS Infrastructure Map</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">REAL-TIME TELEMETRY</span>
-            </h2>
-            <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded font-mono" id="map-counter">Showing 265 projects</span>
-          </div>
-
-          <!-- Map Layer Switcher: Infra vs Tourism Spotlights -->
-          <div class="flex items-center space-x-2 text-xs">
-            <button id="layer-infra-toggle" onclick="toggleMapLayer('infra')" class="px-2.5 py-1 rounded bg-orange-600 text-white font-semibold">
-              🏗️ Infra Projects
-            </button>
-            <button id="layer-tourism-toggle" onclick="toggleMapLayer('tourism')" class="px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:text-white font-semibold">
-              🕌 Tourism & Heritage
-            </button>
-          </div>
+    <!-- ============================================================== -->
+    <!-- SECTION 2: NORWAY-STYLE 5 NATIONAL SCENIC CORRIDORS           -->
+    <!-- ============================================================== -->
+    <section id="scenic-routes-section" class="space-y-4">
+      <div class="flex flex-wrap items-end justify-between gap-3 border-b border-slate-800 pb-3">
+        <div>
+          <span class="text-[11px] uppercase font-bold tracking-widest text-amber-400">Curated Journeys</span>
+          <h2 class="text-2xl font-black text-white tracking-tight">National Scenic Routes of India</h2>
+          <p class="text-xs text-slate-400">Modeled after Norway's 18 Scenic Routes — combining dramatic nature, historic architecture & modern highway/rail transit</p>
         </div>
-
-        <div id="map"></div>
-
-        <div class="flex flex-wrap items-center justify-between mt-3 text-xs text-slate-400 pt-2 border-t border-slate-800">
-          <div class="flex items-center space-x-3">
-            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-orange-500 inline-block mr-1"></span> Roads</span>
-            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-indigo-500 inline-block mr-1"></span> Railways</span>
-            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block mr-1"></span> Ports/Water</span>
-            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-rose-500 inline-block mr-1"></span> Clearance Blocked</span>
-            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block mr-1"></span> Heritage Site</span>
-          </div>
-          <span class="text-[11px] text-slate-500">Click any marker or state to view project details or Tourism Spotlight</span>
+        <div class="text-xs text-slate-400">
+          Click any route to view stops on map
         </div>
       </div>
 
-      <!-- Side Column: PM Gati Shakti Engines & PARIVESH Clearance Matrix -->
-      <div class="lg:col-span-4 space-y-6">
-        <!-- PM Gati Shakti 7 Engines Capex Chart -->
-        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-sm">
+      <!-- Horizontal Cards Grid (Norway Scenic Routes Style) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" id="scenic-routes-container">
+        <!-- Dynamically injected via JavaScript from SCENIC_CORRIDORS -->
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 3: STATE ARCHITECTURE & TOURISM SPOTLIGHT (MAGAZINE)   -->
+    <!-- ============================================================== -->
+    <section id="state-magazine-section" class="space-y-5">
+      <!-- State Quick Picker Bar with Cultural Badges -->
+      <div class="norway-glass p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">
+            Explore by State / Territory
+          </span>
+          <div class="flex flex-wrap gap-1.5" id="state-pills-bar">
+            <!-- Dynamic State Pills -->
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs">
+          <label class="text-slate-400 text-xs">Filter Category:</label>
+          <select id="tour-category-filter" onchange="filterTourCards()" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500">
+            <option value="ALL">All Wonders (Architecture & Nature)</option>
+            <option value="ARCH">🏛️ Architectural Marvels Only</option>
+            <option value="NATURE">🌿 Natural Sanctuaries Only</option>
+            <option value="UNESCO">🎖️ UNESCO World Heritage Sites</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Main State Feature Magazine Banner -->
+      <div id="state-hero-magazine" class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-800 min-h-[380px] flex flex-col justify-end p-8">
+        <!-- Dynamic State Hero Image -->
+        <img 
+          id="state-mag-hero-img" 
+          src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=80" 
+          alt="State Hero" 
+          class="absolute inset-0 w-full h-full object-cover object-center filter brightness-50 transition-all duration-700"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+
+        <div class="relative z-10 space-y-3 max-w-3xl">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest bg-amber-500 text-slate-950" id="state-mag-greeting">
+              KHAMMA GHANI!
+            </span>
+            <span class="text-xs text-amber-200/90 font-mono" id="state-mag-season">
+              Best Season: October to March
+            </span>
+          </div>
+
+          <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight" id="state-mag-title">
+            Rajasthan
+          </h2>
+
+          <p class="text-sm sm:text-base text-slate-200 font-serif italic" id="state-mag-tagline">
+            "The Land of Kings — Where desert winds echo through invincible hill forts and geometric stepwells."
+          </p>
+
+          <p class="text-xs text-slate-300/80 font-mono" id="state-mag-scenic-route">
+            Scenic Route: The Royal Sandstone & Stepwell Corridor
+          </p>
+        </div>
+      </div>
+
+      <!-- Rich Visual Cards Grid (Norway Style Photo Tiles) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="tour-cards-grid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 4: INTERACTIVE GEOGRAPHIC MAP OF INDIA (DUAL MODE)     -->
+    <!-- ============================================================== -->
+    <section id="map-section" class="norway-glass rounded-2xl p-5 border border-slate-800 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div>
+          <span class="text-[11px] uppercase font-bold tracking-widest text-amber-400">Interactive Spatial GIS</span>
+          <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+            <span>National Infrastructure & Scenic Heritage Map</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">GPS POSITIONED</span>
+          </h2>
+          <p class="text-xs text-slate-400">Click any card above to fly camera to location, or toggle between Infra Projects & Scenic Heritage</p>
+        </div>
+
+        <!-- Layer Toggle Buttons -->
+        <div class="flex items-center space-x-2 text-xs">
+          <button id="layer-tourism-toggle" onclick="toggleMapLayer('tourism')" class="px-3.5 py-1.5 rounded-lg bg-amber-600 text-white font-bold transition flex items-center gap-1.5 shadow-md">
+            <span>🕌 Scenic Heritage & Nature</span>
+          </button>
+          <button id="layer-infra-toggle" onclick="toggleMapLayer('infra')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white font-semibold transition">
+            <span>🏗️ Active Infra Projects</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Leaflet Map Container -->
+      <div id="map"></div>
+
+      <!-- Map Legend -->
+      <div class="flex flex-wrap items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-800/80">
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block mr-1.5 shadow-sm"></span> 🏛️ Ancient/Medieval Architecture</span>
+          <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-indigo-400 inline-block mr-1.5 shadow-sm"></span> 🌉 Modern Mega-Engineering</span>
+          <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-emerald-400 inline-block mr-1.5 shadow-sm"></span> 🌿 Natural Sanctuaries</span>
+          <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-orange-500 inline-block mr-1.5 shadow-sm"></span> 🏗️ Active Highway/Rail Package</span>
+        </div>
+        <span class="text-[11px] text-slate-500">Smooth zoom and camera fly-to enabled</span>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 5: INFRASTRUCTURE LAKEHOUSE & ANALYTICS (TABBED)       -->
+    <!-- ============================================================== -->
+    <section id="infra-lakehouse-section" class="space-y-6">
+      <div class="border-b border-slate-800 pb-3 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <span class="text-[11px] uppercase font-bold tracking-widest text-orange-400">Data Engineering Lakehouse</span>
+          <h2 class="text-2xl font-black text-white tracking-tight">National Infrastructure Performance & Risk</h2>
+          <p class="text-xs text-slate-400">Medallion Architecture 03-Gold layer: Capex tracking, PM Gati Shakti alignment & Disparity analytics</p>
+        </div>
+        <button onclick="exportData()" class="bg-slate-800 hover:bg-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg text-slate-200 transition">
+          Export Filtered JSON
+        </button>
+      </div>
+
+      <!-- Key Performance Metric Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Total Monitored Capex</div>
+          <div class="text-2xl font-black text-white mt-1" id="kpi-capex">₹ 1.84 L Cr</div>
+          <div class="text-[11px] text-emerald-400 mt-1">Across 28 States & 8 UTs</div>
+        </div>
+        <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Active Packages</div>
+          <div class="text-2xl font-black text-white mt-1" id="kpi-projects">265</div>
+          <div class="text-[11px] text-slate-400 mt-1">NHAI, Railways, Ports, Water</div>
+        </div>
+        <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Avg Physical Progress</div>
+          <div class="text-2xl font-black text-amber-400 mt-1" id="kpi-progress">68.4%</div>
+          <div class="text-[11px] text-slate-400 mt-1">Paid: <span id="kpi-disbursed">₹ 1.12 L Cr</span></div>
+        </div>
+        <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <div class="text-[10px] text-rose-300 uppercase tracking-wider font-semibold">PARIVESH Trapped Capex</div>
+          <div class="text-2xl font-black text-rose-400 mt-1" id="kpi-trapped">₹ 82,904 Cr</div>
+          <div class="text-[11px] text-rose-300/80 mt-1">Forest / Wildlife / Land</div>
+        </div>
+        <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <div class="text-[10px] text-amber-300 uppercase tracking-wider font-semibold">Ghost Progress Alerts</div>
+          <div class="text-2xl font-black text-amber-400 mt-1" id="kpi-disparity">18</div>
+          <div class="text-[11px] text-amber-300/80 mt-1">Disbursement &gt; Phys +15%</div>
+        </div>
+        <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <div class="text-[10px] text-cyan-300 uppercase tracking-wider font-semibold">Monsoon Risk Flagged</div>
+          <div class="text-2xl font-black text-cyan-400 mt-1" id="kpi-monsoon">34</div>
+          <div class="text-[11px] text-cyan-300/80 mt-1">IMD High-Hazard Zones</div>
+        </div>
+      </div>
+
+      <!-- Novelty Analytical Charts -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 1. Gati Shakti 7 Engines -->
+        <div class="norway-glass rounded-xl p-4 shadow-sm">
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">PM Gati Shakti 7 Engines Capex (₹ Cr)</h3>
           <div class="h-48 relative">
             <canvas id="engineChart"></canvas>
           </div>
         </div>
 
-        <!-- PARIVESH Regulatory Gates Summary -->
-        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-sm">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">PARIVESH Regulatory Clearance Gates</h3>
-          <div class="space-y-2 text-xs" id="clearance-summary">
-            <!-- Injected via JavaScript -->
+        <!-- 2. State Capex Per Capita -->
+        <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Per-Capita Infrastructure Spend (₹ / Citizen)</h3>
+          <div class="h-48 relative">
+            <canvas id="equityChart"></canvas>
+          </div>
+        </div>
+
+        <!-- 3. Disparity Scatter Chart -->
+        <div class="norway-glass rounded-xl p-4 shadow-sm">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Financial Disbursed vs Physical Progress</h3>
+          <div class="h-48 relative">
+            <canvas id="disparityChart"></canvas>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Novelty Analytical Charts: Per-Capita Equity & Disparity Scatter -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- State Capex Per Capita (₹ / person) -->
-      <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-sm">
+      <!-- Infrastructure Project Table -->
+      <div class="norway-glass rounded-xl p-4 shadow-sm">
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Per-Capita Infrastructure Spend (₹ / Citizen)</h3>
-          <span class="text-[11px] text-amber-400">Equity & Deficit Metric</span>
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider">Project Master Directory</h3>
+          <span class="text-xs text-slate-400" id="table-record-count">265 active projects</span>
         </div>
-        <div class="h-60 relative">
-          <canvas id="equityChart"></canvas>
+        <div class="overflow-x-auto max-h-80">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-950/90 sticky top-0 border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[10px]">
+              <tr>
+                <th class="py-2 px-3">Contract ID</th>
+                <th class="py-2 px-3">Project Title</th>
+                <th class="py-2 px-3">Engine</th>
+                <th class="py-2 px-3">State & District</th>
+                <th class="py-2 px-3 text-right">Budget (₹ Cr)</th>
+                <th class="py-2 px-3 text-center">Progress %</th>
+                <th class="py-2 px-3">Clearance (PARIVESH)</th>
+                <th class="py-2 px-3">Contractor</th>
+              </tr>
+            </thead>
+            <tbody id="projects-table-body" class="divide-y divide-slate-800/80">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
         </div>
-        <p class="text-[11px] text-slate-400 mt-2">Identifies states and districts with high populations but low infrastructure capex.</p>
       </div>
+    </section>
 
-      <!-- Financial Disbursement vs Physical Progress Scatter/Disparity -->
-      <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-sm">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Financial Disbursed vs Physical Progress (Disparity)</h3>
-          <span class="text-[11px] text-rose-400">"Ghost Progress" Detector</span>
-        </div>
-        <div class="h-60 relative">
-          <canvas id="disparityChart"></canvas>
-        </div>
-        <p class="text-[11px] text-slate-400 mt-2">Flags projects where financial release outpaces verified physical construction milestones.</p>
-      </div>
-    </div>
-
-    <!-- Detailed Master Projects Table -->
-    <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 shadow-sm">
-      <div class="flex items-center justify-between mb-4">
-        <div>
-          <h2 class="text-sm font-bold uppercase tracking-wider text-slate-200">National Infrastructure Project Master Directory</h2>
-          <p class="text-xs text-slate-400">Granular contract performance, concession models, and clearance milestones</p>
-        </div>
-        <button onclick="exportData()" class="bg-slate-800 hover:bg-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg text-slate-200 transition">
-          Export Filtered (JSON)
-        </button>
-      </div>
-      <div class="overflow-x-auto max-h-96">
-        <table class="w-full text-left text-xs border-collapse">
-          <thead class="bg-slate-950/90 sticky top-0 border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[10px]">
-            <tr>
-              <th class="py-2.5 px-3">Contract ID</th>
-              <th class="py-2.5 px-3">Project Title</th>
-              <th class="py-2.5 px-3">Engine / Sector</th>
-              <th class="py-2.5 px-3">State & District</th>
-              <th class="py-2.5 px-3 text-right">Budget (₹ Cr)</th>
-              <th class="py-2.5 px-3 text-right">Paid (₹ Cr)</th>
-              <th class="py-2.5 px-3 text-center">Progress %</th>
-              <th class="py-2.5 px-3">Clearance (PARIVESH)</th>
-              <th class="py-2.5 px-3">Contractor / Model</th>
-              <th class="py-2.5 px-3">Risk Flags</th>
-            </tr>
-          </thead>
-          <tbody id="projects-table-body" class="divide-y divide-slate-800/80">
-            <!-- Injected via JavaScript -->
-          </tbody>
-        </table>
-      </div>
-    </div>
   </main>
 
-  <!-- Live Feed Drawer / Modal -->
+  <!-- ============================================================== -->
+  <!-- MODAL: NORWAY-STYLE DESTINATION / ARCHITECTURE STORY POPUP     -->
+  <!-- ============================================================== -->
+  <div id="story-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl space-y-4 my-8">
+      <!-- Modal Photo Banner -->
+      <div class="relative h-64 sm:h-80 w-full overflow-hidden">
+        <img id="modal-img" src="" alt="Landmark" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+        <button onclick="closeStoryModal()" class="absolute top-4 right-4 bg-slate-950/70 hover:bg-slate-950 text-white rounded-full w-9 h-9 flex items-center justify-center border border-white/20 transition">✕</button>
+        <div class="absolute bottom-4 left-6 right-6">
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-slate-950" id="modal-badge">UNESCO</span>
+          <h3 class="text-2xl sm:text-3xl font-black text-white mt-1" id="modal-title">Landmark Name</h3>
+          <p class="text-xs text-amber-200/90 font-serif" id="modal-subtitle">Architectural Style</p>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="px-6 pb-6 space-y-4 text-xs">
+        <div>
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-amber-400 mb-1">Architectural Significance & Engineering Genius</h4>
+          <p class="text-slate-200 text-sm leading-relaxed" id="modal-desc"></p>
+        </div>
+
+        <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-xl space-y-1.5">
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-indigo-400">Modern Infrastructure Link (How to Reach)</h4>
+          <p class="text-slate-300" id="modal-infra"></p>
+        </div>
+
+        <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+          <button onclick="flyToModalLocation()" class="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+            <span>📍 Fly to Location on Map</span>
+          </button>
+          <button onclick="closeStoryModal()" class="text-slate-400 hover:text-white px-3 py-2">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real-Time Activity Log Drawer -->
   <div id="live-feed-drawer" class="fixed inset-y-0 right-0 w-96 bg-slate-950 border-l border-slate-800 shadow-2xl p-4 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
     <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
       <div class="flex items-center space-x-2">
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-beacon"></span>
-        <h3 class="text-sm font-bold text-white uppercase tracking-wider">Live Real-Time Telemetry</h3>
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">Live Telemetry Feed</h3>
       </div>
       <button onclick="closeLiveFeedDrawer()" class="text-slate-400 hover:text-white">✕</button>
     </div>
     <div class="text-[11px] text-slate-400 mb-2">Live stream of drone surveys, milestone certifications, and IMD advisories.</div>
-    <div id="live-feed-list" class="space-y-2.5 overflow-y-auto flex-1 text-xs pr-1">
-      <!-- Live events dynamically inserted -->
-    </div>
+    <div id="live-feed-list" class="space-y-2.5 overflow-y-auto flex-1 text-xs pr-1"></div>
   </div>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-800/80 bg-slate-950/80 py-4 px-6 text-center text-xs text-slate-500">
-    PragatiGati (प्रगति गति) • Built on Databricks Lakehouse & PM Gati Shakti Framework • Celebrating "Vikas Bhi, Virasat Bhi"
+  <footer class="border-t border-slate-800/80 bg-slate-950/80 py-6 px-6 text-center text-xs text-slate-500">
+    <p class="text-slate-400 font-medium">PragatiGati (प्रगति गति) • India National Infrastructure & Scenic Architectural Portal</p>
+    <p class="mt-1 text-[11px] text-slate-600">Celebrating "Vikas Bhi, Virasat Bhi" • Inspired by Visit Norway's National Scenic Routes & Architecture</p>
   </footer>
 
-  <!-- Embedded Golden Datasets (Projects & State Tourism) -->
+  <!-- Embedded Golden Datasets -->
   <script src="data.js"></script>
 
-  <!-- Dashboard JavaScript Engine -->
+  <!-- Main JavaScript Application Logic -->
   <script>
     let map, infraMarkersLayer, tourismMarkersLayer;
     let engineChartInstance, equityChartInstance, disparityChartInstance;
-    let filteredProjects = [];
-    let activeMapLayer = "infra"; // 'infra' or 'tourism'
+    let currentState = "Rajasthan";
+    let activeModalLocation = null;
+    let activeMapLayer = "tourism"; // default to tourism/scenic architecture view
     let socket;
     let audioAlertsEnabled = false;
 
-    // Tourism Landmark Coordinates for Map Visualization
-    const TOURISM_MAP_LANDMARKS = [
-      { name: "Amber Fort & Palace", state: "Rajasthan", lat: 26.9855, lon: 75.8513, type: "Fort Architecture", connect: "Delhi-Mumbai Expressway" },
-      { name: "Mehrangarh Fort", state: "Rajasthan", lat: 26.2978, lon: 73.0185, type: "Citadel Architecture", connect: "Jodhpur Vande Bharat" },
-      { name: "Ranthambore National Park", state: "Rajasthan", lat: 26.0173, lon: 76.5026, type: "Tiger Reserve", connect: "NE-4 Sawai Madhopur Exit" },
-      { name: "Taj Mahal", state: "Uttar Pradesh", lat: 27.1751, lon: 78.0421, type: "Mughal Marble Wonder", connect: "Yamuna & Agra-Lucknow Expressways" },
-      { name: "Kashi Vishwanath & Ganga Ghats", state: "Uttar Pradesh", lat: 25.3109, lon: 83.0107, type: "Ancient Riverfront Dham", connect: "Vande Bharat / Purvanchal Exp" },
-      { name: "Ajanta & Ellora Caves", state: "Maharashtra", lat: 20.0268, lon: 75.1792, type: "Rock-Cut Monolithic Caves", connect: "Samruddhi Mahamarg" },
-      { name: "Atal Setu (MTHL)", state: "Maharashtra", lat: 18.9950, lon: 72.9500, type: "Modern Engineering Sea Bridge", connect: "Mumbai-Pune Expressway" },
-      { name: "Brihadisvara Temple", state: "Tamil Nadu", lat: 10.7828, lon: 79.1318, type: "Living Chola Temple", connect: "NH-83 Corridor" },
-      { name: "Padmanabhaswamy Temple", state: "Kerala", lat: 8.4831, lon: 76.9436, type: "Chera & Dravidian Temple", connect: "Kochi-Trivandrum Vande Bharat" },
-      { name: "Munnar Tea Valleys", state: "Kerala", lat: 10.0889, lon: 77.0595, type: "Western Ghats Eco-Sanctuary", connect: "Kochi Kochi Metro & Water Metro" },
-      { name: "Valley of Flowers & Kedarnath", state: "Uttarakhand", lat: 30.7280, lon: 79.6053, type: "Alpine Meadow & Ancient Temple", connect: "Char Dham All-Weather Road" },
-      { name: "Kaziranga National Park", state: "Assam", lat: 26.5775, lon: 93.1711, type: "One-Horned Rhino Sanctuary", connect: "Bogibeel Rail-Road Bridge" },
-      { name: "Statue of Unity", state: "Gujarat", lat: 21.8380, lon: 73.7191, type: "World's Tallest Monument", connect: "Vadodara-Kim Expressway" },
-      { name: "Rani ki Vav Stepwell", state: "Gujarat", lat: 23.8589, lon: 72.1017, type: "Subterranean Inverted Temple", connect: "Ahmedabad Highway Corridor" },
-      { name: "Sun Temple Konark", state: "Odisha", lat: 19.8876, lon: 86.0945, type: "Kalinga Astronomical Chariot", connect: "NH-316 Puri-Bhubaneswar Exp" },
-      { name: "Khajuraho Temples", state: "Madhya Pradesh", lat: 24.8318, lon: 79.9199, type: "Nagara Sculptural Wonder", connect: "Bundelkhand Expressway Link" },
-    ];
-
     document.addEventListener("DOMContentLoaded", () => {
       initMap();
-      populateStateFilter();
-      bindEvents();
-      applyFilters();
+      renderScenicCorridors();
+      renderStatePills();
+      loadStateMagazine("Rajasthan");
+      renderCharts();
+      renderTable();
+      renderKPIs();
       initRealtimeStreaming();
-      
-      // Auto-update live time display
+
+      // Clock
       setInterval(() => {
         const d = new Date();
         document.getElementById("live-time").textContent = d.toLocaleTimeString('en-IN') + " IST";
       }, 1000);
     });
 
+    // 1. Leaflet GIS Map Initialization
     function initMap() {
-      // Centered on India
-      map = L.map('map').setView([22.5, 79.5], 5);
+      map = L.map('map', { scrollWheelZoom: false }).setView([22.5, 79.5], 5);
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; OpenStreetMap, CartoDB',
         maxZoom: 18,
@@ -466,122 +502,211 @@
 
       infraMarkersLayer = L.layerGroup().addTo(map);
       tourismMarkersLayer = L.layerGroup().addTo(map);
+
+      renderTourismPins();
     }
 
-    function populateStateFilter() {
-      const select = document.getElementById("filter-state");
-      const states = Array.from(new Set(RAW_PROJECTS.map(p => p.state))).sort();
+    // 2. Norway-Style 5 National Scenic Corridors
+    function renderScenicCorridors() {
+      const container = document.getElementById("scenic-routes-container");
+      container.innerHTML = "";
+
+      if (typeof SCENIC_CORRIDORS === 'undefined') return;
+
+      SCENIC_CORRIDORS.forEach(route => {
+        const card = document.createElement("div");
+        card.className = "group relative rounded-2xl overflow-hidden shadow-lg border border-slate-800 bg-slate-900 cursor-pointer flex flex-col h-80 transition-all duration-300 hover:border-amber-500/60 hover:-translate-y-1";
+        card.onclick = () => highlightScenicRoute(route);
+
+        card.innerHTML = `
+          <div class="relative h-44 w-full overflow-hidden">
+            <img src="${route.image_url}" alt="${route.title}" class="w-full h-full object-cover card-zoom-img" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+            <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-amber-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-amber-400/30">
+              ${route.distance} • ${route.duration}
+            </span>
+          </div>
+          <div class="p-3.5 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="text-xs font-bold text-white group-hover:text-amber-400 transition line-clamp-1">${route.title}</h4>
+              <p class="text-[10px] text-slate-400 line-clamp-2 mt-1">${route.tagline}</p>
+            </div>
+            <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-amber-300/80 font-bold">
+              <span>View Route & Stops</span>
+              <span>➔</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function highlightScenicRoute(route) {
+      // Switch to tourism map layer & scroll to map
+      toggleMapLayer('tourism');
+      const mapEl = document.getElementById("map-section");
+      mapEl.scrollIntoView({ behavior: 'smooth' });
+
+      // Fly camera to the route's region
+      if (route.id === "himalayan-skyway") map.flyTo([33.5, 75.5], 7);
+      else if (route.id === "konkan-skyrail") map.flyTo([18.5, 73.5], 7);
+      else if (route.id === "rajasthan-desert") map.flyTo([26.8, 74.5], 7);
+      else if (route.id === "chola-coastal") map.flyTo([10.5, 78.5], 7);
+      else if (route.id === "brahmaputra-living-bridges") map.flyTo([26.0, 92.5], 7);
+    }
+
+    // 3. State Quick Picker Pills
+    function renderStatePills() {
+      const bar = document.getElementById("state-pills-bar");
+      bar.innerHTML = "";
+      const states = Object.keys(STATE_TOURISM);
+
       states.forEach(s => {
-        const opt = document.createElement("option");
-        opt.value = s;
-        opt.textContent = s;
-        select.appendChild(opt);
+        const btn = document.createElement("button");
+        const isActive = s === currentState;
+        btn.className = `px-3 py-1 rounded-xl text-xs font-bold transition ${
+          isActive 
+            ? "bg-amber-500 text-slate-950 shadow-md" 
+            : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
+        }`;
+        btn.textContent = s;
+        btn.onclick = () => {
+          currentState = s;
+          renderStatePills();
+          loadStateMagazine(s);
+        };
+        bar.appendChild(btn);
       });
     }
 
-    function bindEvents() {
-      document.getElementById("filter-state").addEventListener("change", (e) => {
-        applyFilters();
-        if (e.target.value !== "ALL") {
-          showTourismSpotlight(e.target.value);
-        } else {
-          dismissTourismBanner();
+    // 4. Load State Magazine Visuals
+    function loadStateMagazine(stateName) {
+      const data = STATE_TOURISM[stateName] || STATE_TOURISM["Rajasthan"];
+      document.getElementById("state-mag-hero-img").src = data.hero_image;
+      document.getElementById("state-mag-title").textContent = stateName;
+      document.getElementById("state-mag-greeting").textContent = data.greeting;
+      document.getElementById("state-mag-tagline").textContent = `"${data.tagline}"`;
+      document.getElementById("state-mag-season").textContent = `Best Season: ${data.best_time_to_visit}`;
+      document.getElementById("state-mag-scenic-route").textContent = `Scenic Route: ${data.scenic_route_name || 'The Great Heritage Corridor'}`;
+
+      filterTourCards();
+
+      // Pan map to state landmarks
+      if (data.architectural_marvels && data.architectural_marvels.length > 0) {
+        const first = data.architectural_marvels[0];
+        if (first.latitude && first.longitude) {
+          map.flyTo([first.latitude, first.longitude], 7);
         }
-      });
-      document.getElementById("filter-engine").addEventListener("change", applyFilters);
-      document.getElementById("filter-risk").addEventListener("change", applyFilters);
-      document.getElementById("search-input").addEventListener("input", applyFilters);
-    }
-
-    function setDashboardView(mode) {
-      if (mode === "tourism") {
-        document.getElementById("btn-mode-tourism").className = "px-3.5 py-1.5 rounded-lg font-bold bg-amber-600 text-white shadow-sm transition";
-        document.getElementById("btn-mode-infra").className = "px-3.5 py-1.5 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition";
-        toggleMapLayer("tourism");
-        // Default to Rajasthan or selected state
-        const stateVal = document.getElementById("filter-state").value;
-        showTourismSpotlight(stateVal !== "ALL" ? stateVal : "Rajasthan");
-      } else {
-        document.getElementById("btn-mode-infra").className = "px-3.5 py-1.5 rounded-lg font-bold bg-orange-600 text-white shadow-sm transition";
-        document.getElementById("btn-mode-tourism").className = "px-3.5 py-1.5 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition";
-        toggleMapLayer("infra");
       }
     }
 
-    function toggleMapLayer(layer) {
-      activeMapLayer = layer;
-      if (layer === "infra") {
-        document.getElementById("layer-infra-toggle").className = "px-2.5 py-1 rounded bg-orange-600 text-white font-semibold";
-        document.getElementById("layer-tourism-toggle").className = "px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:text-white font-semibold";
-        renderMap();
-      } else {
-        document.getElementById("layer-tourism-toggle").className = "px-2.5 py-1 rounded bg-amber-600 text-white font-semibold";
-        document.getElementById("layer-infra-toggle").className = "px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:text-white font-semibold";
-        renderTourismMap();
+    // 5. Render Photo Cards for State Wonders
+    function filterTourCards() {
+      const filter = document.getElementById("tour-category-filter").value;
+      const data = STATE_TOURISM[currentState] || STATE_TOURISM["Rajasthan"];
+      const grid = document.getElementById("tour-cards-grid");
+      grid.innerHTML = "";
+
+      let items = [];
+      if (filter === "ALL" || filter === "ARCH" || filter === "UNESCO") {
+        data.architectural_marvels.forEach(m => items.push({ ...m, item_kind: "ARCH" }));
       }
-    }
+      if (filter === "ALL" || filter === "NATURE" || filter === "UNESCO") {
+        data.natural_spots.forEach(n => items.push({ ...n, item_kind: "NATURE" }));
+      }
 
-    function applyFilters() {
-      const stateVal = document.getElementById("filter-state").value;
-      const engineVal = document.getElementById("filter-engine").value;
-      const riskVal = document.getElementById("filter-risk").value;
-      const searchVal = document.getElementById("search-input").value.toLowerCase().trim();
+      if (filter === "UNESCO") {
+        items = items.filter(it => (it.badge || "").includes("UNESCO"));
+      }
 
-      filteredProjects = RAW_PROJECTS.filter(p => {
-        if (stateVal !== "ALL" && p.state !== stateVal) return false;
-        if (engineVal !== "ALL" && p.gatishaktiEngine !== engineVal) return false;
-        if (riskVal === "CLEARANCE_BLOCKED" && !p.is_clearance_blocked) return false;
-        if (riskVal === "HIGH_MONSOON_RISK" && p.monsoon_risk_category !== "CRITICAL") return false;
-        if (riskVal === "GHOST_PROGRESS" && p.progress_disparity_pct <= 15) return false;
-        if (riskVal === "ASPIRATIONAL" && !p.is_aspirational) return false;
-        if (searchVal) {
-          const matchTitle = p.projectName.toLowerCase().includes(searchVal);
-          const matchContractor = p.contractorName.toLowerCase().includes(searchVal);
-          const matchDistrict = p.district.toLowerCase().includes(searchVal);
-          if (!matchTitle && !matchContractor && !matchDistrict) return false;
-        }
-        return true;
+      items.forEach(it => {
+        const card = document.createElement("div");
+        card.className = "group relative rounded-3xl overflow-hidden shadow-xl border border-slate-800/80 bg-slate-900/90 flex flex-col transition-all duration-300 hover:border-amber-500/70 hover:shadow-2xl hover:shadow-amber-500/10";
+
+        const badgeColor = it.item_kind === "ARCH" ? "bg-amber-500 text-slate-950" : "bg-emerald-500 text-slate-950";
+        const icon = it.item_kind === "ARCH" ? "🏛️" : "🌿";
+
+        card.innerHTML = `
+          <div class="relative h-56 w-full overflow-hidden">
+            <img src="${it.image_url}" alt="${it.name}" class="w-full h-full object-cover card-zoom-img" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+            <span class="absolute top-3.5 left-3.5 ${badgeColor} text-[10px] font-extrabold px-3 py-1 rounded-full shadow-md">
+              ${it.badge || (it.item_kind === 'ARCH' ? 'Architectural Landmark' : 'Natural Sanctuary')}
+            </span>
+            ${it.built_century ? `<span class="absolute top-3.5 right-3.5 bg-slate-950/80 backdrop-blur-md text-amber-300 text-[10px] font-mono px-2.5 py-0.5 rounded-full border border-amber-400/20">${it.built_century}</span>` : ''}
+          </div>
+
+          <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-amber-400/90 flex items-center gap-1.5">
+                <span>${icon}</span>
+                <span>${it.type || it.category}</span>
+              </div>
+              <h3 class="text-base font-bold text-white group-hover:text-amber-300 transition mt-1">${it.name}</h3>
+              <p class="text-xs text-slate-300/90 line-clamp-2 mt-1.5 italic font-serif">"${it.highlight}"</p>
+            </div>
+
+            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
+              <button onclick="flyToLocation(${it.latitude}, ${it.longitude}, '${it.name.replace(/'/g, "\\'")}')" class="text-xs font-semibold text-amber-400 hover:text-amber-300 flex items-center gap-1">
+                <span>📍 Fly on Map</span>
+              </button>
+              <button onclick="openStoryModal('${it.name.replace(/'/g, "\\'")}', '${it.image_url}', '${it.badge || ''}', '${(it.highlight || '').replace(/'/g, "\\'")}', '${it.type || it.category}', '${(it.infra_link || '').replace(/'/g, "\\'")}', ${it.latitude}, ${it.longitude})" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white transition">
+                Read Story ➔
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
       });
-
-      renderKPIs();
-      if (activeMapLayer === "infra") renderMap();
-      else renderTourismMap();
-      renderCharts();
-      renderClearanceSummary();
-      renderTable();
     }
 
-    function renderKPIs() {
-      const totalBudget = filteredProjects.reduce((acc, p) => acc + p.budgetInCrores, 0);
-      const totalDisbursed = filteredProjects.reduce((acc, p) => acc + p.amountPaidInCrores, 0);
-      const avgProgress = filteredProjects.length > 0 
-        ? (filteredProjects.reduce((acc, p) => acc + p.physicalProgressPct, 0) / filteredProjects.length).toFixed(1)
-        : 0;
-      const trappedCapex = filteredProjects
-        .filter(p => p.is_clearance_blocked)
-        .reduce((acc, p) => acc + p.budgetInCrores, 0);
-      const ghostCount = filteredProjects.filter(p => p.progress_disparity_pct > 15).length;
-      const monsoonCount = filteredProjects.filter(p => p.monsoon_risk_category === "CRITICAL").length;
-
-      document.getElementById("kpi-capex").textContent = totalBudget > 100000 
-        ? `₹ ${(totalBudget / 100000).toFixed(2)} L Cr` 
-        : `₹ ${Math.round(totalBudget).toLocaleString()} Cr`;
-      document.getElementById("kpi-projects").textContent = filteredProjects.length;
-      document.getElementById("kpi-progress").textContent = `${avgProgress}%`;
-      document.getElementById("kpi-disbursed").textContent = totalDisbursed > 100000 
-        ? `₹ ${(totalDisbursed / 100000).toFixed(2)} L Cr` 
-        : `₹ ${Math.round(totalDisbursed).toLocaleString()} Cr`;
-      document.getElementById("kpi-trapped").textContent = `₹ ${Math.round(trappedCapex).toLocaleString()} Cr`;
-      document.getElementById("kpi-disparity").textContent = ghostCount;
-      document.getElementById("kpi-monsoon").textContent = monsoonCount;
-      document.getElementById("map-counter").textContent = `Showing ${filteredProjects.length} packages`;
-    }
-
-    function renderMap() {
-      infraMarkersLayer.clearLayers();
+    // 6. Map Pins & Synchronization
+    function renderTourismPins() {
       tourismMarkersLayer.clearLayers();
+      infraMarkersLayer.clearLayers();
 
-      filteredProjects.forEach(p => {
+      Object.keys(STATE_TOURISM).forEach(st => {
+        const data = STATE_TOURISM[st];
+        const allWonders = [...data.architectural_marvels, ...data.natural_spots];
+
+        allWonders.forEach(w => {
+          if (!w.latitude || !w.longitude) return;
+
+          const isArch = w.type !== undefined;
+          const color = isArch ? "#f59e0b" : "#10b981";
+
+          const marker = L.circleMarker([w.latitude, w.longitude], {
+            radius: 8,
+            fillColor: color,
+            color: "#ffffff",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.9,
+          });
+
+          const popupContent = `
+            <div class="text-slate-950 p-1 max-w-xs font-sans text-xs">
+              <img src="${w.image_url}" class="w-full h-28 object-cover rounded-lg mb-2" />
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700">${w.badge || (isArch ? 'Architecture' : 'Nature')}</span>
+              <h4 class="text-sm font-bold text-slate-900 leading-tight">${w.name}</h4>
+              <p class="text-slate-600 mt-1 italic text-[11px]">"${w.highlight}"</p>
+              ${w.infra_link ? `<div class="mt-2 bg-indigo-50 border border-indigo-200 text-indigo-900 p-1.5 rounded text-[11px]"><strong>Infra Link:</strong> ${w.infra_link}</div>` : ''}
+              <button onclick="loadStateMagazine('${st}')" class="mt-2 w-full bg-amber-600 text-white py-1 rounded-lg font-bold text-[11px] hover:bg-amber-700">
+                Explore ${st} Magazine
+              </button>
+            </div>
+          `;
+          marker.bindPopup(popupContent);
+          tourismMarkersLayer.addLayer(marker);
+        });
+      });
+    }
+
+    function renderInfraPins() {
+      tourismMarkersLayer.clearLayers();
+      infraMarkersLayer.clearLayers();
+
+      RAW_PROJECTS.forEach(p => {
         let color = "#f97316";
         if (p.is_clearance_blocked) color = "#f43f5e";
         else if (p.gatishaktiEngine === "Railways") color = "#6366f1";
@@ -589,12 +714,12 @@
         else if (p.gatishaktiEngine === "Mass Transport") color = "#a855f7";
 
         const marker = L.circleMarker([p.latitude, p.longitude], {
-          radius: Math.min(12, Math.max(5, Math.log10(p.budgetInCrores || 100) * 3)),
+          radius: Math.min(11, Math.max(5, Math.log10(p.budgetInCrores || 100) * 3)),
           fillColor: color,
           color: "#ffffff",
           weight: 1,
           opacity: 0.9,
-          fillOpacity: 0.75,
+          fillOpacity: 0.8,
         });
 
         const popup = `
@@ -602,15 +727,9 @@
             <strong class="text-sm text-slate-950 font-bold">${p.projectName}</strong>
             <div class="text-slate-600 mt-1"><strong>Agency:</strong> ${p.executingAgency} | <strong>Engine:</strong> ${p.gatishaktiEngine}</div>
             <div><strong>Location:</strong> ${p.district}, ${p.state}</div>
-            <div class="mt-1"><strong>Budget:</strong> ₹ ${p.budgetInCrores.toLocaleString()} Cr | <strong>Disbursed:</strong> ₹ ${p.amountPaidInCrores.toLocaleString()} Cr</div>
+            <div class="mt-1"><strong>Budget:</strong> ₹ ${p.budgetInCrores.toLocaleString()} Cr | <strong>Paid:</strong> ₹ ${p.amountPaidInCrores.toLocaleString()} Cr</div>
             <div><strong>Physical Progress:</strong> ${p.physicalProgressPct}% | <strong>Status:</strong> ${p.status}</div>
             <div><strong>Clearance:</strong> <span class="${p.is_clearance_blocked ? 'text-red-600 font-semibold' : 'text-green-600'}">${p.pariveshClearanceStatus}</span></div>
-            <div><strong>Contractor:</strong> ${p.contractorName} (${p.concessionModel})</div>
-            <div class="mt-2 pt-2 border-t border-slate-200">
-              <button onclick="showTourismSpotlight('${p.state}')" class="text-xs bg-amber-600 text-white px-2 py-1 rounded hover:bg-amber-700 w-full font-bold">
-                🕌 Explore ${p.state} Tourism & Heritage
-              </button>
-            </div>
           </div>
         `;
         marker.bindPopup(popup);
@@ -618,117 +737,67 @@
       });
     }
 
-    function renderTourismMap() {
-      infraMarkersLayer.clearLayers();
-      tourismMarkersLayer.clearLayers();
-
-      TOURISM_MAP_LANDMARKS.forEach(t => {
-        const marker = L.circleMarker([t.lat, t.lon], {
-          radius: 9,
-          fillColor: "#f59e0b",
-          color: "#ffffff",
-          weight: 2,
-          opacity: 1,
-          fillOpacity: 0.85,
-        });
-
-        const popup = `
-          <div class="text-slate-900 text-xs p-1 max-w-xs">
-            <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">${t.type}</span>
-            <h4 class="text-sm font-black text-slate-950">${t.name}</h4>
-            <p class="text-slate-600">${t.state}</p>
-            <div class="mt-2 bg-indigo-50 text-indigo-900 p-1.5 rounded border border-indigo-200">
-              <strong>Infra Link:</strong> ${t.connect}
-            </div>
-            <button onclick="showTourismSpotlight('${t.state}')" class="mt-2 w-full bg-amber-600 hover:bg-amber-700 text-white py-1 rounded font-bold text-xs">
-              View Complete ${t.state} Virasat Spotlight
-            </button>
-          </div>
-        `;
-        marker.bindPopup(popup);
-        tourismMarkersLayer.addLayer(marker);
-      });
-      document.getElementById("map-counter").textContent = `Showing ${TOURISM_MAP_LANDMARKS.length} Tourism Landmarks`;
+    function toggleMapLayer(layer) {
+      activeMapLayer = layer;
+      if (layer === "tourism") {
+        document.getElementById("layer-tourism-toggle").className = "px-3.5 py-1.5 rounded-lg bg-amber-600 text-white font-bold transition flex items-center gap-1.5 shadow-md";
+        document.getElementById("layer-infra-toggle").className = "px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white font-semibold transition";
+        renderTourismPins();
+      } else {
+        document.getElementById("layer-infra-toggle").className = "px-3.5 py-1.5 rounded-lg bg-orange-600 text-white font-bold transition flex items-center gap-1.5 shadow-md";
+        document.getElementById("layer-tourism-toggle").className = "px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white font-semibold transition";
+        renderInfraPins();
+      }
     }
 
-    function showTourismSpotlight(stateName) {
-      const data = STATE_TOURISM[stateName] || {
-        tagline: `Explore ${stateName} - Incredible India`,
-        greeting: "Namaste! (नमस्ते)",
-        architectural_marvels: [{ name: `Heritage of ${stateName}`, type: "Architectural Landmark", highlight: `Rich monuments and historic sites of ${stateName}.` }],
-        natural_spots: [{ name: `Natural Sanctuaries of ${stateName}`, category: "Eco-Tourism", highlight: `Pristine rivers, forests, and biodiversity of ${stateName}.` }],
-        infra_connectivity: [`National Highways & Vande Bharat links to ${stateName}.`],
-        culture_and_cuisine: `Rich folk heritage, arts, and regional gastronomy.`,
-        best_time_to_visit: "October to March"
-      };
-
-      const banner = document.getElementById("state-tourism-banner");
-      banner.classList.remove("hidden");
-
-      document.getElementById("tour-state-name").textContent = stateName;
-      document.getElementById("tour-state-greeting").textContent = data.greeting;
-      document.getElementById("tour-state-tagline").textContent = data.tagline;
-      document.getElementById("tour-best-season").textContent = data.best_time_to_visit;
-
-      // Populate Architecture List
-      const archContainer = document.getElementById("tour-arch-list");
-      archContainer.innerHTML = "";
-      data.architectural_marvels.forEach(m => {
-        const item = document.createElement("div");
-        item.className = "bg-slate-950/70 p-2.5 rounded-lg border border-slate-800";
-        item.innerHTML = `
-          <div class="flex items-center justify-between">
-            <strong class="text-amber-300 font-bold">${m.name}</strong>
-            <span class="text-[10px] bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded">${m.built_century || 'Historic'}</span>
-          </div>
-          <p class="text-[11px] text-slate-400 mt-1">${m.type}</p>
-          <p class="text-[11px] text-slate-300 mt-0.5 italic">"${m.highlight}"</p>
-        `;
-        archContainer.appendChild(item);
-      });
-
-      // Populate Nature List
-      const natureContainer = document.getElementById("tour-nature-list");
-      natureContainer.innerHTML = "";
-      data.natural_spots.forEach(n => {
-        const item = document.createElement("div");
-        item.className = "bg-slate-950/70 p-2.5 rounded-lg border border-slate-800";
-        item.innerHTML = `
-          <strong class="text-emerald-300 font-bold block">${n.name}</strong>
-          <span class="text-[10px] text-emerald-400/80 block">${n.category}</span>
-          <p class="text-[11px] text-slate-300 mt-1 italic">"${n.highlight}"</p>
-        `;
-        natureContainer.appendChild(item);
-      });
-
-      // Populate Infra Connectivity
-      const infraContainer = document.getElementById("tour-infra-list");
-      infraContainer.innerHTML = "";
-      data.infra_connectivity.forEach(c => {
-        const item = document.createElement("div");
-        item.className = "flex items-start space-x-2";
-        item.innerHTML = `
-          <span class="text-indigo-400 font-bold mt-0.5">➔</span>
-          <span class="text-slate-200">${c}</span>
-        `;
-        infraContainer.appendChild(item);
-      });
-
-      document.getElementById("tour-culture-cuisine").innerHTML = `
-        <strong>Culture & Cuisine:</strong> ${data.culture_and_cuisine}
-      `;
-
-      banner.scrollIntoView({ behavior: 'smooth' });
+    function flyToLocation(lat, lon, name) {
+      toggleMapLayer('tourism');
+      const mapEl = document.getElementById("map-section");
+      mapEl.scrollIntoView({ behavior: 'smooth' });
+      map.flyTo([lat, lon], 10, { duration: 1.5 });
     }
 
-    function dismissTourismBanner() {
-      document.getElementById("state-tourism-banner").classList.add("hidden");
+    // 7. Destination Story Modal
+    function openStoryModal(title, imgUrl, badge, desc, style, infra, lat, lon) {
+      document.getElementById("modal-title").textContent = title;
+      document.getElementById("modal-img").src = imgUrl;
+      document.getElementById("modal-badge").textContent = badge || "Architectural Wonder";
+      document.getElementById("modal-subtitle").textContent = style;
+      document.getElementById("modal-desc").textContent = desc;
+      document.getElementById("modal-infra").textContent = infra || "Direct access via Bharatmala Expressway and Vande Bharat semi-high speed rail.";
+      activeModalLocation = { lat, lon, title };
+
+      document.getElementById("story-modal").classList.remove("hidden");
     }
 
+    function closeStoryModal() {
+      document.getElementById("story-modal").classList.add("hidden");
+    }
+
+    function flyToModalLocation() {
+      if (activeModalLocation && activeModalLocation.lat) {
+        closeStoryModal();
+        flyToLocation(activeModalLocation.lat, activeModalLocation.lon, activeModalLocation.title);
+      }
+    }
+
+    function setDashboardView(mode) {
+      if (mode === "tourism") {
+        document.getElementById("btn-mode-tourism").className = "px-4 py-2 rounded-lg font-bold bg-amber-600 text-white shadow-sm transition flex items-center gap-2";
+        document.getElementById("btn-mode-infra").className = "px-4 py-2 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition";
+        document.getElementById("state-magazine-section").scrollIntoView({ behavior: 'smooth' });
+      } else {
+        document.getElementById("btn-mode-infra").className = "px-4 py-2 rounded-lg font-bold bg-orange-600 text-white shadow-sm transition";
+        document.getElementById("btn-mode-tourism").className = "px-4 py-2 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2";
+        document.getElementById("infra-lakehouse-section").scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // 8. Lakehouse Analytics & Charts
     function renderCharts() {
       // 1. Gati Shakti Engines
       const engines = {};
-      filteredProjects.forEach(p => {
+      RAW_PROJECTS.forEach(p => {
         engines[p.gatishaktiEngine] = (engines[p.gatishaktiEngine] || 0) + p.budgetInCrores;
       });
 
@@ -747,16 +816,14 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: { position: "right", labels: { color: "#cbd5e1", font: { size: 10 } } }
-          }
+          plugins: { legend: { position: "right", labels: { color: "#cbd5e1", font: { size: 9 } } } }
         }
       });
 
       // 2. State Capex Per Capita
       const stateSpend = {};
       const statePop = {};
-      filteredProjects.forEach(p => {
+      RAW_PROJECTS.forEach(p => {
         stateSpend[p.state] = (stateSpend[p.state] || 0) + p.budgetInCrores;
         statePop[p.state] = p.state_population || 35000000;
       });
@@ -767,7 +834,7 @@
           perCapita: Math.round((stateSpend[st] * 10000000) / (statePop[st] || 35000000)),
         }))
         .sort((a, b) => b.perCapita - a.perCapita)
-        .slice(0, 8);
+        .slice(0, 6);
 
       const equityCtx = document.getElementById("equityChart").getContext("2d");
       if (equityChartInstance) equityChartInstance.destroy();
@@ -776,7 +843,7 @@
         data: {
           labels: sortedStates.map(s => s.state),
           datasets: [{
-            label: "Capex Per Capita (₹/person)",
+            label: "Capex (₹/person)",
             data: sortedStates.map(s => s.perCapita),
             backgroundColor: "#38bdf8",
             borderRadius: 4,
@@ -786,15 +853,15 @@
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            y: { ticks: { color: "#94a3b8" }, grid: { color: "#334155" } },
+            y: { ticks: { color: "#94a3b8" }, grid: { color: "#1e293b" } },
             x: { ticks: { color: "#94a3b8", font: { size: 9 } }, grid: { display: false } }
           },
           plugins: { legend: { display: false } }
         }
       });
 
-      // 3. Disparity Scatter Chart
-      const disparityData = filteredProjects.map(p => ({
+      // 3. Disparity Scatter
+      const disparityData = RAW_PROJECTS.slice(0, 100).map(p => ({
         x: p.physicalProgressPct,
         y: Math.min(100, Math.round((p.amountPaidInCrores / (p.budgetInCrores || 1)) * 100)),
         title: p.projectName,
@@ -806,105 +873,68 @@
         type: "scatter",
         data: {
           datasets: [{
-            label: "Packages (% Physical vs % Paid)",
             data: disparityData,
             backgroundColor: disparityData.map(d => (d.y - d.x > 15 ? "#fb7185" : "#34d399")),
-            pointRadius: 4,
+            pointRadius: 3,
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            x: { title: { display: true, text: "Physical Progress %", color: "#94a3b8" }, ticks: { color: "#94a3b8" }, min: 0, max: 100, grid: { color: "#334155" } },
-            y: { title: { display: true, text: "Financial Disbursed %", color: "#94a3b8" }, ticks: { color: "#94a3b8" }, min: 0, max: 100, grid: { color: "#334155" } }
+            x: { title: { display: true, text: "Physical %", color: "#94a3b8" }, ticks: { color: "#94a3b8" }, min: 0, max: 100, grid: { color: "#1e293b" } },
+            y: { title: { display: true, text: "Paid %", color: "#94a3b8" }, ticks: { color: "#94a3b8" }, min: 0, max: 100, grid: { color: "#1e293b" } }
           },
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: (ctx) => `${ctx.raw.title}: Phys ${ctx.raw.x}%, Paid ${ctx.raw.y}%`
-              }
-            }
-          }
+          plugins: { legend: { display: false } }
         }
       });
     }
 
-    function renderClearanceSummary() {
-      const container = document.getElementById("clearance-summary");
-      container.innerHTML = "";
-      const gates = {};
-      filteredProjects.forEach(p => {
-        gates[p.pariveshClearanceStatus] = (gates[p.pariveshClearanceStatus] || 0) + 1;
-      });
+    function renderKPIs() {
+      const totalBudget = RAW_PROJECTS.reduce((acc, p) => acc + p.budgetInCrores, 0);
+      const totalDisbursed = RAW_PROJECTS.reduce((acc, p) => acc + p.amountPaidInCrores, 0);
+      const avgProgress = (RAW_PROJECTS.reduce((acc, p) => acc + p.physicalProgressPct, 0) / RAW_PROJECTS.length).toFixed(1);
+      const trappedCapex = RAW_PROJECTS.filter(p => p.is_clearance_blocked).reduce((acc, p) => acc + p.budgetInCrores, 0);
+      const ghostCount = RAW_PROJECTS.filter(p => p.progress_disparity_pct > 15).length;
+      const monsoonCount = RAW_PROJECTS.filter(p => p.monsoon_risk_category === "CRITICAL").length;
 
-      for (const [gate, count] of Object.entries(gates)) {
-        const isBlocked = ["Stage_I_Pending", "Stage_II_Pending", "Wildlife_Sanction_Pending", "Land_Acquisition_Dispute", "CRZ_Review"].includes(gate);
-        const row = document.createElement("div");
-        row.className = "flex items-center justify-between py-1 border-b border-slate-800/80";
-        row.innerHTML = `
-          <span class="${isBlocked ? 'text-rose-400 font-medium' : 'text-slate-300'}">${gate.replace(/_/g, ' ')}</span>
-          <span class="px-2 py-0.5 rounded ${isBlocked ? 'bg-rose-500/20 text-rose-300 font-bold' : 'bg-slate-800 text-slate-300'}">${count}</span>
-        `;
-        container.appendChild(row);
-      }
+      document.getElementById("kpi-capex").textContent = `₹ ${(totalBudget / 100000).toFixed(2)} L Cr`;
+      document.getElementById("kpi-projects").textContent = RAW_PROJECTS.length;
+      document.getElementById("kpi-progress").textContent = `${avgProgress}%`;
+      document.getElementById("kpi-disbursed").textContent = `₹ ${(totalDisbursed / 100000).toFixed(2)} L Cr`;
+      document.getElementById("kpi-trapped").textContent = `₹ ${Math.round(trappedCapex).toLocaleString()} Cr`;
+      document.getElementById("kpi-disparity").textContent = ghostCount;
+      document.getElementById("kpi-monsoon").textContent = monsoonCount;
     }
 
     function renderTable() {
       const tbody = document.getElementById("projects-table-body");
       tbody.innerHTML = "";
-      const displayProjects = filteredProjects.slice(0, 100);
-
-      displayProjects.forEach(p => {
+      RAW_PROJECTS.slice(0, 50).forEach(p => {
         const tr = document.createElement("tr");
         tr.className = "hover:bg-slate-800/60 transition";
-        
-        let riskBadges = "";
-        if (p.is_clearance_blocked) riskBadges += '<span class="badge bg-rose-500/20 text-rose-400 border border-rose-500/30 mr-1">Clearance</span>';
-        if (p.monsoon_risk_category === "CRITICAL") riskBadges += '<span class="badge bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 mr-1">Monsoon</span>';
-        if (p.progress_disparity_pct > 15) riskBadges += '<span class="badge bg-amber-500/20 text-amber-400 border border-amber-500/30 mr-1">Front-Load</span>';
-        if (p.is_aspirational) riskBadges += '<span class="badge bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">Aspirational</span>';
-        if (!riskBadges) riskBadges = '<span class="text-slate-500 text-[11px]">-</span>';
-
         tr.innerHTML = `
           <td class="py-2 px-3 font-mono text-[10px] text-slate-400">${p.contractId}</td>
-          <td class="py-2 px-3 font-medium text-slate-200 max-w-xs truncate" title="${p.projectName}">
-            ${p.projectName}
-          </td>
+          <td class="py-2 px-3 font-medium text-slate-200 max-w-xs truncate" title="${p.projectName}">${p.projectName}</td>
           <td class="py-2 px-3"><span class="badge bg-slate-800 text-slate-300 border border-slate-700">${p.gatishaktiEngine}</span></td>
-          <td class="py-2 px-3 text-slate-300">
-            <span class="cursor-pointer hover:text-amber-400 underline decoration-amber-500/40" onclick="showTourismSpotlight('${p.state}')">${p.district}, ${p.state}</span>
-          </td>
+          <td class="py-2 px-3 text-slate-300">${p.district}, ${p.state}</td>
           <td class="py-2 px-3 text-right font-semibold text-slate-100">₹ ${p.budgetInCrores.toLocaleString()}</td>
-          <td class="py-2 px-3 text-right text-slate-300">₹ ${p.amountPaidInCrores.toLocaleString()}</td>
-          <td class="py-2 px-3 text-center">
-            <span class="inline-block w-12 font-bold ${p.physicalProgressPct >= 90 ? 'text-emerald-400' : p.physicalProgressPct < 40 ? 'text-rose-400' : 'text-amber-400'}">${p.physicalProgressPct}%</span>
-          </td>
-          <td class="py-2 px-3">
-            <span class="text-[11px] ${p.is_clearance_blocked ? 'text-rose-400 font-semibold' : 'text-emerald-400'}">${p.pariveshClearanceStatus.replace(/_/g, ' ')}</span>
-          </td>
-          <td class="py-2 px-3 text-slate-300 text-[11px] max-w-[140px] truncate" title="${p.contractorName}">
-            ${p.contractorName} <span class="text-slate-500">(${p.concessionModel})</span>
-          </td>
-          <td class="py-2 px-3">${riskBadges}</td>
+          <td class="py-2 px-3 text-center font-bold ${p.physicalProgressPct >= 90 ? 'text-emerald-400' : 'text-amber-400'}">${p.physicalProgressPct}%</td>
+          <td class="py-2 px-3 text-[11px] ${p.is_clearance_blocked ? 'text-rose-400 font-semibold' : 'text-emerald-400'}">${p.pariveshClearanceStatus.replace(/_/g, ' ')}</td>
+          <td class="py-2 px-3 text-slate-300 text-[11px] max-w-[130px] truncate">${p.contractorName}</td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    // --- REAL-TIME STREAMING & TELEMETRY ENGINE ---
+    // 9. Real-Time Telemetry Stream
     function initRealtimeStreaming() {
       const loc = window.location;
       const wsUrl = (loc.protocol === "https:" ? "wss://" : "ws://") + loc.host + "/ws";
 
       try {
         socket = new WebSocket(wsUrl);
-        socket.onopen = () => console.log("Real-time WebSocket connected.");
-        socket.onmessage = (event) => {
-          const payload = JSON.parse(event.data);
-          handleRealtimeEvent(payload);
-        };
+        socket.onmessage = (event) => handleRealtimeEvent(JSON.parse(event.data));
         socket.onerror = () => startClientSideSimulation();
         socket.onclose = () => startClientSideSimulation();
       } catch (e) {
@@ -913,36 +943,30 @@
     }
 
     function startClientSideSimulation() {
-      console.log("Running in client-side real-time simulation mode.");
       setInterval(() => {
         const randomProject = RAW_PROJECTS[Math.floor(Math.random() * RAW_PROJECTS.length)];
         const events = [
           `🛰️ Drone Survey #${Math.floor(Math.random()*800 + 100)}: Sensor verified concrete compaction on ${randomProject.projectName.slice(0, 42)}... (${randomProject.state})`,
-          `🚧 Paving Velocity: High-speed bituminous layer laid on ${randomProject.district} bypass corridor.`,
+          `🚧 Paving Velocity: High-speed bituminous layer laid on ${randomProject.district} corridor.`,
           `🌧️ IMD Advisory: Weather radar monitoring cloudburst potential near ${randomProject.state} project site.`,
           `💳 Treasury Update: ₹ ${(Math.random() * 30 + 5).toFixed(1)} Cr disbursed for ${randomProject.contractId}.`,
-          `📋 PARIVESH Portal: Forest Stage-II compliance document uploaded for ${randomProject.district}.`
         ];
 
-        const payload = {
+        handleRealtimeEvent({
           timestamp: new Date().toLocaleTimeString('en-IN'),
           message: events[Math.floor(Math.random() * events.length)],
           velocity_km_per_day: (38.0 + Math.random() * 3.5).toFixed(1),
-          project_name: randomProject.projectName,
           state: randomProject.state,
-        };
-        handleRealtimeEvent(payload);
+        });
       }, 3500);
     }
 
     function handleRealtimeEvent(payload) {
-      // Update top ticker
       document.getElementById("live-ticker-msg").textContent = `${payload.timestamp} • ${payload.message}`;
       if (payload.velocity_km_per_day) {
         document.getElementById("live-velocity").textContent = `${payload.velocity_km_per_day} km/day`;
       }
 
-      // Append to live feed list
       const feedList = document.getElementById("live-feed-list");
       const item = document.createElement("div");
       item.className = "bg-slate-900 border border-slate-800 p-2.5 rounded-lg";
@@ -954,31 +978,21 @@
         <p class="text-slate-200 text-xs">${payload.message}</p>
       `;
       feedList.insertBefore(item, feedList.firstChild);
-
-      // Keep maximum 40 items in live log
-      if (feedList.children.length > 40) {
-        feedList.removeChild(feedList.lastChild);
-      }
+      if (feedList.children.length > 40) feedList.removeChild(feedList.lastChild);
     }
 
-    function openLiveFeedDrawer() {
-      document.getElementById("live-feed-drawer").classList.remove("translate-x-full");
-    }
-
-    function closeLiveFeedDrawer() {
-      document.getElementById("live-feed-drawer").classList.add("translate-x-full");
-    }
-
+    function openLiveFeedDrawer() { document.getElementById("live-feed-drawer").classList.remove("translate-x-full"); }
+    function closeLiveFeedDrawer() { document.getElementById("live-feed-drawer").classList.add("translate-x-full"); }
     function toggleAudioAlerts() {
       audioAlertsEnabled = !audioAlertsEnabled;
       document.getElementById("audio-toggle-btn").textContent = audioAlertsEnabled ? "🔔 Sound ON" : "🔕 Sound OFF";
     }
 
     function exportData() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(filteredProjects, null, 2));
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(RAW_PROJECTS, null, 2));
       const downloadAnchor = document.createElement('a');
       downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "pragatigati_filtered_projects.json");
+      downloadAnchor.setAttribute("download", "pragatigati_projects.json");
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();

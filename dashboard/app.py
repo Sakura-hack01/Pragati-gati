@@ -90,6 +90,10 @@ if HAS_FASTAPI:
     async def get_state_tourism_endpoint(state_name: str):
         return tourism_data.get_state_tourism(state_name)
 
+    @app.get("/api/scenic-corridors")
+    async def get_scenic_corridors_endpoint():
+        return tourism_data.SCENIC_CORRIDORS
+
     @app.websocket("/ws")
     async def websocket_endpoint(websocket: WebSocket):
         await websocket.accept()
